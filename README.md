@@ -6,6 +6,7 @@ A collection of browser-based tools for running a D&D 5e campaign. No build step
 
 - **Character Creator** — Players build their characters for the campaign (race, class, stats, backstory).
 - **Campaign Journal** — Players unlock entries (characters, locations, items) as they progress. The DM gives out passwords during play to reveal images and info chapter by chapter. Unlocks persist in the browser.
+- **Fast Crafting** — Item browser for a player with fast crafting ability. Lists available craftable items with full stats and descriptions from the 2024 PHB.
 - **DM Screen** — Encounter manager, dice roller, condition tracker, document viewer, and more. Password-protected (DM only). Notes and images are loaded from the repo automatically — no more manual uploads.
 
 ## File Structure
@@ -14,6 +15,7 @@ A collection of browser-based tools for running a D&D 5e campaign. No build step
 index.html              ← Landing page (links to each tool)
 character-creator.html  ← Character Creator app
 campaign-journal.html   ← Campaign Journal (player-facing, password-gated)
+fast-crafting.html      ← Fast Crafting item browser
 dm-screen.html          ← DM Screen app
 manifest.json           ← Auto-generated index of notes & images
 images/                 ← Campaign images organised by chapter
