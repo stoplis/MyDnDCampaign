@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>D&D Tools</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1117;
+            color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: #f3f4f6;
+        }
+
+        .tools {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .tool-link {
+            display: block;
+            padding: 1rem 1.25rem;
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 0.625rem;
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: background 0.15s, border-color 0.15s;
+            cursor: pointer;
+            text-align: left;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .tool-link:hover, .tool-link:active {
+            background: #22253a;
+            border-color: #6366f1;
+        }
+
+        .tool-desc {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #9ca3af;
+        }
+
+        /* Password modal overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            z-index: 100;
+        }
+        .overlay.active { display: flex; }
+
+        .modal {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 0.75rem;
+            padding: 1.75rem;
+            width: 100%;
+            max-width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f3f4f6;
+        }
+
+        .modal p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            line-height: 1.4;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 0.5rem;
+            color: #e5e7eb;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .modal input:focus {
+            border-color: #6366f1;
+        }
+        .modal input.error {
+            border-color: #ef4444;
+            animation: shake 0.35s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.5rem 1.1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .btn-cancel {
+            background: transparent;
+            color: #9ca3af;
+        }
+        .btn-cancel:hover { color: #e5e7eb; }
+        .btn-submit {
+            background: #6366f1;
+            color: #fff;
+        }
+        .btn-submit:hover { background: #5558e6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>D&D Tools</h1>
+        <div class="tools">
+            <a href="character-creator.html" class="tool-link">
+                Character Creator
+                <span class="tool-desc">Build your character for the campaign</span>
+            </a>
+            <button class="tool-link" id="dm-screen-btn" type="button">
+                DM Screen
+                <span class="tool-desc">Dungeon Master only</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <h2>DM Access</h2>
+            <p>Enter the password to continue.</p>
+            <input type="password" id="pw" autocomplete="off" spellcheck="false" placeholder="Password">
+            <div class="modal-actions">
+                <button class="btn btn-cancel" id="cancel-btn" type="button">Cancel</button>
+                <button class="btn btn-submit" id="submit-btn" type="button">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const overlay = document.getElementById('overlay');
+        const pw = document.getElementById('pw');
+
+        document.getElementById('dm-screen-btn').addEventListener('click', () => {
+            overlay.classList.add('active');
+            pw.value = '';
+            pw.classList.remove('error');
+            setTimeout(() => pw.focus(), 50);
+        });
+
+        document.getElementById('cancel-btn').addEventListener('click', () => {
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.classList.remove('active');
+        });
+
+        function tryPassword() {
+            if (pw.value.trim().toLowerCase() === 'coachman') {
+                window.location.href = 'dm-screen.html';
+            } else {
+                pw.classList.add('error');
+                setTimeout(() => pw.classList.remove('error'), 400);
+            }
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', tryPassword);
+        pw.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') tryPassword();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>D&D Character Creator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body, #root { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e5e7eb; }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+
+        .card-glow { transition: all 0.2s ease; }
+        .card-glow:hover, .card-glow:active { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+        .card-selected { box-shadow: 0 0 0 2px #8b5cf6, 0 0 20px rgba(139, 92, 246, 0.4); }
+
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .not-recommended-badge {
+            background: linear-gradient(135deg, #92400e, #78350f);
+            color: #fbbf24;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        .btn-secondary {
+            background: rgba(75, 85, 99, 0.4);
+            border: 1px solid #4b5563;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover { background: rgba(75, 85, 99, 0.6); }
+
+        .step-dot { transition: all 0.3s ease; }
+        .step-dot.active { background: #8b5cf6; transform: scale(1.3); }
+        .step-dot.completed { background: #10b981; }
+        .step-dot.pending { background: #4b5563; }
+
+        .summary-section { background: rgba(31, 36, 55, 0.8); border: 1px solid #374151; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+
+        .class-icon { width: 48px; height: 48px; object-fit: contain; filter: brightness(0) invert(0.85); }
+        .class-icon-sm { width: 36px; height: 36px; object-fit: contain; filter: brightness(0) invert(0.85); }
+        .class-art { width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; }
+
+        .prose-story p { margin-bottom: 0.75rem; line-height: 1.7; }
+        .prose-story p:last-child { margin-bottom: 0; }
+
+        @media (max-width: 640px) {
+            .class-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .class-grid { grid-template-columns: repeat(3, 1fr) !important; }
+        }
+        @media (min-width: 1025px) {
+            .class-grid { grid-template-columns: repeat(4, 1fr) !important; }
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useCallback, useMemo, useRef, useEffect } = React;
+
+// ─── CLASS DATA ──────────────────────────────────────────────────────────────
+const CLASSES = [
+    {
+        id: 'barbarian',
+        name: 'Barbarian',
+        icon: 'https://5e.tools/img/book/XPHB/026-03-002.barbarian-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Barbarian.webp',
+        notRecommended: false,
+        tagline: 'A fierce warrior who channels primal rage',
+        description: 'A tall human tribesman strides through a blizzard, draped in fur and hefting his axe. He laughs as he charges toward the frost giant who dared poach his people\'s elk herd. These barbarians are defined by their rage: unbridled, unquenchable, and unthinking fury.',
+        playstyle: 'You charge into the thick of battle, shrugging off hits that would fell others. Your rage makes you incredibly tough and powerful in close combat.',
+        features: [
+            { name: 'Rage', desc: 'Enter a furious battle state that makes you tougher and hit harder.' },
+            { name: 'Unarmored Defense', desc: 'Your toughness protects you even without heavy armor.' },
+        ],
+        choices: [],
+        standardArray: { Str: 15, Dex: 13, Con: 14, Int: 10, Wis: 12, Cha: 8 },
+        abilityPriority: ['Str', 'Con'],
+        goodAt: 'Strength and toughness — hitting hard and taking hits',
+        badAt: 'Social skills and book smarts — not the talker or the thinker',
+    },
+    {
+        id: 'bard',
+        name: 'Bard',
+        icon: 'https://5e.tools/img/book/XPHB/027-03-003.bard-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Bard.webp',
+        notRecommended: false,
+        tagline: 'A magical performer who inspires allies',
+        description: 'Humming as she traces her fingers over an ancient monument, a half-elf finds knowledge springing into her mind, conjured forth by the magic of her song. A stern warrior bangs his sword rhythmically against his armour, setting the tempo for his war chant. A gnome weaves subtle magic over assembled nobles, ensuring her companions\' words will be well received.',
+        playstyle: 'You use music and words to cast spells, inspire your friends, and charm your way through problems. You\'re a jack-of-all-trades who can contribute to almost any situation.',
+        features: [
+            { name: 'Bardic Inspiration', desc: 'Inspire your allies with magical encouragement, helping them succeed when it matters most.' },
+            { name: 'Spellcasting', desc: 'Cast spells through performance and force of personality.' },
+        ],
+        choices: [],
+        standardArray: { Str: 8, Dex: 14, Con: 12, Int: 13, Wis: 10, Cha: 15 },
+        abilityPriority: ['Cha', 'Dex'],
+        goodAt: 'Charisma and agility — charming people and staying nimble',
+        badAt: 'Raw strength — not built for heavy lifting or brute force',
+    },
+    {
+        id: 'cleric',
+        name: 'Cleric',
+        icon: 'https://5e.tools/img/book/XPHB/028-03-004.cleric-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Cleric.webp',
+        notRecommended: false,
+        tagline: 'A divine spellcaster who channels the power of the gods',
+        description: 'Arms and eyes upraised toward the sun, an elf begins to glow with an inner light that spills out to heal his battle-worn companions. Chanting a song of glory, a dwarf swings his axe in wide swaths to cut through the ranks of orcs. Calling down a curse upon the forces of undeath, a human lifts her holy symbol as light pours from it to drive back the zombies.',
+        playstyle: 'You are the party\'s healer and spiritual guide, but you can also hold your own in battle. Your divine magic can heal wounds, protect allies, and smite enemies.',
+        features: [
+            { name: 'Spellcasting', desc: 'Cast divine spells granted by your faith.' },
+            { name: 'Divine Order', desc: 'Choose how you serve — as a warrior-priest or a scholarly mystic.' },
+        ],
+        choices: [
+            {
+                id: 'divineOrder',
+                name: 'Divine Order',
+                description: 'How does your character serve their faith?',
+                options: [
+                    { id: 'protector', name: 'Protector', desc: 'Choose this if you want to fight on the front lines alongside warriors. You gain training with heavy armour and martial weapons.', guidance: 'Better at fighting' },
+                    { id: 'thaumaturge', name: 'Thaumaturge', desc: 'Choose this if you want to focus on your magical abilities. You learn an extra magical trick and gain bonuses to knowledge checks.', guidance: 'Better at magic' },
+                ],
+            },
+        ],
+        standardArray: { Str: 14, Dex: 8, Con: 13, Int: 10, Wis: 15, Cha: 12 },
+        abilityPriority: ['Wis', 'Str'],
+        goodAt: 'Wisdom and physical presence — perceptive, faithful, and sturdy',
+        badAt: 'Agility and reflexes — not quick on their feet',
+    },
+    {
+        id: 'druid',
+        name: 'Druid',
+        icon: 'https://5e.tools/img/book/XPHB/029-03-005.druid-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Druid.webp',
+        notRecommended: true,
+        tagline: 'A nature mystic who commands the wild',
+        description: 'Holding high a gnarled staff wreathed with holly, an elf summons the fury of the storm and calls down explosive bolts of lightning to smite the torch-carrying orcs who threaten her forest. Crouching out of sight in the form of a leopard, a human peers through the jungle at a strange temple. Swinging a blade formed of pure fire, a half-elf charges into a mass of skeletal soldiers.',
+        playstyle: 'You draw magic from the natural world — commanding storms, transforming into animals, and communing with beasts. You have a huge variety of options which can be overwhelming at first.',
+        features: [
+            { name: 'Spellcasting', desc: 'Cast nature magic using the power of the wild.' },
+            { name: 'Druidic', desc: 'You know the secret language of Druids and can always speak with animals.' },
+            { name: 'Primal Order', desc: 'Choose your role — nature scholar or nature warrior.' },
+        ],
+        choices: [
+            {
+                id: 'primalOrder',
+                name: 'Primal Order',
+                description: 'What is your connection to the natural world?',
+                options: [
+                    { id: 'magician', name: 'Magician', desc: 'Choose this if you want to focus on casting spells. You learn an extra magical trick and gain bonuses to nature knowledge.', guidance: 'Better at magic' },
+                    { id: 'warden', name: 'Warden', desc: 'Choose this if you want to be tougher in a fight. You gain training with martial weapons and medium armour.', guidance: 'Better at fighting' },
+                ],
+            },
+        ],
+        standardArray: { Str: 8, Dex: 12, Con: 14, Int: 13, Wis: 15, Cha: 10 },
+        abilityPriority: ['Wis', 'Con'],
+        goodAt: 'Wisdom and endurance — in tune with nature, hard to wear down',
+        badAt: 'Strength and social charm — not a brawler or a smooth talker',
+    },
+    {
+        id: 'fighter',
+        name: 'Fighter',
+        icon: 'https://5e.tools/img/book/XPHB/030-03-006.fighter-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Fighter.webp',
+        notRecommended: false,
+        tagline: 'A master of martial combat',
+        description: 'A human in clanging plate armour holds her shield before her as she runs toward the massed goblins. An elf behind her, clad in studded leather, peppers the goblins with arrows loosed from his exquisite bow. A dwarf in chain mail interposes his shield between the ogre\'s club and his companion, knocking the deadly blow aside.',
+        playstyle: 'You are the ultimate warrior — versatile, tough, and deadly with any weapon. Whether you prefer a massive two-handed sword, a bow, or sword and shield, you excel at fighting.',
+        features: [
+            { name: 'Fighting Style', desc: 'Choose a specialisation that defines how you fight.' },
+            { name: 'Second Wind', desc: 'Catch your breath in battle to recover from wounds.' },
+        ],
+        choices: [
+            {
+                id: 'fightingStyle',
+                name: 'Fighting Style',
+                description: 'How does your character prefer to fight?',
+                options: [
+                    { id: 'archery', name: 'Archery', desc: 'You\'re an expert marksman. You gain a bonus when attacking with bows and other ranged weapons.', guidance: 'Choose this if you want to fight from a distance with a bow' },
+                    { id: 'defense', name: 'Defense', desc: 'You focus on staying alive. While wearing armour, you\'re harder to hit.', guidance: 'Choose this if you want to be harder to take down' },
+                    { id: 'dueling', name: 'Dueling', desc: 'You wield a single weapon with deadly precision. You deal extra damage with a one-handed weapon.', guidance: 'Choose this if you want to fight with a sword and shield' },
+                    { id: 'greatWeapon', name: 'Great Weapon Fighting', desc: 'You put your full might behind massive two-handed weapons, dealing devastating damage.', guidance: 'Choose this if you want to swing a big sword or axe' },
+                    { id: 'protection', name: 'Protection', desc: 'You use your shield to defend your allies. When a friend near you is attacked, you can step in to protect them.', guidance: 'Choose this if you want to protect your friends' },
+                    { id: 'twoWeapon', name: 'Two-Weapon Fighting', desc: 'You fight with a weapon in each hand, making fast, furious attacks.', guidance: 'Choose this if you want to dual-wield weapons' },
+                ],
+            },
+        ],
+        standardArray: { Str: 15, Dex: 14, Con: 13, Int: 8, Wis: 10, Cha: 12 },
+        abilityPriority: ['Str', 'Dex'],
+        goodAt: 'Strength and agility — a natural with weapons and armour',
+        badAt: 'Book smarts and perception — not the most observant or scholarly',
+    },
+    {
+        id: 'monk',
+        name: 'Monk',
+        icon: 'https://5e.tools/img/book/XPHB/031-03-007.monk-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Monk.webp',
+        notRecommended: false,
+        tagline: 'A martial artist who harnesses inner power',
+        description: 'Her fists a blur as they deflect an incoming hail of arrows, a half-elf springs over a barricade and throws herself into the massed ranks of hobgoblins on the other side. She whirls among them, knocking their blows aside. Taking a deep breath, a human covered in tattoos settles into a battle stance. As the first charging orcs reach him, he exhales and a blast of fire roars from his mouth.',
+        playstyle: 'You fight with your fists, feet, and inner discipline. You\'re fast, agile, and don\'t need armour or weapons — your body is your weapon.',
+        features: [
+            { name: 'Martial Arts', desc: 'Your unarmed strikes are deadly weapons, and you can attack with blinding speed.' },
+            { name: 'Unarmored Defense', desc: 'Your discipline and awareness protect you without needing armour.' },
+        ],
+        choices: [],
+        standardArray: { Str: 12, Dex: 15, Con: 13, Int: 10, Wis: 14, Cha: 8 },
+        abilityPriority: ['Dex', 'Wis'],
+        goodAt: 'Agility and awareness — fast, perceptive, hard to pin down',
+        badAt: 'Social charm and raw brute strength — not a talker or a powerhouse',
+    },
+    {
+        id: 'paladin',
+        name: 'Paladin',
+        icon: 'https://5e.tools/img/book/XPHB/032-03-008.paladin-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Paladin.webp',
+        notRecommended: false,
+        tagline: 'A holy warrior bound by a sacred oath',
+        description: 'Clad in plate armour that gleams in the sunlight despite the dust and grime of long travel, a human lays down her sword and shield and places her hands on a mortally wounded man. Divine radiance shines from her hands, the man\'s wounds knit closed. A dwarf crouches behind an outcrop, his black cloak making him nearly invisible in the night, and watches an orc war band.',
+        playstyle: 'You combine martial prowess with divine magic. You can fight on the front lines in heavy armour while also healing allies and smiting evil with holy power.',
+        features: [
+            { name: 'Lay on Hands', desc: 'Heal the wounded with a touch of divine power.' },
+            { name: 'Spellcasting', desc: 'Cast divine spells to smite enemies and protect allies.' },
+        ],
+        choices: [],
+        standardArray: { Str: 15, Dex: 10, Con: 13, Int: 8, Wis: 12, Cha: 14 },
+        abilityPriority: ['Str', 'Cha'],
+        goodAt: 'Strength and force of personality — a born leader and warrior',
+        badAt: 'Book smarts and agility — relies on armour, not speed',
+    },
+    {
+        id: 'ranger',
+        name: 'Ranger',
+        icon: 'https://5e.tools/img/book/XPHB/033-03-009.ranger-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Ranger.webp',
+        notRecommended: false,
+        tagline: 'A skilled hunter and tracker of the wild',
+        description: 'Rough and wild looking, a human stalks alone through the shadows of trees, hunting the orcs he knows are planning a raid on a nearby farm. Clutching a shortsword in each hand, he becomes a whirlwind of steel. After tumbling away from a cone of freezing air, an elf finds her feet and draws back her bow to loose an arrow at the white dragon.',
+        playstyle: 'You combine combat skills with nature magic. You\'re an expert tracker, survivalist, and deadly with a bow or paired blades.',
+        features: [
+            { name: 'Spellcasting', desc: 'Cast nature-flavoured spells to aid in hunting and combat.' },
+            { name: 'Favoured Enemy', desc: 'You have experience studying and tracking certain types of creatures.' },
+        ],
+        choices: [],
+        standardArray: { Str: 12, Dex: 15, Con: 13, Int: 8, Wis: 14, Cha: 10 },
+        abilityPriority: ['Dex', 'Wis'],
+        goodAt: 'Agility and awareness — a crack shot with sharp senses',
+        badAt: 'Book smarts and social charm — more at home in the wild than a library',
+    },
+    {
+        id: 'rogue',
+        name: 'Rogue',
+        icon: 'https://5e.tools/img/book/XPHB/034-03-010.rogue-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Rogue.webp',
+        notRecommended: false,
+        tagline: 'A cunning trickster and deadly striker',
+        description: 'Signaling for her companions to wait, a halfling creeps forward through the dungeon hall. She presses an ear to the door, then pulls out a set of tools and picks the lock in the blink of an eye. A human lurks in the shadows of an alley while his accomplice prepares for her part in the ambush. When their target passes, the assassin\'s blade cuts his throat.',
+        playstyle: 'You rely on stealth, skill, and cunning rather than brute force. You strike from the shadows for massive damage and excel at sneaking, lockpicking, and trickery.',
+        features: [
+            { name: 'Sneak Attack', desc: 'Deal devastating extra damage when you catch enemies off-guard.' },
+            { name: 'Expertise', desc: 'You\'re exceptionally skilled — your best skills become truly extraordinary.' },
+            { name: 'Thieves\' Cant', desc: 'You know a secret language of hand signals and code words used by criminals.' },
+        ],
+        choices: [],
+        standardArray: { Str: 12, Dex: 15, Con: 13, Int: 14, Wis: 10, Cha: 8 },
+        abilityPriority: ['Dex', 'Int'],
+        goodAt: 'Agility and cunning — quick fingers, sharp mind, silent feet',
+        badAt: 'Charisma and toughness — prefers shadows to the spotlight',
+    },
+    {
+        id: 'sorcerer',
+        name: 'Sorcerer',
+        icon: 'https://5e.tools/img/book/XPHB/035-03-011.sorcerer-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Sorcerer.webp',
+        notRecommended: false,
+        tagline: 'A spellcaster with innate magical power',
+        description: 'Golden eyes flashing, a human stretches out her hand and unleashes the dragonfire that burns in her veins. As an inferno rages around her foes, leathery wings spread from her back and she takes to the air. Long hair whipped by a conjured wind, a half-elf spreads his arms wide. Lifting him momentarily off the ground, a wave of magic surges up in him, through him, and out from him in a mighty blast of lightning.',
+        playstyle: 'Magic runs through your blood. Unlike wizards who study, your power is innate — you were born with it. You can twist and reshape your spells in unique ways.',
+        features: [
+            { name: 'Spellcasting', desc: 'Cast powerful arcane spells fuelled by your inner magic.' },
+            { name: 'Innate Sorcery', desc: 'Your natural magical gift lets you enhance your spells in the heat of the moment.' },
+        ],
+        choices: [],
+        standardArray: { Str: 10, Dex: 13, Con: 14, Int: 8, Wis: 12, Cha: 15 },
+        abilityPriority: ['Cha', 'Con'],
+        goodAt: 'Charisma and endurance — powerful personality, hard to break',
+        badAt: 'Book smarts and physical strength — power comes from within, not study or muscle',
+    },
+    {
+        id: 'warlock',
+        name: 'Warlock',
+        icon: 'https://5e.tools/img/book/XPHB/036-03-012.warlock-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Warlock.webp',
+        notRecommended: true,
+        tagline: 'A wielder of magic gained from a powerful patron',
+        description: 'With a pseudodragon curled on his shoulder, a young elf in golden robes smiles warmly, weaving a magical charm into his honeyed words and bending the palace sentinel to his will. As flames spring to life in her hands, a wizened human whispers the secret name of her demonic patron, infusing her spell with fiendish magic.',
+        playstyle: 'You\'ve made a deal with a powerful being for magical power. Your magic works differently from other spellcasters — fewer spells, but they\'re always at full power. You have lots of customisation options which can be overwhelming for new players.',
+        features: [
+            { name: 'Pact Magic', desc: 'Cast spells granted by your otherworldly patron.' },
+            { name: 'Eldritch Invocations', desc: 'Gain special magical abilities beyond normal spellcasting.' },
+        ],
+        choices: [],
+        standardArray: { Str: 8, Dex: 14, Con: 13, Int: 12, Wis: 10, Cha: 15 },
+        abilityPriority: ['Cha', 'Dex'],
+        goodAt: 'Charisma and agility — beguiling and hard to catch',
+        badAt: 'Strength and awareness — not physically imposing or particularly perceptive',
+    },
+    {
+        id: 'wizard',
+        name: 'Wizard',
+        icon: 'https://5e.tools/img/book/XPHB/037-03-013.wizard-symbol.webp',
+        art: 'https://5e.tools/img/classes/XPHB/Wizard.webp',
+        notRecommended: false,
+        tagline: 'A scholarly magic-user who studies arcane lore',
+        description: 'Clad in the silver robes that denote her station, an elf closes her eyes to shut out the distractions of the battlefield and begins her quiet chant. Fingers weaving in front of her, she completes her spell and launches a tiny bead of fire toward the enemy ranks. Checking and rechecking his work, a human scribes an intricate magic circle in chalk on the bare stone floor.',
+        playstyle: 'You study magic from books and scrolls, mastering the largest spell collection of any class. You\'re physically fragile but wield incredible arcane power.',
+        features: [
+            { name: 'Spellcasting', desc: 'Cast arcane spells from your spellbook — you have access to the largest spell list in the game.' },
+            { name: 'Arcane Recovery', desc: 'Your studies allow you to recover some magical energy during a short rest.' },
+        ],
+        choices: [],
+        standardArray: { Str: 8, Dex: 12, Con: 13, Int: 15, Wis: 14, Cha: 10 },
+        abilityPriority: ['Int', 'Wis'],
+        goodAt: 'Intelligence and awareness — the most knowledgeable person in the room',
+        badAt: 'Strength and social charm — would rather read than fight or flatter',
+    },
+];
+
+// ─── BACKGROUND DATA ─────────────────────────────────────────────────────────
+const BACKGROUNDS = [
+    { id: 'acolyte', name: 'Acolyte', emoji: '🙏', tagline: 'You spent your youth in a temple, learning prayers and rites.', description: 'You devoted yourself to service in a temple, either nestled in a town or secluded in a sacred monastery. You performed sacred rites, studied religious lore, and served the priests.', featName: 'Magic Initiate (Cleric)', featDesc: 'You know the Guidance and Spare the Dying cantrips. You can also cast the Detect Evil and Good spell.' },
+    { id: 'artisan', name: 'Artisan', emoji: '🔨', tagline: 'You learned a trade and the art of crafting with your hands.', description: 'You began your career working with tools and materials, learning a craft from a skilled mentor. You know how to make and repair everyday items.', featName: 'Crafter', featDesc: 'Discount: Whenever you buy a nonmagical item, you receive a 20% discount. Fast Crafting: When you finish a Long Rest you may choose 1 item from the Fast Crafting table.' },
+    { id: 'criminal', name: 'Criminal', emoji: '🗝', tagline: 'You have experience breaking the law and getting away with it.', description: 'You have a history of working outside the law. Whether a burglar, a smuggler, or something worse, you understand the underworld and how to operate within it.', featName: 'Alert', featDesc: 'Fast Initiative: When you roll Initiative you can add 2 to the roll. Initiative Swap: Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can\'t make this swap if you or the ally has the Incapacitated condition.' },
+    { id: 'entertainer', name: 'Entertainer', emoji: '🎪', tagline: 'You thrive on the attention of an audience.', description: 'You know how to entrance an audience, whether through music, dance, acting, storytelling, or some other form of entertainment. You come alive in front of a crowd.', featName: 'Musician', featDesc: 'After you finish a Short or Long Rest, you can perform an uplifting song and give Heroic Inspiration to up to two allies who hear the song.' },
+    { id: 'farmer', name: 'Farmer', emoji: '🌾', tagline: 'You grew up working the land and know the value of hard work.', description: 'You grew up on a farm or in a rural community, working long hours under sun and rain. The hard labour gave you a sturdy constitution and practical knowledge of the natural world.', featName: 'Tough', featDesc: 'Increase your Hit Point maximum by 2. Whenever you gain a character level thereafter, your Hit Point maximum increases by an additional 2 Hit Points.' },
+    { id: 'guard', name: 'Guard', emoji: '🏛', tagline: 'You served as a guard, protecting people and property.', description: 'You served in a watch, garrison, or private guard, keeping the peace and protecting the vulnerable. You\'re observant, physically fit, and accustomed to authority.', featName: 'Alert', featDesc: 'Fast Initiative: When you roll Initiative you can add 2 to the roll. Initiative Swap: Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one willing ally in the same combat. You can\'t make this swap if you or the ally has the Incapacitated condition.' },
+    { id: 'guide', name: 'Guide', emoji: '🧭', tagline: 'You know the wilderness and how to navigate its dangers.', description: 'You have spent time in the wilds, learning to track creatures, find safe paths, and survive far from civilisation. Others look to you when the trail runs cold.', featName: 'Magic Initiate (Druid)', featDesc: 'You know the Guidance and Message cantrips. You can also cast the Goodberry spell.' },
+    { id: 'hermit', name: 'Hermit', emoji: '🏔', tagline: 'You lived in seclusion, seeking spiritual truth or quiet study.', description: 'You lived in seclusion \u2014 perhaps in a sheltered community, a monastery, or alone in the wilderness \u2014 for a formative period of your life. You know the value of solitude and contemplation.', featName: 'Healer', featDesc: 'Combat Healer: As a Utilize action, you can tend to a creature within 5 feet of yourself. That creature regains 1d8 + 2 Hit Points, and you can\'t use Combat Healer on it again until it finishes a Long Rest. Healing Rerolls: Whenever you roll a die to determine the number of Hit Points you restore with a spell or with Combat Healer, you can reroll the die if it rolls a 1, and you must use the new roll.' },
+    { id: 'merchant', name: 'Merchant', emoji: '💰', tagline: 'You know the art of the deal and the value of goods.', description: 'You made your living buying and selling goods. You have a sharp eye for value, a talent for negotiation, and contacts across trading routes.', featName: 'Lucky', featDesc: 'Fortunate: You have 2 Power Tokens to fuel your good fortune. You can spend them to give yourself Advantage on a D20 Test, or when a creature makes an attack roll against you to impose Disadvantage on that attack roll.' },
+    { id: 'sage', name: 'Sage', emoji: '📚', tagline: 'You spent years learning and studying in libraries or universities.', description: 'You spent years learning the lore of the multiverse. You scoured manuscripts, studied scrolls, and listened to the greatest experts on the subjects that interest you.', featName: 'Magic Initiate (Wizard)', featDesc: 'You know the Mage Hand and Message cantrips. You can also cast the Shield spell.' },
+    { id: 'sailor', name: 'Sailor', emoji: '\u2693', tagline: 'You spent years at sea, braving storms and strange waters.', description: 'You sailed on a sea-going vessel for years. You\'ve weathered storms, fought off pirates, and seen wonders that landlubbers can only dream about.', featName: 'Tavern Brawler', featDesc: 'Enhanced Unarmed Strike: When you hit with your Unarmed Strike and deal damage you can instead deal Bludgeoning damage equal to 1d4 plus your Strength modifier. Damage Rerolls: Whenever you roll a damage die for your Unarmed Strike, you can reroll the die if it rolls a 1, you must use the new roll. Push: Once per turn when you hit a creature with your Unarmed Strike you may also push it 5 feet away from you.' },
+    { id: 'soldier', name: 'Soldier', emoji: '\u2694', tagline: 'You fought in an army and know the discipline of war.', description: 'You served in a military force \u2014 a standing army, a mercenary company, or a local militia. War is in your blood and battle is second nature to you.', featName: 'Savage Attacker', featDesc: 'Once per turn when you hit a target with a weapon, you can roll the weapon\'s damage dice twice and use either roll against the target.' },
+    { id: 'wayfarer', name: 'Wayfarer', emoji: '🚶', tagline: 'You\'ve wandered from place to place, living by your wits.', description: 'You\'ve spent your life on the move \u2014 by choice or by necessity. You know how to find food, shelter, and work wherever you go, and you\'ve picked up useful tricks along the way.', featName: 'Lucky', featDesc: 'Fortunate: You have 2 Power Tokens to fuel your good fortune. You can spend them to give yourself Advantage on a D20 Test, or when a creature makes an attack roll against you to impose Disadvantage on that attack roll.' },
+];
+
+// ─── STEP DEFINITIONS ────────────────────────────────────────────────────────
+const STEPS = ['intro', 'class', 'background', 'features', 'summary'];
+const STEP_LABELS = { intro: 'Welcome', class: 'Choose a Class', background: 'Background', features: 'Class Details', summary: 'Summary' };
+
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function ProgressBar({ currentStep, steps }) {
+    // Don't show progress on intro or story pages
+    if (currentStep === 'intro') return null;
+    const innerSteps = steps.filter(s => s !== 'intro');
+    return (
+        <div className="flex items-center justify-center gap-2 py-3 px-4">
+            {innerSteps.map((step, i) => (
+                <React.Fragment key={step}>
+                    <div
+                        className={`step-dot w-2.5 h-2.5 rounded-full ${
+                            i < innerSteps.indexOf(currentStep) ? 'completed' :
+                            i === innerSteps.indexOf(currentStep) ? 'active' : 'pending'
+                        }`}
+                    />
+                    {i < innerSteps.length - 1 && (
+                        <div className={`h-0.5 w-6 sm:w-8 rounded ${
+                            i < innerSteps.indexOf(currentStep) ? 'bg-green-500' : 'bg-gray-700'
+                        }`} />
+                    )}
+                </React.Fragment>
+            ))}
+        </div>
+    );
+}
+
+// ─── INTRO / LANDING PAGE ────────────────────────────────────────────────────
+
+function StepIntro({ onNext }) {
+    const scrollRef = useRef(null);
+    return (
+        <div className="fade-in flex flex-col h-full">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 sm:px-8 pb-6 pt-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div className="text-center mb-6">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">The Lands of Albion</h1>
+                    <p className="text-purple-400 text-sm">A Dungeons & Dragons Adventure</p>
+                </div>
+
+                <div className="prose-story text-gray-300 text-sm">
+                    <p>The Lands of Albion is a place of fables and half-remembered stories, where magic is real and the line between fantastical and factual is often very thin. You will not find the creatures of more familiar tales here — no orcs, no goblins, no elves, no dwarves. In their place are two peoples: Man, and the Animals.</p>
+
+                    <p>Man is the common folk of Albion — farmers, merchants, soldiers, scholars. Most people live in small towns and villages scattered across a land of forests, river valleys, and old roads worn down by centuries of cart wheels. Life is modest for most; there are no great empires here, only a patchwork of settlements, each governed by whoever is clever or wealthy or respected enough to take the role. Travel between towns takes time and is not always safe. A day's ride might separate one village from the next; a week's walk might separate it from anything you might call a city.</p>
+
+                    <p>The major cities are another world entirely. They have universities, academies, and schools for those with magical gifts — provided those gifts are accompanied by enough gold to pay the tuition. Magic is not rare in Albion, but <em>trained</em> magic is expensive. A wizard who studied at one of the great academies commands far more respect, and far higher fees, than a village hedge-mage who learned from a grandmother's handwritten notes. The gap between those with access to formal magical education and those without is one of the quiet injustices of Albion: not often discussed, but felt clearly by anyone on the wrong side of it.</p>
+
+                    <p>Science is rarer still, and treated with something between indifference and mild suspicion. Word reaches the villages occasionally — usually through a traveller with a habit of embellishment — of buildings in distant places lit by neither candle nor spell, running on some mechanism no one can quite explain. In a world where magic already fills the role that machinery might otherwise claim, there has been little pressure to develop the alternative. The academies train wizards, not engineers; the universities debate metaphysics, not mechanics. Science is something that happens elsewhere, if it happens at all.</p>
+
+                    <p>The Animal folk are another matter. They walk upright, speak common, and live their lives much as Man does — trading, farming, keeping homes, raising families. But they are few. Most people have met no more than a handful in their lifetimes, and in smaller towns, one passing through is cause for stares and whispered comment. Animals tend to keep to themselves: a cottage on the edge of the wood, a farm a few miles from the nearest village, a trading post at a remote crossroads. They come and go on their own business and prefer not to linger where they are not welcome. In the cities, some have built reputations that earn them something closer to respect. In the countryside, suspicion is more common than courtesy.</p>
+
+                    <p>There is no single reason for this distrust — it is old and diffuse, passed down in the way most unreasonable things are passed down: through habit, through folk stories, through the simple human tendency to be wary of whatever is not ordinary. The Animals have long since stopped expecting better, and mostly learned to work around it.</p>
+
+                    <p>There is a third kind, if the old stories are to be believed — though most sensible people would tell you they are not. Fairy folk. Not seen in living memory, nor in any memory that can be traced with confidence. The legends say they once moved freely through the world, luminous and apt to meddle in mortal affairs — granting wishes to the deserving, or occasionally the undeserving, according to their own inscrutable judgment. The stories say they left. Wherever they went, they did not announce their departure, and they have not returned. Every generation or so, someone claims a sighting — a shimmer at the edge of the forest, a voice with no body, a wish that somehow, against all likelihood, came true. The claims are never verifiable. Most people treat fairies the way they treat old family curses or lucky charms: something to mention in passing, nothing to actually plan around.</p>
+                </div>
+
+                <div className="mt-6 mb-2 border-t border-gray-700 pt-6">
+                    <h2 className="text-xl font-bold text-amber-300 mb-3">Something Has Changed</h2>
+                    <div className="prose-story text-gray-300 text-sm">
+                        <p>In the last year or two, there have been more missing persons reports than usual — more than the normal churn of runaways, debtors gone to ground, and travellers who misjudged the road after dark. Children, specifically. A boy from one village. A girl from another. The reports are spread enough across the land that no single town feels the pattern; each only feels its own grief. The rumours travel along trade routes, passed between merchants and carters and innkeepers in the same breath as the weather and the price of grain. A tension is building in the villages not felt in the big cities.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="px-5 sm:px-8 py-4 border-t border-gray-800 bg-gray-900 bg-opacity-80">
+                <button onClick={onNext} className="btn-primary w-full py-4 rounded-xl text-white font-bold text-base">
+                    Create Your Character
+                </button>
+            </div>
+        </div>
+    );
+}
+
+// ─── CLASS SELECTION ─────────────────────────────────────────────────────────
+
+function ClassCard({ cls, selected, onSelect }) {
+    return (
+        <button
+            onClick={() => onSelect(cls.id)}
+            className={`card-glow text-left rounded-xl p-3 sm:p-4 border transition-all ${
+                selected ? 'card-selected bg-purple-900 bg-opacity-30 border-purple-500' :
+                'bg-gray-800 bg-opacity-60 border-gray-700 hover:border-gray-500'
+            }`}
+            style={{ minHeight: '120px' }}
+        >
+            <div className="flex items-start justify-between mb-1">
+                <img src={cls.icon} alt="" className="class-icon-sm" loading="lazy" />
+                {cls.notRecommended && <span className="not-recommended-badge">Advanced</span>}
+            </div>
+            <h3 className="font-bold text-white text-sm sm:text-base mt-1">{cls.name}</h3>
+            <p className="text-gray-400 text-xs mt-1 leading-snug">{cls.tagline}</p>
+        </button>
+    );
+}
+
+function ClassDetail({ cls, onConfirm, onBack }) {
+    const scrollRef = useRef(null);
+    useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, [cls]);
+
+    return (
+        <div className="fade-in flex flex-col h-full">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div className="flex items-center gap-3 mb-3">
+                    <img src={cls.icon} alt="" className="class-icon" loading="lazy" />
+                    <div>
+                        <h2 className="text-2xl font-bold text-white">{cls.name}</h2>
+                        {cls.notRecommended && <span className="not-recommended-badge">Advanced — more complex to play</span>}
+                    </div>
+                </div>
+
+                <img src={cls.art} alt={cls.name} className="class-art mb-4" loading="lazy" />
+
+                <p className="text-gray-300 text-sm leading-relaxed mb-4 italic">"{cls.description}"</p>
+
+                <div className="bg-purple-900 bg-opacity-20 border border-purple-800 rounded-lg p-3 mb-4">
+                    <h3 className="text-purple-300 font-semibold text-sm mb-1">How it plays</h3>
+                    <p className="text-gray-300 text-sm leading-relaxed">{cls.playstyle}</p>
+                </div>
+
+                <div className="bg-gray-800 bg-opacity-60 rounded-lg p-3 border border-gray-700 mb-4">
+                    <p className="text-green-400 text-sm mb-1"><span className="font-semibold">Good at:</span> {cls.goodAt}</p>
+                    <p className="text-red-400 text-sm"><span className="font-semibold">Weak at:</span> {cls.badAt}</p>
+                </div>
+
+                <h3 className="text-white font-semibold text-sm mb-2">What you can do at Level 1:</h3>
+                <div className="space-y-2 mb-4">
+                    {cls.features.map(f => (
+                        <div key={f.name} className="bg-gray-800 bg-opacity-60 rounded-lg p-3 border border-gray-700">
+                            <span className="text-purple-300 font-semibold text-sm">{f.name}</span>
+                            <p className="text-gray-400 text-xs mt-1">{f.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className="flex gap-3 px-4 sm:px-6 py-3 border-t border-gray-800 bg-gray-900 bg-opacity-80">
+                <button onClick={onBack} className="btn-secondary flex-1 py-3 rounded-xl text-gray-300 font-medium text-sm">
+                    Back
+                </button>
+                <button onClick={onConfirm} className="btn-primary flex-1 py-3 rounded-xl text-white font-bold text-sm">
+                    Choose {cls.name}
+                </button>
+            </div>
+        </div>
+    );
+}
+
+function StepClass({ selectedClass, onSelectClass, onNext, onBack }) {
+    const [viewing, setViewing] = useState(null);
+    const scrollRef = useRef(null);
+
+    useEffect(() => { if (scrollRef.current && !viewing) scrollRef.current.scrollTop = 0; }, [viewing]);
+
+    const viewingClass = viewing ? CLASSES.find(c => c.id === viewing) : null;
+
+    if (viewingClass) {
+        return (
+            <ClassDetail
+                cls={viewingClass}
+                onBack={() => setViewing(null)}
+                onConfirm={() => { onSelectClass(viewingClass.id); onNext(); }}
+            />
+        );
+    }
+
+    return (
+        <div className="fade-in flex flex-col h-full">
+            <div className="px-4 sm:px-6 pt-2 pb-2">
+                <h1 className="text-xl sm:text-2xl font-bold text-white">Choose Your Class</h1>
+                <p className="text-gray-400 text-sm mt-1">Your class determines what your character can do in the game. Tap a class to learn more about it.</p>
+            </div>
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                {/* Balanced Party Tip */}
+                <div className="bg-indigo-900 bg-opacity-20 border border-indigo-800 rounded-lg p-3 mb-4">
+                    <h3 className="text-indigo-300 font-semibold text-sm mb-2">A Balanced Party</h3>
+                    <p className="text-gray-400 text-xs mb-2">A good adventuring group covers a mix of fighting, healing, stealth, and magic. A classic party has four roles:</p>
+                    <div className="text-xs text-gray-300 space-y-1">
+                        <p><strong className="text-white">The Healer</strong> — Cleric, Bard, or Druid</p>
+                        <p><strong className="text-white">The Warrior</strong> — Fighter, Barbarian, Monk, Paladin, or Ranger</p>
+                        <p><strong className="text-white">The Sneak</strong> — Rogue, Bard, or Ranger</p>
+                        <p><strong className="text-white">The Mage</strong> — Wizard, Bard, Sorcerer, or Warlock</p>
+                    </div>
+                    <p className="text-gray-500 text-xs mt-2">You don't need to follow this exactly, but try to cover different roles between you.</p>
+                </div>
+
+                <div className="class-grid grid gap-3" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+                    {CLASSES.map(cls => (
+                        <ClassCard key={cls.id} cls={cls} selected={selectedClass === cls.id} onSelect={setViewing} />
+                    ))}
+                </div>
+            </div>
+            <div className="flex gap-3 px-4 sm:px-6 py-3 border-t border-gray-800 bg-gray-900 bg-opacity-80">
+                <button onClick={onBack} className="btn-secondary flex-1 py-3 rounded-xl text-gray-300 font-medium text-sm">
+                    Back
+                </button>
+                <div className="flex-1" />
+            </div>
+        </div>
+    );
+}
+
+// ─── BACKGROUND SELECTION ────────────────────────────────────────────────────
+
+function StepBackground({ selectedBackground, onSelectBackground, onNext, onBack }) {
+    const [viewing, setViewing] = useState(null);
+    const scrollRef = useRef(null);
+    useEffect(() => { if (scrollRef.current && !viewing) scrollRef.current.scrollTop = 0; }, [viewing]);
+
+    if (viewing) {
+        const bg = BACKGROUNDS.find(b => b.id === viewing);
+        return (
+            <div className="fade-in flex flex-col h-full">
+                <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                    <div className="flex items-center gap-3 mb-3">
+                        <span className="text-4xl">{bg.emoji}</span>
+                        <h2 className="text-2xl font-bold text-white">{bg.name}</h2>
+                    </div>
+                    <p className="text-gray-300 text-sm leading-relaxed mb-4 italic">"{bg.description}"</p>
+
+                    <div className="bg-purple-900 bg-opacity-20 border border-purple-800 rounded-lg p-3 mb-4">
+                        <h3 className="text-purple-300 font-semibold text-sm mb-2">Feat: {bg.featName}</h3>
+                        <p className="text-gray-300 text-sm leading-relaxed">{bg.featDesc}</p>
+                    </div>
+
+                    <div className="bg-amber-900 bg-opacity-10 border border-amber-800 rounded-lg p-3">
+                        <p className="text-gray-400 text-sm">Your background is about where you came from — think of it as your character's life <em>before</em> they became an adventurer. You can flesh out the details later when thinking about your character's story.</p>
+                    </div>
+                </div>
+                <div className="flex gap-3 px-4 sm:px-6 py-3 border-t border-gray-800 bg-gray-900 bg-opacity-80">
+                    <button onClick={() => setViewing(null)} className="btn-secondary flex-1 py-3 rounded-xl text-gray-300 font-medium text-sm">Back</button>
+                    <button onClick={() => { onSelectBackground(bg.id); onNext(); }} className="btn-primary flex-1 py-3 rounded-xl text-white font-bold text-sm">Choose {bg.name}</button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="fade-in flex flex-col h-full">
+            <div className="px-4 sm:px-6 pt-2 pb-2">
+                <h1 className="text-xl sm:text-2xl font-bold text-white">Choose a Background</h1>
+                <p className="text-gray-400 text-sm mt-1">What did your character do before becoming an adventurer? Each background gives you a special feat. Tap one to learn more.</p>
+            </div>
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div className="class-grid grid gap-3" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+                    {BACKGROUNDS.map(bg => (
+                        <button
+                            key={bg.id}
+                            onClick={() => setViewing(bg.id)}
+                            className={`card-glow text-left rounded-xl p-3 sm:p-4 border transition-all ${
+                                selectedBackground === bg.id ? 'card-selected bg-purple-900 bg-opacity-30 border-purple-500' :
+                                'bg-gray-800 bg-opacity-60 border-gray-700 hover:border-gray-500'
+                            }`}
+                            style={{ minHeight: '90px' }}
+                        >
+                            <span className="text-2xl">{bg.emoji}</span>
+                            <h3 className="font-bold text-white text-sm sm:text-base mt-1">{bg.name}</h3>
+                            <p className="text-gray-400 text-xs mt-1 leading-snug">{bg.tagline}</p>
+                        </button>
+                    ))}
+                </div>
+            </div>
+            <div className="flex gap-3 px-4 sm:px-6 py-3 border-t border-gray-800 bg-gray-900 bg-opacity-80">
+                <button onClick={onBack} className="btn-secondary flex-1 py-3 rounded-xl text-gray-300 font-medium text-sm">Back</button>
+                <div className="flex-1" />
+            </div>
+        </div>
+    );
+}
+
+// ─── CLASS FEATURE CHOICES ───────────────────────────────────────────────────
+
+function StepFeatures({ selectedClass, featureChoices, onSetFeatureChoices, onNext, onBack }) {
+    const cls = CLASSES.find(c => c.id === selectedClass);
+    const scrollRef = useRef(null);
+    useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, []);
+
+    const hasChoices = cls.choices.length > 0;
+
+    const [localChoices, setLocalChoices] = useState(() => {
+        const init = {};
+        cls.choices.forEach(c => { init[c.id] = featureChoices[c.id] || null; });
+        return init;
+    });
+
+    const allChosen = cls.choices.every(c => localChoices[c.id] !== null);
+
+    const handleSelect = (choiceId, optionId) => {
+        setLocalChoices(prev => ({ ...prev, [choiceId]: optionId }));
+    };
+
+    const handleNext = () => {
+        onSetFeatureChoices(localChoices);
+        onNext();
+    };
+
+    if (!hasChoices) {
+        return (
+            <div className="fade-in flex flex-col h-full">
+                <div className="px-4 sm:px-6 pt-2 pb-2">
+                    <h1 className="text-xl sm:text-2xl font-bold text-white">Class Details</h1>
+                </div>
+                <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                    <div className="bg-green-900 bg-opacity-20 border border-green-800 rounded-lg p-4 mb-4">
+                        <h3 className="text-green-300 font-semibold text-sm mb-1">You're all set!</h3>
+                        <p className="text-gray-300 text-sm">
+                            The <strong className="text-white">{cls.name}</strong> doesn't require any additional choices right now.
+                            Your DM will help you with equipment and spells when you sit down to play.
+                        </p>
+                    </div>
+                    <h3 className="text-white font-semibold text-sm mb-2">Your Level 1 Abilities:</h3>
+                    <div className="space-y-2">
+                        {cls.features.map(f => (
+                            <div key={f.name} className="bg-gray-800 bg-opacity-60 rounded-lg p-3 border border-gray-700">
+                                <span className="text-purple-300 font-semibold text-sm">{f.name}</span>
+                                <p className="text-gray-400 text-xs mt-1">{f.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex gap-3 px-4 sm:px-6 py-3 border-t border-gray-800 bg-gray-900 bg-opacity-80">
+                    <button onClick={onBack} className="btn-secondary flex-1 py-3 rounded-xl text-gray-300 font-medium text-sm">Back</button>
+                    <button onClick={handleNext} className="btn-primary flex-1 py-3 rounded-xl text-white font-bold text-sm">Continue</button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="fade-in flex flex-col h-full">
+            <div className="px-4 sm:px-6 pt-2 pb-2">
+                <h1 className="text-xl sm:text-2xl font-bold text-white">Class Details</h1>
+                <p className="text-gray-400 text-sm mt-1">Your <strong className="text-purple-300">{cls.name}</strong> has some choices to make.</p>
+            </div>
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                {cls.choices.map(choice => (
+                    <div key={choice.id} className="mb-6">
+                        <h3 className="text-white font-semibold mb-1">{choice.name}</h3>
+                        <p className="text-gray-400 text-sm mb-3">{choice.description}</p>
+                        <div className="space-y-2">
+                            {choice.options.map(opt => {
+                                const isSelected = localChoices[choice.id] === opt.id;
+                                return (
+                                    <button
+                                        key={opt.id}
+                                        onClick={() => handleSelect(choice.id, opt.id)}
+                                        className={`w-full text-left rounded-xl p-3 sm:p-4 border transition-all ${
+                                            isSelected ? 'border-purple-500 bg-purple-900 bg-opacity-20 card-selected' :
+                                            'border-gray-700 bg-gray-800 bg-opacity-60'
+                                        }`}
+                                    >
+                                        <div className="flex items-start justify-between">
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-2 flex-wrap">
+                                                    <span className="text-white font-semibold text-sm">{opt.name}</span>
+                                                    {opt.guidance && (
+                                                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                                                            isSelected ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300'
+                                                        }`}>{opt.guidance}</span>
+                                                    )}
+                                                </div>
+                                                <p className="text-gray-400 text-xs mt-1 leading-snug">{opt.desc}</p>
+                                            </div>
+                                            <div className={`ml-3 w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                                                isSelected ? 'border-purple-500 bg-purple-600' : 'border-gray-600'
+                                            }`}>
+                                                {isSelected && <span className="text-white text-xs font-bold">\u2713</span>}
+                                            </div>
+                                        </div>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className="flex gap-3 px-4 sm:px-6 py-3 border-t border-gray-800 bg-gray-900 bg-opacity-80">
+                <button onClick={onBack} className="btn-secondary flex-1 py-3 rounded-xl text-gray-300 font-medium text-sm">Back</button>
+                <button onClick={handleNext} disabled={!allChosen} className="btn-primary flex-1 py-3 rounded-xl text-white font-bold text-sm">Continue</button>
+            </div>
+        </div>
+    );
+}
+
+// ─── SUMMARY ─────────────────────────────────────────────────────────────────
+
+function StepSummary({ selectedClass, selectedBackground, featureChoices, onBack, onRestart }) {
+    const cls = CLASSES.find(c => c.id === selectedClass);
+    const bg = BACKGROUNDS.find(b => b.id === selectedBackground);
+    const scrollRef = useRef(null);
+    const [copied, setCopied] = useState(false);
+    useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; }, []);
+
+    const buildSummaryText = () => {
+        let text = `D&D CHARACTER CHOICES\n`;
+        text += `=====================\n\n`;
+        text += `Class: ${cls.name}\n`;
+        text += `Background: ${bg.name} (${bg.featName})\n`;
+
+        if (cls.choices.length > 0) {
+            text += `\nClass Choices:\n`;
+            cls.choices.forEach(choice => {
+                const selected = choice.options.find(o => o.id === featureChoices[choice.id]);
+                if (selected) text += `  ${choice.name}: ${selected.name}\n`;
+            });
+        }
+
+        text += `\n-----\n`;
+        text += `Still needed: Character name, appearance, personality, and backstory.\n`;
+        text += `Your DM will handle equipment, spells, and the full character sheet.`;
+        return text;
+    };
+
+    const summaryText = buildSummaryText();
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(summaryText);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch {
+            const el = document.createElement('textarea');
+            el.value = summaryText;
+            el.style.position = 'fixed';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            el.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
+    };
+
+    const handleShare = async () => {
+        if (navigator.share) {
+            try { await navigator.share({ title: 'My D&D Character', text: summaryText }); } catch (e) {}
+        } else {
+            handleCopy();
+        }
+    };
+
+    return (
+        <div className="fade-in flex flex-col h-full">
+            <div className="px-4 sm:px-6 pt-2 pb-2">
+                <h1 className="text-xl sm:text-2xl font-bold text-white">Your Character Summary</h1>
+                <p className="text-gray-400 text-sm mt-1">Here are all the choices you've made. Send this to your DM!</p>
+            </div>
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                <div className="summary-section">
+                    <div className="flex items-center gap-3 mb-2">
+                        <img src={cls.icon} alt="" className="class-icon" loading="lazy" />
+                        <div>
+                            <p className="text-gray-400 text-xs uppercase tracking-wide">Class</p>
+                            <h2 className="text-white text-xl font-bold">{cls.name}</h2>
+                        </div>
+                    </div>
+                    <p className="text-gray-400 text-sm">{cls.playstyle}</p>
+                </div>
+
+                <div className="summary-section">
+                    <div className="flex items-center gap-3 mb-2">
+                        <span className="text-3xl">{bg.emoji}</span>
+                        <div>
+                            <p className="text-gray-400 text-xs uppercase tracking-wide">Background</p>
+                            <h2 className="text-white text-xl font-bold">{bg.name}</h2>
+                        </div>
+                    </div>
+                    <p className="text-gray-400 text-sm">{bg.tagline}</p>
+                </div>
+
+                {cls.choices.length > 0 && (
+                    <div className="summary-section">
+                        <p className="text-gray-400 text-xs uppercase tracking-wide mb-2">Class Choices</p>
+                        {cls.choices.map(choice => {
+                            const selected = choice.options.find(o => o.id === featureChoices[choice.id]);
+                            return selected ? (
+                                <div key={choice.id} className="mb-1">
+                                    <span className="text-gray-400 text-sm">{choice.name}: </span>
+                                    <span className="text-white text-sm font-medium">{selected.name}</span>
+                                </div>
+                            ) : null;
+                        })}
+                    </div>
+                )}
+
+                {/* Share / Copy buttons */}
+                <div className="flex gap-3 my-4">
+                    <button onClick={handleShare} className="btn-primary flex-1 py-3 rounded-xl text-white font-bold text-sm">
+                        {navigator.share ? '📤 Share with DM' : (copied ? '\u2713 Copied!' : '📋 Copy for DM')}
+                    </button>
+                </div>
+
+                {/* Story Setup */}
+                <div className="mt-2 mb-2 border-t border-gray-700 pt-6">
+                    <h2 className="text-xl font-bold text-amber-300 mb-4">Your Story Begins...</h2>
+                    <div className="prose-story text-gray-300 text-sm">
+                        <p>Your party works out of a small bounty hunter agency — the kind of place that deals in the unglamorous end of law and order. Most of your work involves tracking down debtors who have missed their repayment dates, and serving summons to people who have gone to some effort to avoid being found. The work is steady, if not exciting, and the agency takes their cut.</p>
+
+                        <p>Lately it has been slow. Slow enough that the agency has been taking jobs that stretch the definition of "bounty hunting" — a stolen cart horse or goods, a merchant who needed someone with a serious expression to stand behind him during a difficult conversation, a run away bride. Any legitimate job, in other words.</p>
+
+                        <p>The latest job is a request from the village of Krat, two days south. A shopkeeper there is looking for his missing boy.</p>
+
+                        <p className="text-amber-200 italic">The man is offering everything he has.</p>
+
+                        <p>That is the detail that stays with you. Not the amount — the amount is modest — but the way it is written: plainly, without flourish, in the handwriting of someone who does not write often. <em className="text-gray-200">"This is my life savings. Please find my boy."</em> No negotiation. No conditions. Just a father who has run out of other options and is hoping someone will take the job seriously.</p>
+
+                        <p className="text-white font-medium text-base mt-6">You leave in the morning.</p>
+                    </div>
+                </div>
+
+                <div className="mt-4 bg-purple-900 bg-opacity-20 border border-purple-800 rounded-xl p-4">
+                    <h3 className="text-purple-300 font-semibold text-sm mb-2">Before we play, think about...</h3>
+                    <div className="text-gray-300 text-sm space-y-1">
+                        <p>What is your character's <strong className="text-white">name</strong>?</p>
+                        <p>What do they <strong className="text-white">look like</strong>?</p>
+                        <p>What is their <strong className="text-white">personality</strong> — are they brave, cautious, funny, brooding?</p>
+                        <p>Why are they working as a <strong className="text-white">bounty hunter</strong>?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="px-4 sm:px-6 py-3 border-t border-gray-800 bg-gray-900 bg-opacity-80">
+                <div className="flex gap-3">
+                    <button onClick={onBack} className="btn-secondary flex-1 py-3 rounded-xl text-gray-300 font-medium text-sm">Back</button>
+                    <button onClick={onRestart} className="btn-secondary flex-1 py-3 rounded-xl text-gray-300 font-medium text-sm">Start Over</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// ─── MAIN APP ────────────────────────────────────────────────────────────────
+
+function App() {
+    const [step, setStep] = useState('intro');
+    const [selectedClass, setSelectedClass] = useState(null);
+    const [selectedBackground, setSelectedBackground] = useState(null);
+    const [featureChoices, setFeatureChoices] = useState({});
+
+    const goNext = () => {
+        const idx = STEPS.indexOf(step);
+        if (idx < STEPS.length - 1) setStep(STEPS[idx + 1]);
+    };
+
+    const goBack = () => {
+        const idx = STEPS.indexOf(step);
+        if (idx > 0) setStep(STEPS[idx - 1]);
+    };
+
+    const restart = () => {
+        setStep('intro');
+        setSelectedClass(null);
+        setSelectedBackground(null);
+        setFeatureChoices({});
+    };
+
+    const showHeader = step !== 'intro';
+
+    return (
+        <div className="h-full flex flex-col bg-gray-900">
+            {/* Header */}
+            {showHeader && (
+                <div className="flex-shrink-0 border-b border-gray-800 bg-gray-900 bg-opacity-95" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
+                    <div className="flex items-center justify-between px-4 py-2">
+                        <div className="flex items-center gap-2">
+                            <span className="text-lg">🐉</span>
+                            <h1 className="text-sm font-bold text-white">Character Creator</h1>
+                        </div>
+                        <span className="text-xs text-gray-500">{STEP_LABELS[step]}</span>
+                    </div>
+                    <ProgressBar currentStep={step} steps={STEPS} />
+                </div>
+            )}
+
+            {/* Safe area top for intro page */}
+            {step === 'intro' && (
+                <div className="flex-shrink-0" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }} />
+            )}
+
+            {/* Content */}
+            <div className="flex-1 overflow-hidden">
+                {step === 'intro' && (
+                    <StepIntro onNext={goNext} />
+                )}
+                {step === 'class' && (
+                    <StepClass selectedClass={selectedClass} onSelectClass={setSelectedClass} onNext={goNext} onBack={goBack} />
+                )}
+                {step === 'background' && (
+                    <StepBackground
+                        selectedBackground={selectedBackground}
+                        onSelectBackground={setSelectedBackground}
+                        onNext={goNext}
+                        onBack={goBack}
+                    />
+                )}
+                {step === 'features' && (
+                    <StepFeatures
+                        selectedClass={selectedClass}
+                        featureChoices={featureChoices}
+                        onSetFeatureChoices={setFeatureChoices}
+                        onNext={goNext}
+                        onBack={goBack}
+                    />
+                )}
+                {step === 'summary' && (
+                    <StepSummary
+                        selectedClass={selectedClass}
+                        selectedBackground={selectedBackground}
+                        featureChoices={featureChoices}
+                        onBack={goBack}
+                        onRestart={restart}
+                    />
+                )}
+            </div>
+
+            {/* Safe area bottom padding */}
+            <div style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }} className="bg-gray-900" />
+        </div>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
