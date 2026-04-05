@@ -1,21 +1,6 @@
 {
   "notes": [
     {
-      "name": "Base Camp - The Hundred Acre Wood",
-      "path": "notes/Base Camp - The Hundred Acre Wood.md",
-      "category": "root"
-    },
-    {
-      "name": "Overview",
-      "path": "notes/Overview.md",
-      "category": "root"
-    },
-    {
-      "name": "Chapter 0 - Intro",
-      "path": "notes/chapters/Chapter 0 - Intro.md",
-      "category": "chapters"
-    },
-    {
       "name": "Chapter 1 - Around Town",
       "path": "notes/chapters/Chapter 1 - Around Town.md",
       "category": "chapters"
@@ -36,221 +21,21 @@
       "category": "chapters"
     },
     {
-      "name": "Chorus Puppet",
-      "path": "notes/characters/Chorus Puppet.md",
-      "category": "characters"
+      "name": "Dungeon Master's Guide (2024)",
+      "path": "notes/rules/Dungeon Master's Guide (2024).md",
+      "category": "rules"
     },
     {
-      "name": "Dancer Puppet",
-      "path": "notes/characters/Dancer Puppet.md",
-      "category": "characters"
-    },
-    {
-      "name": "Geppetto",
-      "path": "notes/characters/Geppetto.md",
-      "category": "characters"
-    },
-    {
-      "name": "Kanga",
-      "path": "notes/characters/Kanga.md",
-      "category": "characters"
-    },
-    {
-      "name": "Lampwick's Father",
-      "path": "notes/characters/Lampwick's Father.md",
-      "category": "characters"
-    },
-    {
-      "name": "Lampwick's Mother",
-      "path": "notes/characters/Lampwick's Mother.md",
-      "category": "characters"
-    },
-    {
-      "name": "Lampwick",
-      "path": "notes/characters/Lampwick.md",
-      "category": "characters"
-    },
-    {
-      "name": "Mangiafuoco",
-      "path": "notes/characters/Mangiafuoco.md",
-      "category": "characters"
-    },
-    {
-      "name": "Newspaper Seller",
-      "path": "notes/characters/Newspaper Seller.md",
-      "category": "characters"
-    },
-    {
-      "name": "Pinocchio",
-      "path": "notes/characters/Pinocchio.md",
-      "category": "characters"
-    },
-    {
-      "name": "Postwoman",
-      "path": "notes/characters/Postwoman.md",
-      "category": "characters"
-    },
-    {
-      "name": "Rabbit",
-      "path": "notes/characters/Rabbit.md",
-      "category": "characters"
-    },
-    {
-      "name": "Roo",
-      "path": "notes/characters/Roo.md",
-      "category": "characters"
-    },
-    {
-      "name": "Soldier Puppet",
-      "path": "notes/characters/Soldier Puppet.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Blue Fairy",
-      "path": "notes/characters/The Blue Fairy.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Cat",
-      "path": "notes/characters/The Cat.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Chef",
-      "path": "notes/characters/The Chef.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Cobbler",
-      "path": "notes/characters/The Cobbler.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Flower Seller",
-      "path": "notes/characters/The Flower Seller.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Fox",
-      "path": "notes/characters/The Fox.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Great Serpent",
-      "path": "notes/characters/The Great Serpent.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Innkeeper's Wife",
-      "path": "notes/characters/The Innkeeper's Wife.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Innkeeper",
-      "path": "notes/characters/The Innkeeper.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Police Officer",
-      "path": "notes/characters/The Police Officer.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Waitress",
-      "path": "notes/characters/The Waitress.md",
-      "category": "characters"
-    },
-    {
-      "name": "The teacher",
-      "path": "notes/characters/The teacher.md",
-      "category": "characters"
-    },
-    {
-      "name": "Weasel Enforcer",
-      "path": "notes/characters/Weasel Enforcer.md",
-      "category": "characters"
-    },
-    {
-      "name": "Weasel Lieutenant",
-      "path": "notes/characters/Weasel Lieutenant.md",
-      "category": "characters"
-    },
-    {
-      "name": "The Puppet Theatre",
-      "path": "notes/locations/The Puppet Theatre.md",
-      "category": "locations"
-    },
-    {
-      "name": "Kanga and Roo's House",
-      "path": "notes/locations/100 Acre Wood/Kanga and Roo's House.md",
-      "category": "locations"
-    },
-    {
-      "name": "Piglet's House",
-      "path": "notes/locations/100 Acre Wood/Piglet's House.md",
-      "category": "locations"
-    },
-    {
-      "name": "Pooh's House",
-      "path": "notes/locations/100 Acre Wood/Pooh's House.md",
-      "category": "locations"
-    },
-    {
-      "name": "Rabbit's Warren",
-      "path": "notes/locations/100 Acre Wood/Rabbit's Warren.md",
-      "category": "locations"
-    },
-    {
-      "name": "The Field of Miracles",
-      "path": "notes/locations/100 Acre Wood/The Field of Miracles.md",
-      "category": "locations"
-    },
-    {
-      "name": "The Thoughtful Spot",
-      "path": "notes/locations/100 Acre Wood/The Thoughtful Spot.md",
-      "category": "locations"
-    },
-    {
-      "name": "Geppetto's Workshop and Home",
-      "path": "notes/locations/Krat/Geppetto's Workshop and Home.md",
-      "category": "locations"
-    },
-    {
-      "name": "The Academy",
-      "path": "notes/locations/Krat/The Academy.md",
-      "category": "locations"
-    },
-    {
-      "name": "The Bakery",
-      "path": "notes/locations/Krat/The Bakery.md",
-      "category": "locations"
-    },
-    {
-      "name": "The Cobbler's Shop",
-      "path": "notes/locations/Krat/The Cobbler's Shop.md",
-      "category": "locations"
-    },
-    {
-      "name": "The Red Crawfish Inn",
-      "path": "notes/locations/Krat/The Red Crawfish Inn.md",
-      "category": "locations"
-    },
-    {
-      "name": "The Savings Bank",
-      "path": "notes/locations/Krat/The Savings Bank.md",
-      "category": "locations"
-    },
-    {
-      "name": "The Town Square",
-      "path": "notes/locations/Krat/The Town Square.md",
-      "category": "locations"
+      "name": "Player's Handbook (2024)",
+      "path": "notes/rules/Player's Handbook (2024).md",
+      "category": "rules"
     }
   ],
   "images": {
     "Weasel.PNG": "images/Weasel.PNG",
-    "Circus Poster.png": "images/chapter-3/Circus Poster.png",
+    "Circus Poster.png": "images/chapter-1/Circus Poster.png",
     "Geppetto.png": "images/chapter-1/Geppetto.png",
-    "Missing Poster.png": "images/chapter-3/Missing Poster.png",
+    "Missing Poster.png": "images/chapter-1/Missing Poster.png",
     "Poster.PNG": "images/chapter-1/Poster.PNG",
     "Rabbit.png": "images/chapter-1/Rabbit.png",
     "The Banker.png": "images/chapter-1/The Banker.png",
@@ -270,9 +55,11 @@
     "The Fox and the Cat.PNG": "images/chapter-2/The Fox and the Cat.PNG",
     "The Serpent.PNG": "images/chapter-2/The Serpent.PNG",
     "Weasel Note.PNG": "images/chapter-2/Weasel Note.PNG",
-    "Business Card.png": "images/chapter-3/Business Card.png",
+    "Business Card circled.png": "images/chapter-3/Business Card circled.png",
+    "Circus Poster circled.png": "images/chapter-3/Circus Poster circled.png",
     "Consipircy Wall.png": "images/chapter-3/Consipircy Wall.png",
     "Freight Poster.png": "images/chapter-3/Freight Poster.png",
+    "Missing Poster circled.png": "images/chapter-3/Missing Poster circled.png",
     "Theatre - Backstage.png": "images/chapter-3/Theatre - Backstage.png",
     "Theatre - Entrance.png": "images/chapter-3/Theatre - Entrance.png",
     "Theatre - Exterior.png": "images/chapter-3/Theatre - Exterior.png",

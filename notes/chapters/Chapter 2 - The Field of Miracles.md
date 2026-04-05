@@ -54,6 +54,8 @@
 ---
 
 # On the Road
+
+> [!success] Password: miracles
 ## The Road East
 
 > [!info] Scene: The Road East
@@ -74,6 +76,8 @@
 > [!info] Scene: The Broken Cages
 > A clearing forty feet off the road, visible between the trees. It takes a DC 10 Perception check to notice it — or no check if anyone is actively looking for the source of the rope fragment.
 
+> [!success] Password: camp
+
 > [!warning] What They Find
 > ![[The Camp.PNG]]
 > An abandoned campsite just off the road, a few days old. It looks like they left in a hurry.
@@ -89,12 +93,15 @@
 > - **DC 10 Investigation:** The large cage was ripped open from the inside. The damage in the camp is in a straight-ish line from the cage through the camp.
 > - **DC 12 Investigation:** One set of tracks leads away into the deeper woods — very large, heavy, moving in slow curves rather than straight lines. Not a mammal's gait.
 
+> [!success] Password: weasel
 
 > [!warning] The Body
 > ![[Dead Weasel.PNG]]
 > Lying at the edge of the clearing, is a weasel. Dead. He is small and wiry, with the build of someone who did manual labour and didn't ask questions. He wears a heavy work jacket — slightly too big — and a flat cap pushed back on his head, as though he meant to adjust it and never got the chance. His expression is surprised. He did not see it coming.
 >
 > The cause is not subtle: the long curved mark of constriction across his ribs. The snake's work. His crew did not wait for him.
+
+> [!success] Password: note
 
 > [!tip] Investigation DC 10 — What's on the Body
 > ![[Weasel Note.PNG]]
@@ -117,6 +124,8 @@
 ---
 
 ## The Serpent
+
+> [!success] Password: serpent
 
 > [!warning] Scene: Something is Burning
 > While the party searches the ruined camp — examining the broken cages, the scattered tools, the dead weasel — a thin column of smoke rises from somewhere in the deep woods to the south. Slow and steady, pale against the tree line, like a distant campfire. Or like someone burning evidence.
@@ -204,6 +213,8 @@
 >
 > That is all he says. Then he straightens his coat and walks toward his burrow, and the party follows, because there is nothing else to do.
 
+> [!success] Password: roo
+
 > [!success] Scene: Finding Roo
 > A sound cuts through the quiet — a child crying. Following it leads to Kanga's house, small and still amid the trampled gardens. Inside, curled up alone on the floor, is a small kangaroo joey in a blue shirt. He is dirty, tired, and has clearly been here for some time. How long has he been alone?
 >
@@ -234,6 +245,8 @@
 ---
 
 # The Field of Miracles
+
+> [!success] Password: fox
 
 ![[The Field of Miracles.PNG]]
 

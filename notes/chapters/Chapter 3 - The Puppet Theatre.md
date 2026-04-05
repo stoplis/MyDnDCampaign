@@ -130,6 +130,7 @@ related:
 ---
 
 # The Theatre
+> [!success] Password: theatre
 ## Exterior and First Approach
 
 > [!info] Scene: Arriving at the Theatre
@@ -181,6 +182,7 @@ related:
 > Three Chorus Puppets on their oval loop. If the players are quiet and quick about the box office, they may get the keys before the Puppets notice them — **DC 12 Stealth** (group check) to move through the hall without triggering. Once triggered, the Chorus Puppets converge. The chandelier, if the floorboards are shaken enough (from combat or forcing the booth door), sways and sheds plaster dust — no structural risk, but it provides cover for a Stealth re-roll if used creatively.
 
 ### The Bar
+> [!success] Password: gin
 
 > [!info] **The Bar** *(adjacent to entrance hall, door always unlocked)*
 >
@@ -198,6 +200,7 @@ related:
 > *There is nothing essential in this room.* Players who search it find only bottles of vinegary spirit, an old ledger of drink receipts, and, behind the bar, a shelf of personal effects — a jacket hung on a hook, a mug with a name on it (CARLO), a folded newspaper from three years ago. The bar had regulars. It had a life. Make that briefly visible.
 
 ### Backstage
+> [!success] Password: backdrop
 
 > [!info] **Backstage** *(Brass Key required)*
 >
@@ -224,6 +227,7 @@ related:
 > Also in Backstage: rolled against the far wall, a full set of backdrops for a production of *The Blue Fairy* — clouds and moonlight and a cottage, and at the centre of the largest drop, painted in brilliant blue, a butterfly. Enormous. Painted from life, almost certainly. The players probably do not know why that matters yet.
 
 ### Puppet Workshop
+> [!success] Password: beds
 
 > [!info] **Puppet Workshop** *(Iron Key required)*
 >
@@ -272,6 +276,7 @@ related:
 ---
 
 ### The Stage — Boss Arena
+> [!success] Password: curtains 
 
 ![[Theatre - Stage.png]]
 
@@ -342,6 +347,7 @@ related:
 ---
 
 ## Mangiafuoco's Office — Chapter Payoff
+> [!success] Password: board
 
 > [!info] Scene: The Office
 > A door at stage left, behind a painted flat of a village square. The key fits. The room beyond is intact — the fire did not reach here, the neglect did not quite reach here either. A beautiful room: a leather-topped desk, floor-to-ceiling bookshelves, framed playbills in dense rows on every wall, a small brazier cold in the corner, a Persian rug. The desk is clear except for a single journal. The rug is undisturbed. It is the one room in the theatre that looks as it did before the fire.

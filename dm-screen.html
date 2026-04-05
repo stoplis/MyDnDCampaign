@@ -1461,7 +1461,7 @@ function PCStripPanel({ pcState, onUpdatePc }) {
 
 /* ── DocumentPanel (Document Mode) ────────────────────────────── */
 
-function DocumentPanel({ characters }) {
+function DocumentPanel({ characters, activeTab }) {
   const [mdContent, setMdContent]   = useState(null);
   const [fileName, setFileName]     = useState("");
   const [imageMap, setImageMap]     = useState({});
@@ -1486,6 +1486,30 @@ function DocumentPanel({ characters }) {
       if (Object.keys(map).length > 0) setImageMap(map);
     });
   }, []);
+
+  // Auto-load chapter note when the chapter tab changes
+  const prevTab = useRef(null);
+  useEffect(() => {
+    if (!activeTab || activeTab === "All" || activeTab === prevTab.current) return;
+    prevTab.current = activeTab;
+    // Map chapter number to note path
+    const chapterMap = {
+      '1': 'notes/chapters/Chapter 1 - Around Town.md',
+      '2': 'notes/chapters/Chapter 2 - The Field of Miracles.md',
+      '3': 'notes/chapters/Chapter 3 - The Puppet Theatre.md',
+      '4': 'notes/chapters/Chapter 4 - The Circus.md',
+    };
+    const path = chapterMap[activeTab];
+    if (path) {
+      fetch(path).then(r => { if (r.ok) return r.text(); }).then(raw => {
+        if (raw) {
+          setMdContent(raw);
+          setFileName(path.split('/').pop());
+          setToc(extractToc(raw));
+        }
+      }).catch(() => {});
+    }
+  }, [activeTab]);
 
   // Persist document content + filename
   useEffect(() => {
@@ -1648,8 +1672,8 @@ function DocumentPanel({ characters }) {
                   if (!groups[cat]) groups[cat] = [];
                   groups[cat].push(n);
                 });
-                const order = ['chapters', 'characters', 'locations', 'root'];
-                const labels = { chapters: 'Chapters', characters: 'Characters', locations: 'Locations', root: 'Other Notes' };
+                const order = ['chapters', 'rules', 'characters', 'locations', 'root'];
+                const labels = { chapters: 'Chapters', rules: 'Rules', characters: 'Characters', locations: 'Locations', root: 'Other Notes' };
                 // Add any categories not in the predefined order
                 Object.keys(groups).forEach(k => { if (!order.includes(k)) order.push(k); });
                 return order.filter(k => groups[k]).map(cat => (
@@ -2036,7 +2060,7 @@ function App() {
         <div className="flex flex-1 overflow-hidden" style={{display: viewMode === "document" ? "flex" : "none"}}>
           <PCStripPanel pcState={pcState} onUpdatePc={updatePcFromApp} />
           <div className="panel-sep" />
-          <DocumentPanel characters={characters} />
+          <DocumentPanel characters={characters} activeTab={activeTab} />
           {diceOpen && <div className="panel-sep" />}
           <RightPanel diceOpen={diceOpen} />
         </div>
