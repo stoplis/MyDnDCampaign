@@ -156,6 +156,30 @@ function fileToDataUrl(file) {
   });
 }
 
+/* ── Server manifest for hosted notes & images ────────────── */
+let serverManifest = null;
+let serverImageMap = {};  // filename → relative URL path
+
+async function loadManifest() {
+  try {
+    const resp = await fetch('manifest.json');
+    if (!resp.ok) return null;
+    serverManifest = await resp.json();
+    serverImageMap = serverManifest.images || {};
+    return serverManifest;
+  } catch(_) { return null; }
+}
+// Load manifest on startup
+loadManifest();
+
+function resolveImageUrl(fname, userImageMap) {
+  // User-uploaded images take priority (base64 data URLs)
+  if (userImageMap && userImageMap[fname]) return userImageMap[fname];
+  // Fall back to server-hosted image path
+  if (serverImageMap[fname]) return serverImageMap[fname];
+  return null;
+}
+
 /* ── Rules IndexedDB helpers (uses generic openIDB) ────────────── */
 
 const RULES_DB    = 'dmscreen_rules';
@@ -1348,9 +1372,9 @@ function mdToHtml(md, imageMap, depth) {
   // Strip frontmatter
   let text = stripFrontmatter(md);
 
-  // Handle ![[image]] embeds
+  // Handle ![[image]] embeds — check user uploads first, then server manifest
   text = text.replace(/!\[\[([^\]]+)\]\]/g, (_, fname) => {
-    const url = imageMap && imageMap[fname];
+    const url = resolveImageUrl(fname, imageMap);
     if (url) return `<img src="${url}" alt="${fname}" />`;
     return `<em>[Image: ${fname}]</em>`;
   });
@@ -1444,6 +1468,8 @@ function DocumentPanel({ characters }) {
   const [toc, setToc]               = useState([]);
   const [hoverChar, setHoverChar]   = useState(null);
   const [hoverPos, setHoverPos]     = useState({ x: 0, y: 0 });
+  const [showBrowser, setShowBrowser] = useState(false);
+  const [notesList, setNotesList]   = useState(null);
   const contentRef = useRef(null);
 
   // Restore document state from persistence on mount
@@ -1511,6 +1537,26 @@ function DocumentPanel({ characters }) {
     input.click();
   }
 
+  async function openBrowseNotes() {
+    if (!serverManifest) await loadManifest();
+    if (serverManifest && serverManifest.notes) {
+      setNotesList(serverManifest.notes);
+      setShowBrowser(true);
+    }
+  }
+
+  async function fetchNote(note) {
+    try {
+      const resp = await fetch(note.path);
+      if (!resp.ok) return;
+      const raw = await resp.text();
+      setMdContent(raw);
+      setFileName(note.name + '.md');
+      setToc(extractToc(raw));
+      setShowBrowser(false);
+    } catch(_) {}
+  }
+
   function jumpToHeading(idx) {
     if (!contentRef.current) return;
     const headings = contentRef.current.querySelectorAll('h1, h2, h3, h4');
@@ -1557,9 +1603,13 @@ function DocumentPanel({ characters }) {
     <div className="flex flex-col h-full flex-1 min-w-0">
       {/* Toolbar */}
       <div className="bg-gray-800 border-b border-gray-700 p-2 flex-shrink-0 flex items-center gap-2 flex-wrap">
-        <button onClick={loadFile}
+        <button onClick={openBrowseNotes}
           className="text-xs px-3 py-1 bg-purple-700 hover:bg-purple-600 text-white rounded">
-          📄 Open .md
+          📂 Browse Notes
+        </button>
+        <button onClick={loadFile}
+          className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded">
+          📄 Upload .md
         </button>
         <button onClick={loadImagesFromPicker}
           className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded">
@@ -1583,12 +1633,50 @@ function DocumentPanel({ characters }) {
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         onMouseMove={handleMouseMove}>
-        {!mdContent ? (
+        {showBrowser && notesList && (
+          <div style={{ position: 'absolute', inset: 0, zIndex: 40, background: 'rgba(0,0,0,0.85)', overflow: 'auto', padding: '1rem' }}>
+            <div style={{ maxWidth: 480, margin: '0 auto' }}>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-semibold text-white">Browse Notes</span>
+                <button onClick={() => setShowBrowser(false)}
+                  className="text-gray-400 hover:text-white text-lg px-2">&times;</button>
+              </div>
+              {(() => {
+                const groups = {};
+                notesList.forEach(n => {
+                  const cat = n.category || 'root';
+                  if (!groups[cat]) groups[cat] = [];
+                  groups[cat].push(n);
+                });
+                const order = ['chapters', 'characters', 'locations', 'root'];
+                const labels = { chapters: 'Chapters', characters: 'Characters', locations: 'Locations', root: 'Other Notes' };
+                // Add any categories not in the predefined order
+                Object.keys(groups).forEach(k => { if (!order.includes(k)) order.push(k); });
+                return order.filter(k => groups[k]).map(cat => (
+                  <div key={cat} className="mb-3">
+                    <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">{labels[cat] || cat}</div>
+                    {groups[cat].map((note, i) => (
+                      <button key={i} onClick={() => fetchNote(note)}
+                        className="block w-full text-left text-sm px-3 py-2 rounded hover:bg-gray-700 text-gray-300 hover:text-white transition-colors">
+                        {note.name}
+                      </button>
+                    ))}
+                  </div>
+                ));
+              })()}
+            </div>
+          </div>
+        )}
+        {!mdContent && !showBrowser ? (
           <div className="text-center mt-16">
             <p className="text-gray-500 text-sm mb-3">No document loaded</p>
+            <button onClick={openBrowseNotes}
+              className="text-sm px-4 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded mb-2 mr-2">
+              Browse Notes
+            </button>
             <button onClick={loadFile}
-              className="text-sm px-4 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded">
-              Open a Markdown File
+              className="text-sm px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded mb-2">
+              Upload a File
             </button>
           </div>
         ) : (

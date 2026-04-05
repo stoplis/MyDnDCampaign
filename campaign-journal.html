@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Campaign Journal</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { height: 100%; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1117;
+            color: #e5e7eb;
+            min-height: 100%;
+            padding: 1.25rem;
+            padding-bottom: 5rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .back-link {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 1.4rem;
+            line-height: 1;
+            padding: 0.25rem;
+        }
+        .back-link:hover { color: #e5e7eb; }
+        h1 { font-size: 1.35rem; font-weight: 600; }
+
+        /* Password input bar — fixed at bottom */
+        .pw-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1a1d27;
+            border-top: 1px solid #2a2d3a;
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 50;
+        }
+        .pw-bar input {
+            flex: 1;
+            padding: 0.6rem 0.85rem;
+            background: #0f1117;
+            border: 1px solid #2a2d3a;
+            border-radius: 0.5rem;
+            color: #e5e7eb;
+            font-size: 1rem;
+            outline: none;
+        }
+        .pw-bar input:focus { border-color: #6366f1; }
+        .pw-bar input.error {
+            border-color: #ef4444;
+            animation: shake 0.35s ease;
+        }
+        .pw-bar button {
+            padding: 0.6rem 1.2rem;
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .pw-bar button:hover { background: #5558e6; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Chapter sections */
+        .chapter {
+            margin-bottom: 1.5rem;
+        }
+        .chapter-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1rem;
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 0.625rem;
+            cursor: default;
+        }
+        .chapter-header.unlocked {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .chapter-header.unlocked:hover { border-color: #6366f1; }
+        .chapter-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            flex: 1;
+        }
+        .lock-icon {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        .unlock-icon {
+            font-size: 0.85rem;
+            color: #6366f1;
+        }
+        .chevron {
+            color: #6b7280;
+            font-size: 0.75rem;
+            transition: transform 0.2s;
+        }
+        .chevron.open { transform: rotate(90deg); }
+
+        /* Entry grid inside a chapter */
+        .entries {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.65rem;
+            padding: 0.75rem 0;
+        }
+
+        .entry {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: border-color 0.15s;
+        }
+        .entry.unlocked { cursor: pointer; }
+        .entry.unlocked:hover { border-color: #6366f1; }
+
+        .entry-thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+            background: #22253a;
+        }
+        .entry-placeholder {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #22253a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4b5563;
+            font-size: 1.8rem;
+        }
+        .entry-name {
+            padding: 0.45rem 0.55rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .entry-name.locked { color: #6b7280; }
+
+        /* Fullscreen image viewer */
+        .viewer-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 1rem;
+        }
+        .viewer-overlay.active { display: flex; }
+
+        .viewer-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            line-height: 1;
+            z-index: 101;
+        }
+        .viewer-close:hover { color: #fff; }
+
+        .viewer-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #f3f4f6;
+            text-align: center;
+        }
+        .viewer-img {
+            max-width: 100%;
+            max-height: calc(100vh - 6rem);
+            border-radius: 0.5rem;
+            object-fit: contain;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(-120%);
+            background: #22c55e;
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 200;
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        @media (max-width: 400px) {
+            .entries { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="back-link">&#8592;</a>
+        <h1>Campaign Journal</h1>
+    </div>
+
+    <div id="app"></div>
+
+    <div class="pw-bar">
+        <input type="text" id="pw-input" placeholder="Enter a password..." autocomplete="off" spellcheck="false" autocapitalize="off">
+        <button id="pw-btn">Unlock</button>
+    </div>
+
+    <!-- Fullscreen image viewer -->
+    <div class="viewer-overlay" id="viewer">
+        <button class="viewer-close" id="viewer-close">&times;</button>
+        <div class="viewer-title" id="viewer-title"></div>
+        <img class="viewer-img" id="viewer-img" src="" alt="">
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    /*
+     * CAMPAIGN JOURNAL DATA
+     * =====================
+     * Edit this object to add/remove chapters and entries.
+     * Passwords are case-insensitive.
+     *
+     * Each entry needs:
+     *   name     — display name (shown even when locked)
+     *   password — the word the DM tells the players
+     *   image    — path to the image file
+     *   hidden   — (optional) if true, name shows as "???" until unlocked
+     */
+    const JOURNAL = [
+        {
+            id: "chapter-1",
+            title: "Chapter 1",
+            password: "krat",
+            entries: [
+                { name: "Town Map",           password: "map",          image: "images/chapter-1/Town Map.png" },
+                { name: "The Innkeeper",      password: "crawfish",     image: "images/chapter-1/The Innkeeper.png" },
+                { name: "Rabbit",             password: "rabbit",       image: "images/chapter-1/Rabbit.png" },
+                { name: "The Cobbler",        password: "cobbler",      image: "images/chapter-1/The Cobbler.png" },
+                { name: "The Flower Seller",  password: "flower",       image: "images/chapter-1/The Flower Seller.png" },
+                { name: "The Baker",          password: "baker",        image: "images/chapter-1/The baker.png" },
+                { name: "The Newspaper Seller", password: "newspaper",  image: "images/chapter-1/The newpaper seller.png" },
+                { name: "The Police Officer", password: "police",       image: "images/chapter-1/The Police Officer.png" },
+                { name: "The Postwoman",      password: "postwoman",    image: "images/chapter-1/The Postwoman.png" },
+                { name: "The Schoolmistress", password: "school",       image: "images/chapter-1/The Schoolmistress.png" },
+                { name: "The Banker",         password: "banker",       image: "images/chapter-1/The Banker.png" },
+                { name: "Geppetto",           password: "geppetto",     image: "images/chapter-1/Geppetto.png", hidden: true },
+            ]
+        },
+        {
+            id: "chapter-2",
+            title: "Chapter 2",
+            password: "miracles",
+            entries: [
+                { name: "The Field of Miracles", password: "field",     image: "images/chapter-2/The Field of Miracles.PNG" },
+                { name: "The Camp",           password: "camp",          image: "images/chapter-2/The Camp.PNG" },
+                { name: "The Fox and the Cat", password: "fox",          image: "images/chapter-2/The Fox and the Cat.PNG" },
+                { name: "The Serpent",        password: "serpent",       image: "images/chapter-2/The Serpent.PNG" },
+                { name: "Roo",                password: "roo",           image: "images/chapter-2/Roo.PNG" },
+                { name: "Dead Weasel",        password: "weasel",        image: "images/chapter-2/Dead Weasel.PNG", hidden: true },
+                { name: "Weasel Note",        password: "note",          image: "images/chapter-2/Weasel Note.PNG", hidden: true },
+            ]
+        },
+        {
+            id: "chapter-3",
+            title: "Chapter 3",
+            password: "theatre",
+            entries: [
+                { name: "Theatre — Exterior",     password: "exterior",      image: "images/chapter-3/Theatre - Exterior.png" },
+                { name: "Theatre — Entrance",     password: "entrance",      image: "images/chapter-3/Theatre - Entrance.png" },
+                { name: "Theatre — Stage",        password: "stage",         image: "images/chapter-3/Theatre - Stage.png" },
+                { name: "Theatre — The Bar",      password: "bar",           image: "images/chapter-3/Theatre - The Bar.png" },
+                { name: "Theatre — Backstage",    password: "backstage",     image: "images/chapter-3/Theatre - Backstage.png" },
+                { name: "Theatre — Workshop",     password: "workshop",      image: "images/chapter-3/Theatre - Workshop.png" },
+                { name: "Theatre — Office",       password: "office",        image: "images/chapter-3/Theatre - Mangiafuoco's Office.png" },
+                { name: "Circus Poster",          password: "circus",        image: "images/chapter-3/Circus Poster.png" },
+                { name: "Missing Poster",         password: "missing",       image: "images/chapter-3/Missing Poster.png" },
+                { name: "Business Card",          password: "card",          image: "images/chapter-3/Business Card.png", hidden: true },
+                { name: "Conspiracy Wall",        password: "conspiracy",    image: "images/chapter-3/Consipircy Wall.png", hidden: true },
+                { name: "Freight Poster",         password: "freight",       image: "images/chapter-3/Freight Poster.png", hidden: true },
+            ]
+        }
+    ];
+
+    // ── State ──────────────────────────────────────────────
+    const STORAGE_KEY = 'dnd-journal-unlocks';
+    let unlocks = {};  // { "chapter-1": true, "chapter-1:crawfish": true, ... }
+    let openChapters = {};
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) unlocks = JSON.parse(raw);
+        } catch(e) { unlocks = {}; }
+    }
+    function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(unlocks));
+    }
+
+    function isChapterUnlocked(ch) { return unlocks[ch.id] === true; }
+    function isEntryUnlocked(ch, entry) { return unlocks[ch.id + ':' + entry.password] === true; }
+
+    // ── Rendering ──────────────────────────────────────────
+    const app = document.getElementById('app');
+
+    function render() {
+        app.innerHTML = '';
+        JOURNAL.forEach(ch => {
+            const section = document.createElement('div');
+            section.className = 'chapter';
+
+            const unlocked = isChapterUnlocked(ch);
+            const isOpen = openChapters[ch.id];
+
+            // Chapter header
+            const header = document.createElement('div');
+            header.className = 'chapter-header' + (unlocked ? ' unlocked' : '');
+            header.innerHTML = `
+                <span class="${unlocked ? 'unlock-icon' : 'lock-icon'}">${unlocked ? '&#9898;' : '&#128274;'}</span>
+                <span class="chapter-title">${ch.title}</span>
+                ${unlocked ? `<span class="chevron ${isOpen ? 'open' : ''}">&#9654;</span>` : ''}
+            `;
+            if (unlocked) {
+                header.addEventListener('click', () => {
+                    openChapters[ch.id] = !openChapters[ch.id];
+                    render();
+                });
+            }
+            section.appendChild(header);
+
+            // Entries grid
+            if (unlocked && isOpen) {
+                const grid = document.createElement('div');
+                grid.className = 'entries';
+
+                ch.entries.forEach(entry => {
+                    const eu = isEntryUnlocked(ch, entry);
+                    const card = document.createElement('div');
+                    card.className = 'entry' + (eu ? ' unlocked' : '');
+
+                    if (eu) {
+                        card.innerHTML = `
+                            <img class="entry-thumb" src="${entry.image}" alt="${entry.name}" loading="lazy">
+                            <div class="entry-name">${entry.name}</div>
+                        `;
+                        card.addEventListener('click', () => openViewer(entry.name, entry.image));
+                    } else {
+                        const displayName = entry.hidden ? '???' : entry.name;
+                        card.innerHTML = `
+                            <div class="entry-placeholder">&#128274;</div>
+                            <div class="entry-name locked">${displayName}</div>
+                        `;
+                    }
+                    grid.appendChild(card);
+                });
+
+                section.appendChild(grid);
+            }
+
+            app.appendChild(section);
+        });
+    }
+
+    // ── Viewer ─────────────────────────────────────────────
+    const viewer = document.getElementById('viewer');
+    const viewerImg = document.getElementById('viewer-img');
+    const viewerTitle = document.getElementById('viewer-title');
+
+    function openViewer(name, src) {
+        viewerTitle.textContent = name;
+        viewerImg.src = src;
+        viewer.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeViewer() {
+        viewer.classList.remove('active');
+        viewerImg.src = '';
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('viewer-close').addEventListener('click', closeViewer);
+    viewer.addEventListener('click', e => { if (e.target === viewer) closeViewer(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
+
+    // ── Toast ──────────────────────────────────────────────
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(msg) {
+        clearTimeout(toastTimer);
+        toast.textContent = msg;
+        toast.classList.add('show');
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    // ── Password handling ──────────────────────────────────
+    const pwInput = document.getElementById('pw-input');
+    const pwBtn = document.getElementById('pw-btn');
+
+    function tryUnlock() {
+        const val = pwInput.value.trim().toLowerCase();
+        if (!val) return;
+
+        let found = false;
+
+        // Check chapter passwords
+        JOURNAL.forEach(ch => {
+            if (ch.password === val && !unlocks[ch.id]) {
+                unlocks[ch.id] = true;
+                openChapters[ch.id] = true;
+                found = true;
+                showToast(ch.title + ' unlocked!');
+            }
+        });
+
+        // Check entry passwords (only in unlocked chapters)
+        JOURNAL.forEach(ch => {
+            if (!isChapterUnlocked(ch)) return;
+            ch.entries.forEach(entry => {
+                const key = ch.id + ':' + entry.password;
+                if (entry.password === val && !unlocks[key]) {
+                    unlocks[key] = true;
+                    found = true;
+                    showToast(entry.name + ' unlocked!');
+                }
+            });
+        });
+
+        if (found) {
+            saveState();
+            render();
+            pwInput.value = '';
+        } else {
+            pwInput.classList.add('error');
+            setTimeout(() => pwInput.classList.remove('error'), 400);
+        }
+    }
+
+    pwBtn.addEventListener('click', tryUnlock);
+    pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+    // ── Init ───────────────────────────────────────────────
+    loadState();
+    // Auto-open any unlocked chapters
+    JOURNAL.forEach(ch => { if (isChapterUnlocked(ch)) openChapters[ch.id] = true; });
+    render();
+    </script>
+</body>
+</html>
