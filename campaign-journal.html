@@ -263,10 +263,11 @@
      * Passwords are case-insensitive.
      *
      * Each entry needs:
-     *   name     — display name (shown even when locked)
-     *   password — the word the DM tells the players
-     *   image    — path to the image file
-     *   hidden   — (optional) if true, name shows as "???" until unlocked
+     *   name        — display name (shown even when locked)
+     *   password    — the word the DM tells the players
+     *   image       — path to the image file
+     *   hidden      — (optional) if true, name shows as "???" until unlocked
+     *   autoUnlock  — (optional) if true, unlocks automatically with the chapter
      */
     const JOURNAL = [
         {
@@ -274,18 +275,21 @@
             title: "Chapter 1",
             password: "krat",
             entries: [
-                { name: "Town Map",           password: "map",          image: "images/chapter-1/Town Map.png" },
-                { name: "The Innkeeper",      password: "crawfish",     image: "images/chapter-1/The Innkeeper.png" },
-                { name: "Rabbit",             password: "rabbit",       image: "images/chapter-1/Rabbit.png" },
-                { name: "The Cobbler",        password: "cobbler",      image: "images/chapter-1/The Cobbler.png" },
-                { name: "The Flower Seller",  password: "flower",       image: "images/chapter-1/The Flower Seller.png" },
-                { name: "The Baker",          password: "baker",        image: "images/chapter-1/The baker.png" },
-                { name: "The Newspaper Seller", password: "newspaper",  image: "images/chapter-1/The newpaper seller.png" },
-                { name: "The Police Officer", password: "police",       image: "images/chapter-1/The Police Officer.png" },
-                { name: "The Postwoman",      password: "postwoman",    image: "images/chapter-1/The Postwoman.png" },
-                { name: "The Schoolmistress", password: "school",       image: "images/chapter-1/The Schoolmistress.png" },
-                { name: "The Banker",         password: "banker",       image: "images/chapter-1/The Banker.png" },
-                { name: "Geppetto",           password: "geppetto",     image: "images/chapter-1/Geppetto.png", hidden: true },
+                { name: "Circus Poster",        password: "circus",       image: "images/chapter-1/Circus Poster.png", autoUnlock: true },
+                { name: "Geppetto",             password: "geppetto",     image: "images/chapter-1/Geppetto.png", autoUnlock: true },
+                { name: "Missing Poster",       password: "missing",      image: "images/chapter-1/Missing Poster.png", autoUnlock: true },
+                { name: "Poster",               password: "poster",       image: "images/chapter-1/Poster.PNG", autoUnlock: true },
+                { name: "The Baker",            password: "baker",        image: "images/chapter-1/The baker.png", autoUnlock: true },
+                { name: "The Banker",           password: "banker2",      image: "images/chapter-1/The Banker.png", autoUnlock: true },
+                { name: "The Cobbler",          password: "cobbler",      image: "images/chapter-1/The Cobbler.png", autoUnlock: true },
+                { name: "The Flower Seller",    password: "flower",       image: "images/chapter-1/The Flower Seller.png", autoUnlock: true },
+                { name: "The Newspaper Seller", password: "newspaper",    image: "images/chapter-1/The newpaper seller.png", autoUnlock: true },
+                { name: "The Police Officer",   password: "police",       image: "images/chapter-1/The Police Officer.png", autoUnlock: true },
+                { name: "The Postwoman",        password: "postwoman",    image: "images/chapter-1/The Postwoman.png", autoUnlock: true },
+                { name: "The Schoolmistress",   password: "school",       image: "images/chapter-1/The Schoolmistress.png", autoUnlock: true },
+                { name: "Town Map",             password: "map",          image: "images/chapter-1/Town Map.png", autoUnlock: true },
+                { name: "The Innkeeper",        password: "crawfish",     image: "images/chapter-1/The Innkeeper.png" },
+                { name: "Rabbit",               password: "rabbit",       image: "images/chapter-1/Rabbit.png", hidden: true },
             ]
         },
         {
@@ -293,13 +297,13 @@
             title: "Chapter 2",
             password: "miracles",
             entries: [
-                { name: "The Field of Miracles", password: "field",     image: "images/chapter-2/The Field of Miracles.PNG" },
-                { name: "The Camp",           password: "camp",          image: "images/chapter-2/The Camp.PNG" },
-                { name: "The Fox and the Cat", password: "fox",          image: "images/chapter-2/The Fox and the Cat.PNG" },
-                { name: "The Serpent",        password: "serpent",       image: "images/chapter-2/The Serpent.PNG" },
-                { name: "Roo",                password: "roo",           image: "images/chapter-2/Roo.PNG" },
-                { name: "Dead Weasel",        password: "weasel",        image: "images/chapter-2/Dead Weasel.PNG", hidden: true },
-                { name: "Weasel Note",        password: "note",          image: "images/chapter-2/Weasel Note.PNG", hidden: true },
+                { name: "The Field of Miracles", password: "field",       image: "images/chapter-2/The Field of Miracles.PNG", hidden: true },
+                { name: "The Camp",             password: "camp",          image: "images/chapter-2/The Camp.PNG", hidden: true },
+                { name: "The Fox and the Cat",  password: "fox",           image: "images/chapter-2/The Fox and the Cat.PNG", hidden: true },
+                { name: "The Serpent",          password: "serpent",       image: "images/chapter-2/The Serpent.PNG", hidden: true },
+                { name: "Roo",                  password: "roo",           image: "images/chapter-2/Roo.PNG", hidden: true },
+                { name: "Dead Weasel",          password: "weasel",        image: "images/chapter-2/Dead Weasel.PNG", hidden: true },
+                { name: "Weasel Note",          password: "note",          image: "images/chapter-2/Weasel Note.PNG", hidden: true },
             ]
         },
         {
@@ -307,18 +311,18 @@
             title: "Chapter 3",
             password: "theatre",
             entries: [
-                { name: "Theatre — Exterior",     password: "exterior",      image: "images/chapter-3/Theatre - Exterior.png" },
-                { name: "Theatre — Entrance",     password: "entrance",      image: "images/chapter-3/Theatre - Entrance.png" },
-                { name: "Theatre — Stage",        password: "stage",         image: "images/chapter-3/Theatre - Stage.png" },
-                { name: "Theatre — The Bar",      password: "bar",           image: "images/chapter-3/Theatre - The Bar.png" },
-                { name: "Theatre — Backstage",    password: "backstage",     image: "images/chapter-3/Theatre - Backstage.png" },
-                { name: "Theatre — Workshop",     password: "workshop",      image: "images/chapter-3/Theatre - Workshop.png" },
-                { name: "Theatre — Office",       password: "office",        image: "images/chapter-3/Theatre - Mangiafuoco's Office.png" },
-                { name: "Circus Poster",          password: "circus",        image: "images/chapter-3/Circus Poster.png" },
-                { name: "Missing Poster",         password: "missing",       image: "images/chapter-3/Missing Poster.png" },
-                { name: "Business Card",          password: "card",          image: "images/chapter-3/Business Card.png", hidden: true },
-                { name: "Conspiracy Wall",        password: "conspiracy",    image: "images/chapter-3/Consipircy Wall.png", hidden: true },
-                { name: "Freight Poster",         password: "freight",       image: "images/chapter-3/Freight Poster.png", hidden: true },
+                { name: "Theatre — Exterior",     password: "exterior",    image: "images/chapter-3/Theatre - Exterior.png", autoUnlock: true },
+                { name: "Theatre — Entrance",     password: "entrance",    image: "images/chapter-3/Theatre - Entrance.png", autoUnlock: true },
+                { name: "Theatre — Stage",        password: "stage",       image: "images/chapter-3/Theatre - Stage.png" },
+                { name: "Theatre — The Bar",      password: "bar",         image: "images/chapter-3/Theatre - The Bar.png" },
+                { name: "Theatre — Backstage",    password: "backstage",   image: "images/chapter-3/Theatre - Backstage.png" },
+                { name: "Theatre — Workshop",     password: "workshop",    image: "images/chapter-3/Theatre - Workshop.png" },
+                { name: "Theatre — Office",       password: "office",      image: "images/chapter-3/Theatre - Mangiafuoco's Office.png" },
+                { name: "Circus Poster",          password: "office",      image: "images/chapter-3/Circus Poster.png", hidden: true },
+                { name: "Missing Poster",         password: "office",     image: "images/chapter-3/Missing Poster.png", hidden: true },
+                { name: "Business Card",          password: "office",        image: "images/chapter-3/Business Card.png", hidden: true },
+                { name: "Conspiracy Wall",        password: "office",  image: "images/chapter-3/Consipircy Wall.png", hidden: true },
+                { name: "Freight Poster",         password: "office",     image: "images/chapter-3/Freight Poster.png", hidden: true },
             ]
         }
     ];
@@ -339,7 +343,10 @@
     }
 
     function isChapterUnlocked(ch) { return unlocks[ch.id] === true; }
-    function isEntryUnlocked(ch, entry) { return unlocks[ch.id + ':' + entry.password] === true; }
+    function isEntryUnlocked(ch, entry) {
+        if (entry.autoUnlock && isChapterUnlocked(ch)) return true;
+        return unlocks[ch.id + ':' + entry.password] === true;
+    }
 
     // ── Rendering ──────────────────────────────────────────
     const app = document.getElementById('app');
