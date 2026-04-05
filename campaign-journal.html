@@ -105,18 +105,13 @@
             font-weight: 600;
             flex: 1;
         }
-        .lock-icon, .unlock-icon {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
         .lock-icon {
-            background: #4b5563;
+            font-size: 0.85rem;
+            color: #6b7280;
         }
         .unlock-icon {
-            background: #6366f1;
+            font-size: 0.85rem;
+            color: #6366f1;
         }
         .chevron {
             color: #6b7280;
@@ -219,7 +214,7 @@
             position: fixed;
             top: 1rem;
             left: 50%;
-            transform: translateX(-50%) translateY(-120%);
+            transform: translateX(-50%) translateY(-200%);
             background: #22c55e;
             color: #fff;
             padding: 0.6rem 1.2rem;
@@ -229,8 +224,9 @@
             z-index: 200;
             transition: transform 0.3s ease;
             white-space: nowrap;
+            visibility: hidden;
         }
-        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.show { transform: translateX(-50%) translateY(0); visibility: visible; }
 
         @media (max-width: 400px) {
             .entries { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
@@ -370,7 +366,7 @@
             const header = document.createElement('div');
             header.className = 'chapter-header' + (unlocked ? ' unlocked' : '');
             header.innerHTML = `
-                <span class="${unlocked ? 'unlock-icon' : 'lock-icon'}"></span>
+                <span class="${unlocked ? 'unlock-icon' : 'lock-icon'}">${unlocked ? '&#128275;' : '&#128274;'}</span>
                 <span class="chapter-title">${ch.title}</span>
                 ${unlocked ? `<span class="chevron ${isOpen ? 'open' : ''}">&#9654;</span>` : ''}
             `;
@@ -401,7 +397,7 @@
                     } else {
                         const displayName = entry.hidden ? '???' : entry.name;
                         card.innerHTML = `
-                            <div class="entry-placeholder">?</div>
+                            <div class="entry-placeholder">&#128274;</div>
                             <div class="entry-name locked">${displayName}</div>
                         `;
                     }
