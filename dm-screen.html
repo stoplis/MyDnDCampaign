@@ -1672,8 +1672,8 @@ function DocumentPanel({ characters, activeTab }) {
                   if (!groups[cat]) groups[cat] = [];
                   groups[cat].push(n);
                 });
-                const order = ['chapters', 'rules', 'characters', 'locations', 'root'];
-                const labels = { chapters: 'Chapters', rules: 'Rules', characters: 'Characters', locations: 'Locations', root: 'Other Notes' };
+                const order = ['chapters', 'characters', 'locations', 'root'];
+                const labels = { chapters: 'Chapters', characters: 'Characters', locations: 'Locations', root: 'Other Notes' };
                 // Add any categories not in the predefined order
                 Object.keys(groups).forEach(k => { if (!order.includes(k)) order.push(k); });
                 return order.filter(k => groups[k]).map(cat => (
@@ -1787,13 +1787,31 @@ function RulesPanel() {
   const [collapsedH1, setCollapsedH1] = useState({});
   const contentRef = useRef(null);
 
-  // Load both books from IDB on mount
+  // Load both books: try IDB first, then fetch from server, then cache to IDB
   useEffect(() => {
-    (async () => {
-      const [pt, dt] = await Promise.all([loadRulesBook('phb'), loadRulesBook('dmg')]);
-      if (pt) { const s = splitIntoSections(pt); setPhbSections(s); setPhbSectionId(s[0]?.id||null); }
-      if (dt) { const s = splitIntoSections(dt); setDmgSections(s); setDmgSectionId(s[0]?.id||null); }
-    })();
+    const SERVER_PATHS = {
+      phb: "notes/rules/Player's Handbook (2024).md",
+      dmg: "notes/rules/Dungeon Master's Guide (2024).md",
+    };
+    async function loadBook(key, setSections, setSectionId) {
+      let text = await loadRulesBook(key);
+      if (!text) {
+        try {
+          const resp = await fetch(SERVER_PATHS[key]);
+          if (resp.ok) {
+            text = await resp.text();
+            await saveRulesBook(key, text);
+          }
+        } catch(_) {}
+      }
+      if (text) {
+        const s = splitIntoSections(text);
+        setSections(s);
+        setSectionId(s[0]?.id || null);
+      }
+    }
+    loadBook('phb', setPhbSections, setPhbSectionId);
+    loadBook('dmg', setDmgSections, setDmgSectionId);
   }, []);
 
   const currentSections   = activeBook === 'phb' ? phbSections : dmgSections;
