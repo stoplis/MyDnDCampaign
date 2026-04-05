@@ -105,13 +105,18 @@
             font-weight: 600;
             flex: 1;
         }
+        .lock-icon, .unlock-icon {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
         .lock-icon {
-            font-size: 0.85rem;
-            color: #6b7280;
+            background: #4b5563;
         }
         .unlock-icon {
-            font-size: 0.85rem;
-            color: #6366f1;
+            background: #6366f1;
         }
         .chevron {
             color: #6b7280;
@@ -365,7 +370,7 @@
             const header = document.createElement('div');
             header.className = 'chapter-header' + (unlocked ? ' unlocked' : '');
             header.innerHTML = `
-                <span class="${unlocked ? 'unlock-icon' : 'lock-icon'}">${unlocked ? '&#128275;' : '&#128274;'}</span>
+                <span class="${unlocked ? 'unlock-icon' : 'lock-icon'}"></span>
                 <span class="chapter-title">${ch.title}</span>
                 ${unlocked ? `<span class="chevron ${isOpen ? 'open' : ''}">&#9654;</span>` : ''}
             `;
@@ -396,7 +401,7 @@
                     } else {
                         const displayName = entry.hidden ? '???' : entry.name;
                         card.innerHTML = `
-                            <div class="entry-placeholder">&#128274;</div>
+                            <div class="entry-placeholder">?</div>
                             <div class="entry-name locked">${displayName}</div>
                         `;
                     }
