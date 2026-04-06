@@ -689,6 +689,8 @@ function PCCard({ pc, onUpdate }) {
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-bold text-white">{displayName}</span>
             <span className="text-xs text-gray-400">{pc.class} {pc.level}</span>
+            {pc.adv_dis==="adv" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-green-900 text-green-300 font-semibold leading-tight flex-shrink-0">ADV</span>}
+            {pc.adv_dis==="dis" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-orange-900 text-orange-300 font-semibold leading-tight flex-shrink-0">DIS</span>}
           </div>
           {showPlayer && <div className="text-xs text-gray-500 leading-tight">{pc.player}</div>}
           {!pc.name && pc.player && <div className="text-xs text-purple-400 leading-tight">{pc.player}</div>}
@@ -721,6 +723,9 @@ function PCCard({ pc, onUpdate }) {
         onAdd={c => onUpdate({conditions:[...(pc.conditions||[]),c]})}
         onRemove={c => onUpdate({conditions:(pc.conditions||[]).filter(x=>x!==c)})}
       />
+      <div className="mt-2">
+        <AdvDisToggle value={pc.adv_dis} onChange={v => onUpdate({adv_dis: v})} />
+      </div>
       {pc.power_tokens && (
         <PowerTokenRow tokens={pc.power_tokens} onToggle={toggleToken} />
       )}
@@ -752,6 +757,21 @@ function PCCard({ pc, onUpdate }) {
 
 /* ── NPC Card ──────────────────────────────────────────────────── */
 
+function AdvDisToggle({ value, onChange }) {
+  // value: null/"normal" = none, "adv" = advantage, "dis" = disadvantage
+  const cur = value || "normal";
+  return (
+    <div className="flex rounded overflow-hidden" title="Advantage / Disadvantage">
+      <button onClick={() => onChange(cur==="adv" ? "normal" : "adv")}
+        className={`text-xs px-1.5 py-0.5 font-semibold transition-colors leading-tight ${cur==="adv" ? "bg-green-700 text-green-100" : "bg-gray-700 text-gray-500 hover:text-green-400"}`}
+        title="Advantage">ADV</button>
+      <button onClick={() => onChange(cur==="dis" ? "normal" : "dis")}
+        className={`text-xs px-1.5 py-0.5 font-semibold transition-colors leading-tight ${cur==="dis" ? "bg-orange-700 text-orange-100" : "bg-gray-700 text-gray-500 hover:text-orange-400"}`}
+        title="Disadvantage">DIS</button>
+    </div>
+  );
+}
+
 function NPCCard({ creature, partyLevel, difficulty, onUpdate, onRemove }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -779,6 +799,8 @@ function NPCCard({ creature, partyLevel, difficulty, onUpdate, onRemove }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className={`font-bold truncate ${roleNameColor(creature.role)}`}>{creature.nickname||creature.name}</span>
+            {creature.adv_dis==="adv" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-green-900 text-green-300 font-semibold leading-tight flex-shrink-0">ADV</span>}
+            {creature.adv_dis==="dis" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-orange-900 text-orange-300 font-semibold leading-tight flex-shrink-0">DIS</span>}
             <button onClick={cycleRole} className={`text-xs px-1.5 py-0.5 rounded-full font-medium cursor-pointer hover:opacity-80 transition-opacity ${roleBadge(creature.role)}`}>{creature.role}</button>
           </div>
           <div className="flex items-center gap-2 mt-0.5 flex-wrap">
@@ -810,7 +832,8 @@ function NPCCard({ creature, partyLevel, difficulty, onUpdate, onRemove }) {
         onAdd={c => onUpdate({conditions:[...(creature.conditions||[]),c]})}
         onRemove={c => onUpdate({conditions:(creature.conditions||[]).filter(x=>x!==c)})}
       />
-      <div className="flex items-center gap-3 mt-2">
+      <div className="flex items-center gap-3 mt-2 flex-wrap">
+        <AdvDisToggle value={creature.adv_dis} onChange={v => onUpdate({adv_dis: v})} />
         <button
           onClick={() => onUpdate({reactionSpent: !creature.reactionSpent})}
           className={`text-xs flex items-center gap-1 px-2 py-0.5 rounded bg-gray-700 hover:bg-gray-600 ${creature.reactionSpent ? "text-gray-500" : "text-yellow-400"}`}
@@ -1104,6 +1127,7 @@ function RightPanelInner() {
   const [count, setCount] = useState(1);
   const [manual, setManual] = useState("");
   const [history, setHistory] = useState([]);
+  const [rollMode, setRollMode] = useState("normal"); // "normal" | "adv" | "dis"
 
   function addEntry(label, total, rawD20) {
     const t = new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",second:"2-digit"});
@@ -1113,6 +1137,17 @@ function RightPanelInner() {
 
   function roll(sides) {
     const n = Math.max(1, Math.min(10, count));
+    if (sides === 20 && n === 1 && rollMode !== "normal") {
+      const a = dN(20), b = dN(20);
+      const result = rollMode === "adv" ? Math.max(a,b) : Math.min(a,b);
+      const kept = rollMode === "adv" ? (a>=b?a:b) : (a<=b?a:b);
+      const dropped = rollMode === "adv" ? (a>=b?b:a) : (a<=b?b:a);
+      const modeLabel = rollMode === "adv" ? "ADV" : "DIS";
+      const crit = result===20?"crit":result===1?"fumble":null;
+      const t = new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+      setHistory(h => [{id:uid(),label:`d20 ${modeLabel} [${kept} / ~~${dropped}~~] = ${result}`,total:result,time:t,crit,mode:rollMode},...h].slice(0,60));
+      return;
+    }
     const rolls = Array.from({length:n}, () => dN(sides));
     const total = rolls.reduce((a,b)=>a+b,0);
     const label = n>1 ? `${n}d${sides} [${rolls.join("+")}] = ${total}` : `d${sides} = ${total}`;
@@ -1126,10 +1161,29 @@ function RightPanelInner() {
 
   const DICE = [4,6,8,10,12,20,100];
 
+  const MODE_BUTTONS = [
+    { key:"adv",    label:"Adv",    active:"bg-green-700 text-green-100",  inactive:"bg-gray-700 text-gray-400 hover:bg-gray-600" },
+    { key:"normal", label:"Normal", active:"bg-gray-600 text-white",       inactive:"bg-gray-700 text-gray-400 hover:bg-gray-600" },
+    { key:"dis",    label:"Dis",    active:"bg-orange-700 text-orange-100",inactive:"bg-gray-700 text-gray-400 hover:bg-gray-600" },
+  ];
+
   return (
     <div className="flex flex-col h-full w-52 flex-shrink-0">
       <div className="p-2 border-b border-gray-700 flex-shrink-0">
         <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Dice Roller</h2>
+        <div className="flex rounded overflow-hidden mb-2">
+          {MODE_BUTTONS.map(m => (
+            <button key={m.key} onClick={() => setRollMode(m.key)}
+              className={`flex-1 text-xs py-1.5 font-semibold transition-colors ${rollMode===m.key ? m.active : m.inactive}`}>
+              {m.label}
+            </button>
+          ))}
+        </div>
+        {rollMode !== "normal" && (
+          <p className="text-xs text-center mb-2 font-semibold" style={{color: rollMode==="adv"?"#86efac":"#fdba74"}}>
+            {rollMode==="adv" ? "⬆ Advantage — d20 takes highest" : "⬇ Disadvantage — d20 takes lowest"}
+          </p>
+        )}
         <div className="flex items-center gap-2 mb-2">
           <span className="text-xs text-gray-500">Count</span>
           <input type="number" min="1" max="10"
@@ -1139,7 +1193,12 @@ function RightPanelInner() {
         <div className="grid grid-cols-3 gap-1 mb-2">
           {DICE.map(d => (
             <button key={d} onClick={() => roll(d)}
-              className={`py-2 rounded text-sm font-bold transition-colors ${d===20?"bg-purple-800 hover:bg-purple-700 text-purple-100":"bg-gray-700 hover:bg-gray-600 text-gray-200"}`}>
+              className={`py-2 rounded text-sm font-bold transition-colors ${
+                d===20 && rollMode==="adv"  ? "bg-green-700 hover:bg-green-600 text-green-100" :
+                d===20 && rollMode==="dis"  ? "bg-orange-700 hover:bg-orange-600 text-orange-100" :
+                d===20                      ? "bg-purple-800 hover:bg-purple-700 text-purple-100" :
+                "bg-gray-700 hover:bg-gray-600 text-gray-200"
+              }`}>
               d{d}
             </button>
           ))}
@@ -1163,7 +1222,7 @@ function RightPanelInner() {
             e.crit==="crit"?"bg-yellow-900 border border-yellow-700":
             e.crit==="fumble"?"bg-red-950 border border-red-900":
             "bg-gray-800"}`}>
-            <span className="text-gray-300 truncate mr-1 flex-1">{e.label}</span>
+            <span className={`truncate mr-1 flex-1 ${e.mode==="adv"?"text-green-300":e.mode==="dis"?"text-orange-300":"text-gray-300"}`}>{e.label}</span>
             <div className="flex items-center gap-1 flex-shrink-0">
               {e.crit==="crit"   && <span className="text-yellow-400 font-bold text-xs">CRIT!</span>}
               {e.crit==="fumble" && <span className="text-red-400 font-bold text-xs">FUMBLE</span>}
