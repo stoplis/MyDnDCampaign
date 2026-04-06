@@ -689,8 +689,6 @@ function PCCard({ pc, onUpdate }) {
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-bold text-white">{displayName}</span>
             <span className="text-xs text-gray-400">{pc.class} {pc.level}</span>
-            {pc.adv_dis==="adv" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-green-900 text-green-300 font-semibold leading-tight flex-shrink-0">ADV</span>}
-            {pc.adv_dis==="dis" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-orange-900 text-orange-300 font-semibold leading-tight flex-shrink-0">DIS</span>}
           </div>
           {showPlayer && <div className="text-xs text-gray-500 leading-tight">{pc.player}</div>}
           {!pc.name && pc.player && <div className="text-xs text-purple-400 leading-tight">{pc.player}</div>}
@@ -766,7 +764,7 @@ function AdvDisToggle({ value, onChange }) {
         className={`text-xs px-1.5 py-0.5 font-semibold transition-colors leading-tight ${cur==="adv" ? "bg-green-700 text-green-100" : "bg-gray-700 text-gray-500 hover:text-green-400"}`}
         title="Advantage">ADV</button>
       <button onClick={() => onChange(cur==="dis" ? "normal" : "dis")}
-        className={`text-xs px-1.5 py-0.5 font-semibold transition-colors leading-tight ${cur==="dis" ? "bg-orange-700 text-orange-100" : "bg-gray-700 text-gray-500 hover:text-orange-400"}`}
+        className={`text-xs px-1.5 py-0.5 font-semibold transition-colors leading-tight ${cur==="dis" ? "bg-red-700 text-red-100" : "bg-gray-700 text-gray-500 hover:text-red-400"}`}
         title="Disadvantage">DIS</button>
     </div>
   );
@@ -799,8 +797,6 @@ function NPCCard({ creature, partyLevel, difficulty, onUpdate, onRemove }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className={`font-bold truncate ${roleNameColor(creature.role)}`}>{creature.nickname||creature.name}</span>
-            {creature.adv_dis==="adv" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-green-900 text-green-300 font-semibold leading-tight flex-shrink-0">ADV</span>}
-            {creature.adv_dis==="dis" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-orange-900 text-orange-300 font-semibold leading-tight flex-shrink-0">DIS</span>}
             <button onClick={cycleRole} className={`text-xs px-1.5 py-0.5 rounded-full font-medium cursor-pointer hover:opacity-80 transition-opacity ${roleBadge(creature.role)}`}>{creature.role}</button>
           </div>
           <div className="flex items-center gap-2 mt-0.5 flex-wrap">
