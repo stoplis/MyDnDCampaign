@@ -10,7 +10,7 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
-  html, body, #root { height: 100%; margin: 0; padding: 0; }
+  html, body, #root { height: 100%; margin: 0; padding: 0; overflow: hidden; }
   * { box-sizing: border-box; }
   .dnd-card  { background: rgb(31, 36, 47); }
   .dnd-text  { color: rgb(195, 195, 195); }
@@ -721,7 +721,7 @@ function PCCard({ pc, onUpdate }) {
         onAdd={c => onUpdate({conditions:[...(pc.conditions||[]),c]})}
         onRemove={c => onUpdate({conditions:(pc.conditions||[]).filter(x=>x!==c)})}
       />
-      <div className="mt-2">
+      <div className="mt-2 flex">
         <AdvDisToggle value={pc.adv_dis} onChange={v => onUpdate({adv_dis: v})} />
       </div>
       {pc.power_tokens && (
@@ -759,7 +759,7 @@ function AdvDisToggle({ value, onChange }) {
   // value: null/"normal" = none, "adv" = advantage, "dis" = disadvantage
   const cur = value || "normal";
   return (
-    <div className="flex rounded overflow-hidden" title="Advantage / Disadvantage">
+    <div className="flex rounded" title="Advantage / Disadvantage">
       <button onClick={() => onChange(cur==="adv" ? "normal" : "adv")}
         className={`text-xs px-1.5 py-0.5 font-semibold transition-colors leading-tight ${cur==="adv" ? "bg-green-700 text-green-100" : "bg-gray-700 text-gray-500 hover:text-green-400"}`}
         title="Advantage">ADV</button>
@@ -2146,7 +2146,7 @@ function App() {
   const [queue,      setQueue]      = useState([]);
   const [activeTab,  setActiveTab]  = useState("All");
   const [search,     setSearch]     = useState("");
-  const [diceOpen,   setDiceOpen]   = useState(true);
+  const [diceOpen,   setDiceOpen]   = useState(false);
   const [viewMode,   setViewMode]   = useState("encounter"); // "encounter" | "document"
   const [pcState,    setPcState]    = useState([]);
 
@@ -2181,7 +2181,7 @@ function App() {
   )).sort((a,b) => a-b).map(String)];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900 text-gray-100 overflow-hidden" style={{minWidth:"900px"}}>
+    <div className="flex flex-col h-full bg-gray-900 text-gray-100 overflow-hidden" style={{minWidth:"900px"}}>
       {loading && (
         <div className="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
           <div className="text-center"><div className="text-4xl mb-3">⚔️</div>
