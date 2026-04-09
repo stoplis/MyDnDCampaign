@@ -1,0 +1,155 @@
+# D&D Campaign Tools — Project Instructions
+
+## What this project is
+A set of browser-based tools for running a D&D 5e campaign. All tools are single-file HTML apps with no build step — they run directly from a static file host. The project is deployed via Cloudflare Workers at **mydndcampaign.stoplis.workers.dev** and hosted in the GitHub repo **https://github.com/stoplis/MyDnDCampaign.git**.
+
+The campaign is set in a D&D 5e world inspired by Pinocchio — but the tools must **never reference Pinocchio or campaign spoilers** because players use them too.
+
+---
+
+## File locations
+
+| Location | Purpose |
+|---|---|
+| `~/DnD/DnD Steve Tools/` | The main project folder — all tool HTML files live here |
+| `~/DnD/5etools-src/` | Local 5etools database for looking up D&D rules and items |
+| Obsidian vault (iCloud) | Campaign notes — source of truth for notes/images |
+| `~/DnD/DnD Steve Tools/notes/` | Campaign notes copied into the repo for the DM Screen |
+| `~/DnD/DnD Steve Tools/images/` | Campaign images copied into the repo |
+
+After any session with file changes, remind Stephen to run `git push` from Mac Terminal.
+
+---
+
+## Tools
+
+### Landing page — `index.html`
+Links to all player-facing tools. DM Screen is password-gated (password: **"Coachman"**).
+
+### Character Creator — `character-creator.html`
+Player-facing. Lets players build their D&D character for the campaign.
+
+### Campaign Journal — `campaign-journal.html`
+Player-facing. Progressive reveal tool — the DM gives out passwords during play to unlock chapter sections and individual entries (images of characters, locations, etc.).
+- Chapter passwords unlock the chapter and all `autoUnlock: true` entries within it
+- Individual entry passwords unlock specific images
+- Hidden entries (`hidden: true`) show as "???" until unlocked
+- Unlocks persist in localStorage
+- All config (chapters, entries, passwords) is in the `JOURNAL` array near the top of the file
+
+### Fast Crafting — `fast-crafting.html`
+Player-facing. Item browser for a player with fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions. No passwords needed.
+
+### DM Screen — `dm-screen.html`
+DM only (password-gated from landing page). Features:
+- Encounter manager with drag-and-drop, initiative, HP tracking, conditions
+- Dice roller
+- Document viewer — **Browse Notes** button loads chapter notes from the repo server automatically (no upload needed). Switching the chapter tab (Ch.1–Ch.4) auto-loads the corresponding chapter note.
+- Rules tab — auto-loads PHB and DMG from `notes/rules/` on first visit, then caches to IndexedDB
+- Images referenced with `![[filename]]` in notes are resolved from the `images/` folder automatically
+
+---
+
+## Repo structure
+
+```
+index.html                  ← Landing page
+character-creator.html      ← Character Creator
+campaign-journal.html       ← Campaign Journal
+fast-crafting.html          ← Fast Crafting
+dm-screen.html              ← DM Screen
+manifest.json               ← Auto-generated index of notes & images (for DM Screen Browse Notes)
+wrangler.jsonc              ← Cloudflare Workers config (assets directory: dist)
+README.md                   ← Setup and Cloudflare Pages instructions
+CLAUDE.md                   ← This file
+images/
+  chapter-1/                ← 15 images
+  chapter-2/                ← 7 images
+  chapter-3/                ← 12 images
+  chapter-8/                ← 1 image
+  hundred-acre-wood/        ← 10 images
+notes/
+  chapters/                 ← Chapter 1–4 markdown notes
+  rules/                    ← Player's Handbook (2024).md, Dungeon Master's Guide (2024).md
+```
+
+---
+
+## Cloudflare deployment
+
+- **Build command:** `mkdir -p dist && cp -r *.html *.json *.md images notes dist/`
+- **Deploy command:** `npx wrangler deploy`
+- **Path:** `/`
+- The `wrangler.jsonc` sets `assets.directory` to `dist` so `.git` is never deployed
+
+---
+
+## manifest.json
+
+The DM Screen Browse Notes menu is driven by `manifest.json`. Regenerate it after adding/removing notes or images:
+
+```bash
+cd ~/DnD/DnD\ Steve\ Tools
+python3 -c "
+import json, os
+manifest = {'notes': [], 'images': {}}
+for root, dirs, files in os.walk('notes'):
+    dirs[:] = [d for d in sorted(dirs) if d != 'rules']
+    for f in sorted(files):
+        if f.endswith('.md') and not f.startswith('.'):
+            path = os.path.join(root, f).replace(os.sep, '/')
+            name = f.replace('.md', '')
+            rel = os.path.relpath(root, 'notes')
+            category = 'root' if rel == '.' else rel.split(os.sep)[0]
+            manifest['notes'].append({'name': name, 'path': path, 'category': category})
+for root, dirs, files in os.walk('images'):
+    dirs[:] = sorted(dirs)
+    for f in sorted(files):
+        if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) and not f.startswith('.'):
+            path = os.path.join(root, f).replace(os.sep, '/')
+            manifest['images'][f] = path
+with open('manifest.json', 'w') as fp:
+    json.dump(manifest, fp, indent=2)
+print('manifest.json updated')
+"
+```
+
+---
+
+## Adding new Campaign Journal entries
+
+Edit the `JOURNAL` array in `campaign-journal.html`. Each chapter looks like:
+
+```javascript
+{
+    id: "chapter-1",
+    title: "Chapter 1",
+    password: "krat",           // unlocks the chapter
+    entries: [
+        { name: "The Innkeeper", password: "crawfish", image: "images/chapter-1/The Innkeeper.png" },
+        { name: "Rabbit",        password: "rabbit",   image: "images/chapter-1/Rabbit.png", hidden: true },
+        { name: "Town Map",      password: "map",      image: "images/chapter-1/Town Map.png", autoUnlock: true },
+    ]
+}
+```
+
+- `autoUnlock: true` — entry unlocks automatically when the chapter is unlocked
+- `hidden: true` — name shows as "???" until unlocked
+- Passwords are case-insensitive
+
+---
+
+## DM Screen chapter-to-note mapping
+
+The chapter tab auto-load is configured in `dm-screen.html` in the `DocumentPanel` component:
+
+```javascript
+const chapterMap = {
+    '1': 'notes/chapters/Chapter 1 - Around Town.md',
+    '2': 'notes/chapters/Chapter 2 - The Field of Miracles.md',
+    '3': 'notes/chapters/Chapter 3 - The Puppet Theatre.md',
+    '4': 'notes/chapters/Chapter 4 - The Circus.md',
+};
+```
+
+Update this map when new chapters are added.
