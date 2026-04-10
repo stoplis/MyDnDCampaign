@@ -1,57 +1,63 @@
 # D&D Campaign Tools
 
-A collection of browser-based tools for running a D&D 5e campaign. No build step, no dependencies — just static HTML files served directly.
+**Version 26.04.10.3** · [mydndcampaign.stoplis.workers.dev](https://mydndcampaign.stoplis.workers.dev)
+
+A collection of browser-based tools for running a D&D 5e campaign. No build step, no dependencies — just static HTML files served directly from Cloudflare.
+
+---
 
 ## Tools
 
 - **Character Creator** — Players build their characters for the campaign (race, class, stats, backstory).
-- **Campaign Journal** — Players unlock entries (characters, locations, items) as they progress. The DM gives out passwords during play to reveal images and info chapter by chapter. Unlocks persist in the browser.
-- **Fast Crafting** — Item browser for a player with fast crafting ability. Lists available craftable items with full stats and descriptions from the 2024 PHB.
-- **DM Screen** — Encounter manager, dice roller, condition tracker, document viewer, and more. Password-protected (DM only). Notes and images are loaded from the repo automatically — no more manual uploads.
+- **Campaign Journal** — Progressive reveal tool. The DM gives out passwords during play to unlock chapter sections and individual entries (character portraits, location images, handouts). Unlocks persist in the browser.
+- **Fast Crafting** — Item browser for a player with the fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions.
+- **Spell Book** — Searchable spell reference for the Sorcerer and Bard players. Cantrips and level 1 spells from the 2024 PHB, filterable by class, level, and school.
+- **DM Screen** — Password-protected DM tool with encounter manager, dice roller, condition tracker, and document viewer. Chapter notes and images load from the repo automatically. PHB and DMG auto-load on the Rules tab.
+
+---
 
 ## File Structure
 
 ```
-index.html              ← Landing page (links to each tool)
-character-creator.html  ← Character Creator app
-campaign-journal.html   ← Campaign Journal (player-facing, password-gated)
+index.html              ← Landing page (links to all tools, version number)
+character-creator.html  ← Character Creator
+campaign-journal.html   ← Campaign Journal (password-gated progressive reveal)
 fast-crafting.html      ← Fast Crafting item browser
-dm-screen.html          ← DM Screen app
-manifest.json           ← Auto-generated index of notes & images
-images/                 ← Campaign images organised by chapter
-  chapter-1/
-  chapter-2/
-  chapter-3/
-  hundred-acre-wood/
-notes/                  ← Campaign markdown notes
-  chapters/             ← Chapter notes
-  characters/           ← NPC/creature stat blocks
-  locations/            ← Location descriptions
+spell-book.html         ← Spell Book (Sorcerer + Bard, cantrips + level 1)
+dm-screen.html          ← DM Screen (password: "Coachman")
+manifest.json           ← Auto-generated index of notes & images (for DM Screen)
+wrangler.jsonc          ← Cloudflare Workers config
+CLAUDE.md               ← Project instructions for AI assistant context
+images/
+  chapter-1/            ← 15 images
+  chapter-2/            ← 7 images
+  chapter-3/            ← 12 images
+  chapter-8/            ← 1 image
+  hundred-acre-wood/    ← 10 images
+notes/
+  chapters/             ← Chapter 1–4 markdown notes
+  rules/                ← Player's Handbook (2024).md, Dungeon Master's Guide (2024).md
 ```
 
-## Tech Stack
-
-Single-file HTML apps — no npm, no bundler, runs from `file://` or any static host.
-
-- React 18 (CDN)
-- Tailwind CSS 2 (CDN)
-- Babel standalone (CDN) for JSX
-- marked.js (CDN) for markdown rendering (DM Screen)
+---
 
 ## Adding Content
 
-**Images:** Drop new image files into the relevant `images/` subfolder.
+### New campaign images
+Drop image files into the relevant `images/` subfolder, then regenerate `manifest.json` (see below).
 
-**Notes:** Add markdown files to `notes/chapters/`, `notes/characters/`, or `notes/locations/`.
+### New chapter notes
+Copy updated markdown files into `notes/chapters/`, then regenerate `manifest.json`.
 
-**Manifest:** After adding files, regenerate `manifest.json` so the DM Screen can browse them:
+### Regenerate manifest.json
+Run this from `~/DnD/DnD Steve Tools/` after adding or removing notes or images:
 
 ```bash
 python3 -c "
 import json, os
 manifest = {'notes': [], 'images': {}}
 for root, dirs, files in os.walk('notes'):
-    dirs[:] = sorted(dirs)
+    dirs[:] = [d for d in sorted(dirs) if d != 'rules']
     for f in sorted(files):
         if f.endswith('.md') and not f.startswith('.'):
             path = os.path.join(root, f).replace(os.sep, '/')
@@ -71,31 +77,53 @@ print('manifest.json updated')
 "
 ```
 
-**Campaign Journal entries:** Edit the `JOURNAL` array inside `campaign-journal.html` to add chapters, entries, and passwords.
+### Campaign Journal entries
+Edit the `JOURNAL` array in `campaign-journal.html`. Entry flags:
+- `autoUnlock: true` — reveals automatically when the chapter password is entered
+- `hidden: true` — shows as "???" until individually unlocked
+- Passwords are case-insensitive
 
-## Cloudflare Pages Deployment
+### Spell Book
+All spell data is embedded in `spell-book.html`. To add level 2 spells when characters reach level 3, ask Claude to query the 5etools database and update the file.
 
-### First-time setup
+---
 
-1. Go to [Cloudflare Pages](https://pages.cloudflare.com/) and sign in (or create a free account).
-2. Click **Workers & Pages** in the sidebar, then **Create**.
-3. Select the **Pages** tab, then **Connect to Git**.
-4. Authorise Cloudflare to access your GitHub account and select the **MyDnDCampaign** repository.
-5. Configure the build settings:
+## Cloudflare Deployment
+
+### Build settings
 
 | Setting | Value |
 |---|---|
-| **Production branch** | `main` |
-| **Build command** | *(leave blank)* |
-| **Build output directory** | `/` |
+| **Build command** | `mkdir -p dist && cp -r *.html *.json *.md images notes dist/` |
+| **Deploy command** | `npx wrangler deploy` |
+| **Path** | `/` |
 
-6. Click **Save and Deploy**. Cloudflare will deploy in a few seconds.
-7. Your site will be live at `https://<project-name>.pages.dev`. You can add a custom domain later from the project settings.
+The `wrangler.jsonc` sets `assets.directory` to `dist`, so `.git` and other non-site files are never deployed.
 
-### Subsequent deploys
+### Deploying changes
 
-Every `git push` to `main` triggers an automatic redeploy — no manual steps needed.
+Every `git push` to `main` triggers an automatic redeploy:
 
-### Custom domain (optional)
+```bash
+cd ~/DnD/DnD\ Steve\ Tools
+git add -A
+git commit -m "Your message here"
+git push
+```
 
-In your Cloudflare Pages project → **Custom domains** → **Set up a custom domain**, then follow the DNS instructions.
+### Custom domain
+Cloudflare Pages project → **Custom domains** → **Set up a custom domain**.
+
+---
+
+## Version History
+
+| Version | Date | Changes |
+|---|---|---|
+| 26.04.10.3 | 10 Apr 2026 | Added version number to landing page |
+| 26.04.10.2 | 10 Apr 2026 | Added Spell Book (Sorcerer + Bard, cantrips + level 1, 2024 PHB) |
+| 26.04.10.1 | 10 Apr 2026 | Added Fast Crafting item browser (21 items, 2024 PHB) |
+| 26.04.05.4 | 5 Apr 2026 | PHB/DMG auto-load on Rules tab; removed from Browse Notes |
+| 26.04.05.3 | 5 Apr 2026 | Fixed green toast in Campaign Journal; restored lock emoji |
+| 26.04.05.2 | 5 Apr 2026 | Campaign Journal reset button; DM Screen chapter auto-load; PHB/DMG added |
+| 26.04.05.1 | 5 Apr 2026 | Initial launch: landing page, Campaign Journal, Character Creator, DM Screen with server-hosted notes/images |
