@@ -40,6 +40,9 @@ Player-facing. Progressive reveal tool — the DM gives out passwords during pla
 ### Fast Crafting — `fast-crafting.html`
 Player-facing. Item browser for a player with fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions. No passwords needed.
 
+### Spell Book — `spell-book.html`
+Player-facing. Searchable spell reference for the Sorcerer and Bard players. Currently shows cantrips and level 1 spells from the 2024 PHB (XPHB). Filterable by class (Sorcerer / Bard / Shared), spell level, and school. Expand to level 2 when characters reach level 3. All spell data is embedded in the file — no external requests needed.
+
 ### DM Screen — `dm-screen.html`
 DM only (password-gated from landing page). Features:
 - Encounter manager with drag-and-drop, initiative, HP tracking, conditions
