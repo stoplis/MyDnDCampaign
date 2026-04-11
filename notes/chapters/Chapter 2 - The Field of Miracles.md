@@ -212,15 +212,24 @@
 > *"They were all here. I was only gone a few days."*
 >
 > That is all he says. Then he straightens his coat and walks toward his burrow, and the party follows, because there is nothing else to do.
+> 
+>He rummages through cupboard and pulls out 4 glass bottles, handing the to you. *"Here, these should help with your wounds"*
+>
+>> [!tip] Players follow the instructions listed under Long Rest in the bottom right of your sheets as you feel invigorated by the magic liquid within.
+> 
 
 > [!success] Password: roo
 
 > [!success] Scene: Finding Roo
-> A sound cuts through the quiet — a child crying. Following it leads to Kanga's house, small and still amid the trampled gardens. Inside, curled up alone on the floor, is a small kangaroo joey in a blue shirt. He is dirty, tired, and has clearly been here for some time. How long has he been alone?
+> A sound cuts through the quiet — a child crying. Following it leads to Kanga's house, small and still amid the trampled gardens. You can hear someone crying inside but the door is locked.
+> 
+> **When the open home** 
+> The crying suddenly stops. Everything is quiet. You enter a kitchen, messy, cabinets are open, there 8 to 10 jars open on the floor jams and preserves. And then you see them.
+> Hiding under the table, wearing a blue shirt is a small kangaroo joey. He is dirty, tired, and has clearly been here for some time. How long has he been alone?
 >
 > ![[Roo.PNG]]
 >
-> Rabbit crouches beside him without a word and stays there until Roo quiets. Then Rabbit looks up at the party over Roo's head.
+> He nervously stays back, using the table leg as a barrier, until he see rabbit. He rushes past you and hugs rabbit. As he starts weeping softly rabbit says in a warm soothing voice, *“oh Roo”*. He looks to you and says:
 >
 > *"He's all right. Go on ahead to the Field — it's at the eastern edge of the Wood, ten minutes along the track. I'll stay with him."*
 >
@@ -364,9 +373,7 @@
 >
 > He was there. Earlier — before the party arrived — he had followed the sound of voices out of the Wood, the way he follows anything interesting, and then he heard the Fox and Cat talking and went very still in the undergrowth because something about them felt immediately wrong. He stayed hidden and listened until they moved on. Then he went home and cried, because he had been alone a long time and that had frightened him more than anything.
 >
-> He doesn't know any names — nobody used them — but he tells the party what he heard: a boy was taken to a theatre, they were paid for the delivery, and a puppet overheard the whole thing and ran east to find him.
->
-> He says this carefully, the way someone does when they know they are telling you something that matters. Then he shows them what he picked up from the grass near where the Fox had been standing, before he ran.
+> He doesn't know any names — nobody used them — but he tells the party what he heard: the fox was bragging about getting paid for taking a boy to a puppet theatre, the cat doesn't talk. I wasn't the only one listening in because someone else heard him, the fox called him "little puppet boy". Anyway he was really upset because I guess he and the other boy were friends and he said he was going to save him. Both the fox and the cat were real meanies because they laughed at him as he ran away.
 
 > [!tip] The Milestone — Level 2
 > *Tell this to the players as part of the fiction, not outside it.*
@@ -374,41 +381,17 @@
 > With the party back, the next step clear, and Roo safe beside them, something in the Wood shifts. Small things — the light changes slightly, a bird somewhere in the deep branches tries a tentative note, the stream seems a little louder. Roo finds the Thoughtful Spot, sits on the log, and immediately begins examining a beetle. The Wood has one of its own again, and seems to know it.
 >
 > *The party feels something settle. A readiness. A sense that they are, collectively, more than they were this morning.*
->
-> Tell them to level up. They are Level 2.
+
 
 > [!tip] GM Note — Future Milestone Beats
 > Each Pooh character who returns follows this same structure. Something in the Wood changes — the honey smell intensifies, Piglet's pressed flowers reappear in their frames, Eeyore's corner is damp and familiar again. Describe the Wood coming alive one piece at a time. By the time all characters are home, it should feel full and warm and *right* again — a strong enough place to face whatever the final chapter brings.
 
 ---
-
-## Next Steps
-
-> [!info] Scene: The Morning After
-> The party sleeps in the Wood — a real Long Rest, the first since before Chapter 1, in a place that is actually safe. In the morning, Rabbit has made a list.
->
-> The list contains:
-> - A route east
-> - Observations about the Fox and Cat's operational pattern
-> - The question, underlined: *who sent the weasels?*
-> - One line at the bottom, not underlined, written more carefully than the rest: *"Pinocchio is one day ahead of us. He is alone."*
->
-> Rabbit will not come. He will not leave the Wood while it is empty. He says this simply: *"Someone has to be here when the others find their way back."* He is not asking for sympathy. He is stating a fact.
->
-> He gives the party his notes. He shakes each of their hands, briefly and firmly. He goes inside and begins making a second list.
-
-> [!example] Roo's Contribution
-> He shows them what he picked up from the grass at the Field.
->
-> It is a folded piece of paper — a pamphlet, printed, the same style as the Mangiafuoco posters in Krat. It was lying near where the Fox had been standing. Roo does not know what it is, but he knew it seemed important.
->
-> The front shows the Puppet Theatre of Mangiafuoco: bright colours, a grinning fire-eater, *ALL WELCOME.* The back has a list of "featured performers."
->
-> Lampwick's name is on it. Next to a drawing. Lampwick is smiling in the drawing.
->
-> *"He looks happy,"* Roo says. *"Is that good?"*
->
-> It is somehow worse.
+# Post Credits
+We see as Pinocchio enters the entrance lobby of Mangiafuoco's Theatre, "H-Hello?" it looks like no-one has been here for weeks. "Lampwick? Where are you?" he calls out. Then he hears the ticking of a clock and mechanical gears from the booth to the right.
+"Good evening, I'm afraid were closed. Can I help you?" says a friendly, female voice.
+"I'm looking for my friend, a fox said he bought him here."
+"Oh dear, just wait there.", the figure picks up a strange device a puts it to it's ear, "Sir, we've got another worker here... your going to want to see this one personally."
 
 ---
 

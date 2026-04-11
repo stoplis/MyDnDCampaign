@@ -52,16 +52,29 @@
 
 # Town Layout
 
-![[Town Map.png]]]
+![[Town Map.png]]
 > [!tip] GM Note — Orientation
 > Geppetto's workshop is on the street **south of the square**, above the workshop. The **Town Square** sits at the centre. The **Bank** is on the square's **west side**. The **Cobbler** faces the square from the **north side**. The **School** is one street **north of the square**. The **Red Crawfish Inn** is accessible from the square's **east side** — confirmed by witnesses who saw Pinocchio run east. Use this to orient the investigation: the bank is west, Pinocchio was last seen heading east. He went the wrong way.
 
 ---
 
 # Intro
+> [!quote]
+> Your party works out of a small bounty hunter agency — the kind of place that deals in the unglamorous end of law and order. Most of your work involves tracking down debtors who have missed their repayment dates,  and serving summons to people who have gone to some effort to avoid being found. The work is steady, if not exciting, and the agency takes their cut.
+> 
+> Lately it has been slow. Slow enough that the agency has been taking jobs that stretch the definition of “bounty hunting” — a stolen cart horse or goods, a merchant who needed someone with a serious expression to stand behind him during a difficult conversation, a run away bride. Any legitimate job, in other words.
+> 
+> The latest job is a request from the village of Krat, two days south. A shopkeeper there is looking for his missing boy. 
+> 
+> The man is offering everything he has.
+> 
+> That is the detail that stays with you. Not the amount — the amount is modest — but the way it is written: plainly, without flourish, in the handwriting of someone who does not write often. *This is my life savings. Please find my boy.* No negotiation. No conditions. Just a father who has run out of other options and is hoping someone will take the job seriously.
+> 
+> You leave in the morning.
 
 >[!info] The town
->*A small town...*
+>Krat is a small village, surrounded by farm and woodland. There is a small cobblestone town square of small market stalls surrounding a white stone fountain. Surrounding the town square are small shops, a bank, and a school. You head to the south end of the square and down the road.
+
 ## Geppetto’s Workshop
 
 > [!info] **Geppetto's Workshop and Home** *(south street)*
@@ -83,7 +96,7 @@
 > - When Geppetto and Emilio went to officer **Leopoldo** *(lay-oh-POL-doh kah-REE-nee)* he told them to come back tomorrow, "boys are always causing trouble and running away, I can't waist my time on nuisance children!". As far as Geppetto can tell nothing has been done.
 >
 >>[!example] Pinocchio's Origins
->>2 years ago Geppetto lost his wife and boy to consumption. For months he was in sorrow, devoid of hope. Then one night he wished upon a falling star, there was a blue glow and then there was Pinocchio. For the first time in years thanks to Pinocchio he has hope again, *you can tell as he talks about P he is filled with love*. That was just under a year ago.
+>>2 years ago Geppetto lost his wife (Maria) and boy (Carlo) to consumption. For months he was in sorrow, devoid of hope. Then one night he wished upon a falling star, there was a blue glow and then there was Pinocchio. For the first time in years thanks to Pinocchio he has hope again, *you can tell as he talks about P he is filled with love*. That was just under a year ago.
 >>He cannot tell you his wish, telling someone your wish breaks the magic.
 
 # Exploring the town
@@ -192,9 +205,20 @@
 
 > [!example] **The Police Officer** *(Leopoldo)*
 > ![[The Police Officer.png]]
-> **The Police Officer (Leopoldo):** Can be encountered here or anywhere in town. He is not a villain, but he is distinctly unpleasant: he thinks little boys are troublemakers not worth worrying about, he is clearly more interested in the Fox and Cat as a career case (a bigger collar, better for his record), and he is visibly irritated by the party acting as amateur investigators stepping on a real investigation. Geppetto filed a formal report two days ago. Leopoldo logged it. He has conducted no investigation, made no enquiries, and followed up with no one — he is certain the boys left of their own will and are the problem of the officer in another town to return them. He is too busy with the ruckus at the Inn and the Cobbler is being a nuisance about some shop lifting, probably children. He answers direct questions, but every answer comes wrapped in faint contempt. **DC 13 Insight** suggests he knows more about the Fox and Cat's movements than he's letting on, and has not acted on it. He has also received reports of missing children from two nearby villages in the past month. He logged them. He did nothing, "their not here so what do you expect me to do about it?". He considers it normal — children run away; it is not a matter for the town guard, "I'm an officer of the law, not peoples personal matters".
-> He dislikes the players, private detectives think they are police without a badge, discraceful. He is appalled when he hears you are not even a PI.
-> "Go on, which one was it?", "Mr Cerato or Mr Geppetto?", "My job is tough enough without people questioning ME. Let's see your licences."
+> **The Police Officer (Leopoldo):** Can be encountered here or anywhere in town. He is not a villain, but he is distinctly unpleasant: he thinks little boys are troublemakers not worth worrying about, he is clearly more interested in the Fox and Cat as a career case (a bigger collar, better for his record), and he is visibly irritated by the party acting as amateur investigators stepping on a real investigation. Geppetto filed a formal report two days ago. Leopoldo logged it. He has conducted no investigation, made no enquiries, and followed up with no one — he is certain the boys left of their own will and are the problem of the officer in another town to return them. He is too busy with the ruckus at the Inn and the Cobbler is being a nuisance about some shop lifting, probably children. He answers direct questions, but every answer comes wrapped in faint contempt.
+> 
+>> [!info] Talking Points
+>> - He has received report of missing children from two nearby villages in the past month
+>> 	- "they're not here so what do you expect me to do about it?"
+>> 	- "half of the children that runaway turn up a week later, the rumour mill seems to ignore that"
+>> 	- to him it is clear these children ran away and came back when they found the real world to not be the fantasy they envisioned
+>> 	- No children have gone missing in his town.
+>> - He dislikes the players
+>> 	- private detectives think they are police without a badge, disgraceful.
+>> 	- "Go on, which one was it?", "Mr Cerato or Mr Geppetto?", "My job is tough enough without people riling up the town. Let's see your licences."
+>> 	- He is appalled when he realises your not even PIs.
+>> - Pinocchio and Lampwick
+>> 	- Of these "boys" only one is a boy and if you ask round it's clear he left on his own accord, he probably took his "toy" with him.
 
 ## The Savings Bank
 
@@ -260,9 +284,9 @@
 >
 > **Mastro Lucone, the innkeeper**, sees the party come in. He is a broad man in a stained apron, and he has been waiting. He does not wait for them to speak.
 >
-> *"You're working for the old woodcarver?" a hush comes over the inn.
+> *"You're working for the old woodcarver?" a hush comes over the inn.*
 > 
-> "Word gets around."*
+> *"Word gets around."*
 >
 > A pause while he takes them in with the expression of a man running a careful inventory.
 >
