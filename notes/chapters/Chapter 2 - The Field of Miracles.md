@@ -362,11 +362,11 @@
 ## Roo's Return
 
 > [!success] Scene: Return to the Wood
-> When the party comes back from the Field, Rabbit is where they left him — with Roo, now settled, sitting on the floor and looking at something small he found in his pocket. He looks up when he hears them coming.
+> When the party comes back from the Field, Rabbit is where they left him — with Roo, now settled, eating a biscuit from a tin Rabbit got down from above the cabinets where Roo hadn't been able to reach. He looks up when he hears them coming.
 >
-> Roo asks the party seventeen questions without pausing for answers. Then he hugs Rabbit's leg.
+> Rabbit sits at the table, checks Roo is OK and straightens up pulling out a notebook, "Go on, tell me what happened..."
 >
-> Rabbit allows himself one moment — brief, visible — of something that is not quite composure. Then he produces a notebook.
+> Later that evening you hear the sound of a horse and cart on the main road, you go out to investigate to find Delia, the postwoman returning to Krat with the post. She takes a note from you to give to Geppetto and agrees to make the woods part of her rounds.
 
 > [!info] If the Party Missed Information at the Field
 > If the players did not extract everything they needed from the Fox, Roo has it.
@@ -381,7 +381,6 @@
 > With the party back, the next step clear, and Roo safe beside them, something in the Wood shifts. Small things — the light changes slightly, a bird somewhere in the deep branches tries a tentative note, the stream seems a little louder. Roo finds the Thoughtful Spot, sits on the log, and immediately begins examining a beetle. The Wood has one of its own again, and seems to know it.
 >
 > *The party feels something settle. A readiness. A sense that they are, collectively, more than they were this morning.*
-
 
 > [!tip] GM Note — Future Milestone Beats
 > Each Pooh character who returns follows this same structure. Something in the Wood changes — the honey smell intensifies, Piglet's pressed flowers reappear in their frames, Eeyore's corner is damp and familiar again. Describe the Wood coming alive one piece at a time. By the time all characters are home, it should feel full and warm and *right* again — a strong enough place to face whatever the final chapter brings.
