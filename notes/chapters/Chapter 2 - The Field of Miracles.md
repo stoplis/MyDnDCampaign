@@ -26,7 +26,7 @@
 >
 > The clearing was beautiful. I had not expected that. A circle of open ground with the forest pressing close on all sides, the light golden and thick the way it gets in late afternoon, the earth dark and soft. Nothing grew in the middle of the clearing. That should have told me something. I dug my little hole with my hands, the way the Fox had said, and I counted my coins in, and I said the words he had told me, and I covered the hole over and smoothed the earth and stepped back. Then I sat down to wait.
 >
-> They did not know I was there. The Fox and the Cat came out of the trees at the far edge of the clearing maybe half an hour later, walking easily, and the Fox was talking — laughing, almost — and I heard my own name, and I went very still. I heard the Fox say *Lampwick.* I heard him say *sold.* I heard something about the Puppet Theatre of Mangiafuoco and a price and the Fox said *worth every coin* and laughed again. The Cat said nothing. I stayed in the shadow of the trees and I listened and I did not move and I heard everything.
+> They did not know I was there. The Fox and the Cat came out of the trees at the far edge of the clearing maybe half an hour later, walking easily, and the Fox was talking — laughing, almost — and I heard my own name, and I went very still. I heard the Fox say *Lampwick.* I heard him say *sold.* I heard something about the Puppet Theatre of Magnifico and a price and the Fox said *worth every coin* and laughed again. The Cat said nothing. I stayed in the shadow of the trees and I listened and I did not move and I heard everything.
 >
 > ---
 >
@@ -34,13 +34,13 @@
 >
 > I came out of the trees because I could not stay hidden. I called out to the Fox and my voice was shaking and I did not care. The Fox turned and his face did a complicated thing — surprise, and then something smooth sliding over the top of it — and then he was smiling, warm and sorry, and he was saying of course, of course, he had been meaning to explain, it was not what it sounded like, it was simply that Lampwick had been given a *wonderful opportunity,* truly, the chance of a lifetime, and the Fox had only been the instrument of something good. I said: where is he. The Fox said: I can tell you that. It will cost you those coins you just buried.
 >
-> I dug them up. I gave them over. I was frightened and furious and I knew — I knew, somewhere underneath everything — that I was being cheated again. But he told me: the Puppet Theatre of Mangiafuoco, a day's walk east. And that was the one thing I needed, and I took it, and I ran.
+> I dug them up. I gave them over. I was frightened and furious and I knew — I knew, somewhere underneath everything — that I was being cheated again. But he told me: the Puppet Theatre of Magnifico, a day's walk east. And that was the one thing I needed, and I took it, and I ran.
 >
 > ---
 >
 > **6. P runs — east, toward the Theatre**
 >
-> I don't know if it was true. I don't know if anything the Fox has ever said to me was true. But I know where I am going now, and I know why, and I will find Lampwick and I will bring him home and that is the only thing that matters. I did not look back. I did not count what was left in my pockets. East. A day's walk. The Puppet Theatre of Mangiafuoco. I ran until I could not run anymore, and then I walked, and I did not stop.
+> I don't know if it was true. I don't know if anything the Fox has ever said to me was true. But I know where I am going now, and I know why, and I will find Lampwick and I will bring him home and that is the only thing that matters. I did not look back. I did not count what was left in my pockets. East. A day's walk. The Puppet Theatre of Magnifico. I ran until I could not run anymore, and then I walked, and I did not stop.
 
 ---
 
@@ -297,7 +297,7 @@
 > - **He never learned either child's name.** Names are a complication he avoids as a matter of habit. He handled a boy recently — that is as specific as he gets by default.
 > - **If the party asks about a missing boy without specifying a puppet,** the Fox assumes they mean Lampwick. *"The boy. Yes. That was a tidy piece of work."*
 > - **On Lampwick:** *"We took him exactly where he wanted to go. The Theatre. Got a pretty penny for delivering him there as well."* He says this without apology. It was a clean job; there is nothing to dress up.
-> - **On Pinocchio:** *"The puppet was bad timing on my part, I'll admit to that. He overheard us chatting — about dropping off the boy, the state of the Theatre. Ran off before we could have a word."* A dry smile. *"Maybe Mangiafuoco will give him a part."*
+> - **On Pinocchio:** *"The puppet was bad timing on my part, I'll admit to that. He overheard us chatting — about dropping off the boy, the state of the Theatre. Ran off before we could have a word."* A dry smile. *"Maybe Magnifico will give him a part."*
 >
 > **Insight checks:**
 > - **DC 12 Insight:** The Fox is a conman and a smooth talker but you can tell he is telling the truth here. He is not worried. Not remotely. He does not believe he has done anything wrong. He helped the boy and got paid for it.
@@ -335,7 +335,7 @@
 > [!tip] What the Party Learns
 > From the conversation — or from Roo, if they missed it — the players come away with:
 >
-> - **Lampwick was delivered to the Puppet Theatre of Mangiafuoco.** Not taken by force — arranged, paid for, considered by the Fox to have been entirely reasonable.
+> - **Lampwick was delivered to the Puppet Theatre of Magnifico.** Not taken by force — arranged, paid for, considered by the Fox to have been entirely reasonable.
 > - **Pinocchio overheard the Fox and Cat** discussing Lampwick and the Theatre. He ran east, alone. He is already ahead.
 > - **The Theatre is a day's walk east.** This is where Chapter 3 begins.
 
@@ -387,7 +387,7 @@
 
 ---
 # Post Credits
-We see as Pinocchio enters the entrance lobby of Mangiafuoco's Theatre, "H-Hello?" it looks like no-one has been here for weeks. "Lampwick? Where are you?" he calls out. Then he hears the ticking of a clock and mechanical gears from the booth to the right.
+We see as Pinocchio enters the entrance lobby of Magnifico's Theatre, "H-Hello?" it looks like no-one has been here for weeks. "Lampwick? Where are you?" he calls out. Then he hears the ticking of a clock and mechanical gears from the booth to the right.
 "Good evening, I'm afraid were closed. Can I help you?" says a friendly, female voice.
 "I'm looking for my friend, a fox said he bought him here."
 "Oh dear, just wait there.", the figure picks up a strange device a puts it to it's ear, "Sir, we've got another worker here... your going to want to see this one personally."

@@ -1,5 +1,5 @@
 ---
-title: "Chapter 3 - The Puppet Theatre"
+title: Chapter 3 - The Puppet Theatre
 chapter: 3
 tags:
   - dnd
@@ -9,7 +9,7 @@ related:
   - "[[Overview]]"
   - "[[Chapter 1 - Around Town]]"
   - "[[Chapter 2 - The Field of Miracles]]"
-  - "[[Mangiafuoco]]"
+  - "[[Magnifico]]"
   - "[[Kanga]]"
   - "[[Lampwick]]"
   - "[[Pinocchio]]"
@@ -20,7 +20,7 @@ related:
 >
 > **1. Lampwick was already there.**
 >
-> I had expected to find him miserable. That was the story I had told myself on the road — Lampwick in a dark room, frightened, waiting to be rescued. What I found was different. He had been there for days. Long enough to know the other children by name. Long enough to have a place at the workbench and paint on his hands and an understanding of which noises in the night were the machinery and which were just the building settling. He kept saying it was fine — really, he said, it was interesting work, and Mangiafuoco was difficult but there was a logic to it, and there was no need to make a fuss. He said all of this without looking at me. His good boots, the ones his mother had been so proud of, were tucked under his cot. He had not worn them since he arrived.
+> I had expected to find him miserable. That was the story I had told myself on the road — Lampwick in a dark room, frightened, waiting to be rescued. What I found was different. He had been there for days. Long enough to know the other children by name. Long enough to have a place at the workbench and paint on his hands and an understanding of which noises in the night were the machinery and which were just the building settling. He kept saying it was fine — really, he said, it was interesting work, and Magnifico was difficult but there was a logic to it, and there was no need to make a fuss. He said all of this without looking at me. His good boots, the ones his mother had been so proud of, were tucked under his cot. He had not worn them since he arrived.
 >
 > ---
 >
@@ -36,27 +36,27 @@ related:
 >
 > ---
 >
-> **4. Mangiafuoco barely noticed Pinocchio at first.**
+> **4. Magnifico barely noticed Pinocchio at first.**
 >
-> He was muttering to himself at the far end of the workshop, bent over something on the table — a small mechanism, a puppet's arm, a joint that would not move the way it should. He did not look up when I entered. I stood in the doorway for a long time. The workshop was full of half-finished things: puppet bodies hanging from the ceiling, puppet faces pinned in rows along the wall, hands and feet and open mouths in barrels by the door, everything in states of incompletion that felt less like a work-in-progress and more like something interrupted. And then Mangiafuoco straightened up and turned, and he looked at me — really looked, the way you look at something unexpected — and his face changed entirely. He said: *a real puppet.* He said it quietly, as if saying it too loudly would break whatever he was seeing. He began to walk toward me, slowly, looking at my hands and my face and the way I was standing, and I felt something in the room shift.
+> He was muttering to himself at the far end of the workshop, bent over something on the table — a small mechanism, a puppet's arm, a joint that would not move the way it should. He did not look up when I entered. I stood in the doorway for a long time. The workshop was full of half-finished things: puppet bodies hanging from the ceiling, puppet faces pinned in rows along the wall, hands and feet and open mouths in barrels by the door, everything in states of incompletion that felt less like a work-in-progress and more like something interrupted. And then Magnifico straightened up and turned, and he looked at me — really looked, the way you look at something unexpected — and his face changed entirely. He said: *a real puppet.* He said it quietly, as if saying it too loudly would break whatever he was seeing. He began to walk toward me, slowly, looking at my hands and my face and the way I was standing, and I felt something in the room shift.
 >
 > ---
 >
 > **5. Before anything could happen — the doors burst open.**
 >
-> Weasels. That was the first thing I noticed — not the long dark coats or the flat caps pushed back on their heads but the faces beneath them, narrow and quick, weasel-faces that were not surprised to be here. They came through the front of the theatre in a group, moving in formation, and they knew the layout — they moved through it without pausing or looking, the way you move through a place you have been before and do not like. There was no shouting. Just movement. The children were still in the sleeping area and were found quickly. Mangiafuoco looked up from me to them and something crossed his face that I had not seen there before. Not fear. Something older than fear.
+> Weasels. That was the first thing I noticed — not the long dark coats or the flat caps pushed back on their heads but the faces beneath them, narrow and quick, weasel-faces that were not surprised to be here. They came through the front of the theatre in a group, moving in formation, and they knew the layout — they moved through it without pausing or looking, the way you move through a place you have been before and do not like. There was no shouting. Just movement. The children were still in the sleeping area and were found quickly. Magnifico looked up from me to them and something crossed his face that I had not seen there before. Not fear. Something older than fear.
 >
 > ---
 >
 > **6. Chaos. Fire.**
 >
-> Someone threw a torch. The workshop wall caught first — the hanging puppet bodies, the paper reference drawings pinned beneath them, the varnish on the workbenches. It went fast. Mangiafuoco screamed — not at the weasels, not at any of us — but at the fire itself, at the burning puppets on the wall, reaching toward them as if he could cover them with his hands and keep them. Lampwick was grabbed. Then I was grabbed. The children were already being moved through the front hall. Mangiafuoco was still screaming, surrounded by smoke, and the weasels paid him no more attention than they paid the building.
+> Someone threw a torch. The workshop wall caught first — the hanging puppet bodies, the paper reference drawings pinned beneath them, the varnish on the workbenches. It went fast. Magnifico screamed — not at the weasels, not at any of us — but at the fire itself, at the burning puppets on the wall, reaching toward them as if he could cover them with his hands and keep them. Lampwick was grabbed. Then I was grabbed. The children were already being moved through the front hall. Magnifico was still screaming, surrounded by smoke, and the weasels paid him no more attention than they paid the building.
 >
 > ---
 >
 > **7. Being dragged out, Pinocchio looked back.**
 >
-> Through the door, through the hall, and I twisted in the grip on my collar to look back one last time through the fire and smoke. Kanga was at the full length of her chain with both arms stretched toward the door — the children had been brought past her and she had tried to follow and the chain had pulled her short. She was calling their names. Not screaming — *calling*, the way you call to someone who can still hear you, clearly and specifically, each name in turn. The weasels did not look at her. She was not what they had come for. Mangiafuoco had fallen to his knees somewhere in the smoke, and I could hear him still, but I could not see him anymore, and then the door came between us.
+> Through the door, through the hall, and I twisted in the grip on my collar to look back one last time through the fire and smoke. Kanga was at the full length of her chain with both arms stretched toward the door — the children had been brought past her and she had tried to follow and the chain had pulled her short. She was calling their names. Not screaming — *calling*, the way you call to someone who can still hear you, clearly and specifically, each name in turn. The weasels did not look at her. She was not what they had come for. Magnifico had fallen to his knees somewhere in the smoke, and I could hear him still, but I could not see him anymore, and then the door came between us.
 >
 > ---
 >
@@ -70,7 +70,7 @@ related:
 > [!success] Password: theatre
 
 > [!abstract] GM Overview
-> The Puppet Theatre is an exploration chapter built around three interlocking goals: restore power, clear the west wing to get the east wing key, and find the theatre key in the workshop to face Mangiafuoco. Two optional rooms offer magic items. The chapter ends in Mangiafuoco's office with the conspiracy board that opens the rest of the campaign.
+> The Puppet Theatre is an exploration chapter built around three interlocking goals: restore power, clear the west wing to get the east wing key, and find the theatre key in the workshop to face Magnifico. Two optional rooms offer magic items. The chapter ends in Magnifico's office with the conspiracy board that opens the rest of the campaign.
 >
 > **Required path:** Entrance Hall → Plant Room → Box Office (after power) → Bar → Dining Room → Workshop → Theatre → Office
 >
@@ -83,7 +83,7 @@ related:
 ## Exterior and First Approach
 
 > [!info] Scene: Arriving at the Theatre
-> The road delivers them to it without warning — a gap in the treeline and suddenly there it is: the Puppet Theatre of Mangiafuoco, enormous and faded and, somehow, still magnificent. The facade is gilded plaster, the gilt peeling at the corners, the painted murals above the entry arch gone grey with weather. Along the right side of the building: holes in the roof, scorch marks on the stonework. There has been a fire here. From the outside it looks contained.
+> The road delivers them to it without warning — a gap in the treeline and suddenly there it is: the Puppet Theatre of Magnifico, enormous and faded and, somehow, still magnificent. The facade is gilded plaster, the gilt peeling at the corners, the painted murals above the entry arch gone grey with weather. Along the right side of the building: holes in the roof, scorch marks on the stonework. There has been a fire here. From the outside it looks contained.
 >
 > But the thing that stops you — before the fire damage does — is the wiring. Copper fittings at the base of the exterior walls. A wire running along the guttering, neat and deliberate. Small glass-and-metal fixtures at the entrance, dark now. This is a building that runs on something. Not torches. Not magic lamps. *Something else.*
 >
@@ -92,10 +92,10 @@ related:
 > [!tip] GM Note — The Electricity
 > This is the first time the players have seen one of those buildings. Everyone in Albion has heard the rumours — a city somewhere, buildings lit by no candle or spell, running on some mechanism nobody can name. The players have never seen it. Now they are standing in front of one.
 >
-> The power is currently off. The fittings are cold and dark. But when it comes on, play the moment: the lights in this building are cool, pale, and utterly steady. They do not flicker. They illuminate corners that candlelight never reaches. It is impressive and faintly wrong at the same time. The puppets throughout the building are Victor Frankenstein's work — sent by the Coachman as part of his deal with Mangiafuoco. Not magic. Science.
+> The power is currently off. The fittings are cold and dark. But when it comes on, play the moment: the lights in this building are cool, pale, and utterly steady. They do not flicker. They illuminate corners that candlelight never reaches. It is impressive and faintly wrong at the same time. The puppets throughout the building are Victor Frankenstein's work — sent by the Coachman as part of his deal with Magnifico. Not magic. Science.
 
 > [!tip] GM Note — First Impression
-> The exterior does not look like a disaster site. It looks like a theatre that has been closed for a long time and not quite cared for. The fire was inside, contained to one wing. From here it is impressive: the scale, the gilded facade, the ambition of the place. Play it as beautiful and abandoned, not ruined. Mangiafuoco built this over decades. Let that land before the players go inside — so they carry it with them when they finally face him.
+> The exterior does not look like a disaster site. It looks like a theatre that has been closed for a long time and not quite cared for. The fire was inside, contained to one wing. From here it is impressive: the scale, the gilded facade, the ambition of the place. Play it as beautiful and abandoned, not ruined. Magnifico built this over decades. Let that land before the players go inside — so they carry it with them when they finally face him.
 
 ![[Theatre - Exterior.png]]
 
@@ -159,9 +159,11 @@ related:
 > [!info] When the Lights Come On
 > The mechanical figure behind the box office glass straightens, tilts her head, and opens the sliding window. She is a woman from the waist up — her hair arranged precisely under a small cap, her face painted with a warm and permanently attentive expression. Her voice, when it comes, is warm and slightly tinny, like music from a music box.
 >
-> *"Welcome to the Puppet Theatre of Mangiafuoco. How may I assist you today?"*
+> *"Welcome to the Puppet Theatre of Magnifico. How may I assist you today?"*
 >
 > She will not become hostile. She will not be offended. She will try, sincerely, to be helpful within the limits of her programming.
+> 
+![[Box Office.PNG]]
 
 > [!example] What the Box Office Puppet Knows
 >
@@ -169,7 +171,7 @@ related:
 > - **Opening the main theatre:** *"The Usher manages access to the main theatre. He was taken to the workshop for maintenance — you'll find him in the east wing... I'm sorry, it seems the east wing is locked as well."*
 > - **The east wing keys:** *"The Cleaner carries the east wing keyring as part of their duties. They'll be in the west wing."*
 > - **The children / workers:** *"Our workers are accommodated in the workshop. Very comfortable arrangements — bunks, a common area. Through the east wing."* She says this cheerfully. She was not programmed to know the difference between workers and children. The cheerfulness is genuine and terrible.
-> - **Anything else:** She engages helpfully but deflects on anything outside her programming — recent events, the fire, Mangiafuoco's activities — with a pleasant *"I'm afraid I don't have information about that."*
+> - **Anything else:** She engages helpfully but deflects on anything outside her programming — recent events, the fire, Magnifico's activities — with a pleasant *"I'm afraid I don't have information about that."*
 
 > [!warning] When the Players Return with the Theatre Key
 > As the players approach the chained theatre doors with the Usher's key, the box office window opens.
@@ -182,6 +184,8 @@ related:
 
 ## Ground Floor: The Bar
 *(West Wing — unlocked when power is restored)*
+
+![[Theatre - The Bar.png]]
 
 > [!info] Scene: The Bar
 > *A long room — a mahogany bar running the full length of one wall, shelves behind it still stocked with bottles that have gone to sediment. Tall stools along the counter. A few small tables, some overturned. At one end of the bar, a brass lever set into the wall with a small plaque reading* BAR POWER DO NOT TOUCH*, currently down.*
@@ -199,6 +203,8 @@ related:
 >
 > **Reroll this check each time the players re-enter the room** after powering him down and back up. The fault is intermittent. The note warned them.
 
+![[Bar Tender Good.PNG]]
+
 > [!example] If Friendly
 > The bar tender does not ask questions about why people are in a closed and fire-damaged theatre. He pours drinks and talks, eager to discuss rumours.
 >
@@ -208,6 +214,8 @@ related:
 > - "I heard there were a lot of small workers coming and going through this place. He's been so happy with their work he's been keeping them employed for longer than usual."* A small shrug. *"Not my business."*
 >
 > He genuinely does not know what he is describing.
+
+![[Bar Tender Bad.PNG]]
 
 > [!warning] If Hostile
 > He slides to the far end of the bar, turns, and begins throwing glasses with impressive accuracy. He accompanies each throw with an insult.
@@ -219,12 +227,13 @@ related:
 > **Disabling him:** The BAR POWER lever is on the wall within the room. Reaching it requires moving through incoming glass (one attack of opportunity).
 > *Example insults: "Your mother is made of pine!" / "I've served better adventurers as bar stools!" / "You move like a puppet and you're not even interesting to watch!" / "I have thirty glasses and nothing but time!"*
 
-![[Theatre - The Bar.png]]
 
 ---
 
 ## Ground Floor: The Dining Room
 *(West Wing)*
+
+![[Dinning Room.PNG]]
 
 > [!info] Scene: The Dining Room
 > *A grand dining room — white tablecloths gone grey with dust, electric fittings along the walls buzzing with pale light, a large black grand piano near the far wall. At the end of the room a raised stage barely a foot high, with a standing microphone and a wooden stool. The room smells of old food and wood polish.*
@@ -244,6 +253,8 @@ related:
 > This does not affect the Cleaner or Waiter — they have already entered and continue combat regardless.
 >
 > A party that listened to the bar tender and came prepared will feel this moment clearly.
+
+![[Singer.PNG]]
 
 > [!info] Stat Block — The Singer
 > *CR 1 | Construct | Medium | Unaligned*
@@ -269,6 +280,8 @@ related:
 >
 > **Actions:**
 > - ***Keyboard Slam.*** *Melee Attack.* +3 to hit, reach 5 ft. Hit: 1d6+1 bludgeoning.
+
+![[Cleaner.PNG]]
 
 > [!info] Stat Block — The Waiter
 > *CR ½ | Construct | Medium | Unaligned*
@@ -372,9 +385,9 @@ related:
 > She gives everything she knows, clearly and in order, without being asked twice:
 >
 > - There were eleven children here, brought in groups over the last week. Lampwick had arrived alone — he said a Fox and a Cat had brought him. He was, she says carefully, *not unhappy at first.* He had wanted to come. Quickly it has become clear to him this wasn't what he had expected.
-> - Pinocchio arrived the day of the raid, looking for Lampwick. Mangiafuoco became very excited about him — *"not like the ones those damn weasels bring,"* he said. *"This one's different."* He began watching Pinocchio constantly, not in a threatening way — in the way of someone who has been looking for something for a very long time and suddenly thinks they may have found it.
-> - The men who came were weasels — dark coats, flat caps, moving in formation. They did not speak to Mangiafuoco, did not negotiate, did not explain. They just took the children and left. She heard one of them say to another, quietly: *"Take them for shipping."* She does not know what that means. She has been thinking about it ever since.
-> - Since the raid, she has heard Mangiafuoco in his office every night. Talking to himself. Something about a board on his wall. Something about making it right.
+> - Pinocchio arrived the day of the raid, looking for Lampwick. Magnifico became very excited about him — *"not like the ones those damn weasels bring,"* he said. *"This one's different."* He began watching Pinocchio constantly, not in a threatening way — in the way of someone who has been looking for something for a very long time and suddenly thinks they may have found it.
+> - The men who came were weasels — dark coats, flat caps, moving in formation. They did not speak to Magnifico, did not negotiate, did not explain. They just took the children and left. She heard one of them say to another, quietly: *"Take them for shipping."* She does not know what that means. She has been thinking about it ever since.
+> - Since the raid, she has heard Magnifico in his office every night. Talking to himself. Something about a board on his wall. Something about making it right.
 
 > [!tip] GM Note — Kanga's Function
 > Kanga is the information hub of this chapter and the emotional anchor of its second half. She survived by being left behind — the weasels had no use for her, which is its own kind of cruelty. She has been alone here with the ghost of eleven children for weeks and has held herself together through sheer will and the conviction that someone would eventually come.
@@ -392,6 +405,8 @@ related:
 
 ## First Floor: The Music Room
 *(West Staircase — Optional)*
+
+![[Music Room.PNG]]
 
 > [!success] Password: sheet
 
@@ -422,7 +437,7 @@ related:
 >
 > Along both wings: a row of ballerina puppets stand motionless in white Swan Lake tutus, posed mid-arabesque. They will remain that way throughout.
 >
-> Mangiafuoco is at the back of the stage, his back to the door. He is seated at a small table, operating a puppet on the tabletop with both hands — running through a short sequence of movements, again and again. The puppet's left arm is not working correctly. He runs the sequence. The arm slips. He resets, patiently, and runs it again.
+> Magnifico is at the back of the stage, his back to the door. He is seated at a small table, operating a puppet on the tabletop with both hands — running through a short sequence of movements, again and again. The puppet's left arm is not working correctly. He runs the sequence. The arm slips. He resets, patiently, and runs it again.
 >
 > He does not react to the sound of the doors.
 >
@@ -432,7 +447,9 @@ related:
 >
 > **He will only turn and register the players when they mention:** the Coachman (or "him"), the children, Pinocchio, or Kanga. When one of these words is spoken, he stops. Sets down the puppet. Turns.
 
-> [!example] Mangiafuoco — Boss Fight
+![[Magnifico.PNG]]
+
+> [!example] Magnifico — Boss Fight
 >
 > *Medium Humanoid (CR 5) | HP 85 | AC 14 (theatrical coat with concealed plating) | Speed 30 ft.*
 >
@@ -446,7 +463,7 @@ related:
 >
 > ---
 >
-> ***Master of the Stage.*** Mangiafuoco knows every trapdoor, hatch, and rope mechanism on this stage. He can use a **bonus action** to drop through an adjacent trapdoor or ascend via a lift mechanism. When he reappears through a trapdoor on his next turn, he may make a melee attack as part of the same action as a free action.
+> ***Master of the Stage.*** Magnifico knows every trapdoor, hatch, and rope mechanism on this stage. He can use a **bonus action** to drop through an adjacent trapdoor or ascend via a lift mechanism. When he reappears through a trapdoor on his next turn, he may make a melee attack as part of the same action as a free action.
 >
 > ***Puppet Caller.*** At the start of each of his turns, if there are fewer than 2 puppet minions on the stage, he summons 1d3 Chorus Puppets from the wings (they emerge from the curtains on his initiative count).
 >
@@ -456,36 +473,36 @@ related:
 >
 > - ***Spark Burst.*** *Ranged Attack.* +6 to hit, range 30 ft. On hit: 2d6 fire damage. The target must succeed on a **DC 13 CON save** or be **Blinded** until the end of their next turn (smoke and flash powder).
 > - ***Puppet Smash.*** *Melee Attack.* +5 to hit, reach 5 ft. On hit: 2d8+3 bludgeoning (he wields a damaged Soldier Puppet arm as an improvised weapon).
-> - ***Vanish Below.*** Mangiafuoco drops through an adjacent trapdoor (no action cost). He can be heard moving beneath the stage. On his next turn, he erupts through any trapdoor on the stage map as a free action, then acts normally.
+> - ***Vanish Below.*** Magnifico drops through an adjacent trapdoor (no action cost). He can be heard moving beneath the stage. On his next turn, he erupts through any trapdoor on the stage map as a free action, then acts normally.
 >
 > **Legendary Actions** *(1 per round, at the end of another creature's turn):*
 >
-> - ***Smoke Screen.*** All creatures within 10 ft. of Mangiafuoco must succeed on a **DC 13 CON save** or be Blinded until the start of their next turn.
+> - ***Smoke Screen.*** All creatures within 10 ft. of Magnifico must succeed on a **DC 13 CON save** or be Blinded until the start of their next turn.
 > - ***Pull the Strings.*** One puppet minion on the stage immediately takes one extra attack.
 >
 > ---
 >
 > **Phase 2 — below 40 HP:**
 >
-> Mangiafuoco's coat has caught from a Spark Burst misfire. He is on fire — not fatally, not yet — and he does not seem to notice, or does not care. He gains:
+> Magnifico's coat has caught from a Spark Burst misfire. He is on fire — not fatally, not yet — and he does not seem to notice, or does not care. He gains:
 >
-> ***Desperation.*** When hit by an attack, Mangiafuoco may immediately move up to 15 ft. through an adjacent trapdoor as a **reaction**.
+> ***Desperation.*** When hit by an attack, Magnifico may immediately move up to 15 ft. through an adjacent trapdoor as a **reaction**.
 
-> [!tip] GM Note — Running Mangiafuoco
-> He never says the Coachman's name. Only *"him"* or *"he"* or *"the man."* If players succeed on a **DC 15 Insight** check, they can tell that saying the name would make the loss real in a way Mangiafuoco cannot survive. It is not fear exactly. It is grief held at arm's length by the refusal to name it.
+> [!tip] GM Note — Running Magnifico
+> He never says the Coachman's name. Only *"him"* or *"he"* or *"the man."* If players succeed on a **DC 15 Insight** check, they can tell that saying the name would make the loss real in a way Magnifico cannot survive. It is not fear exactly. It is grief held at arm's length by the refusal to name it.
 >
 > He can be temporarily calmed — he will not stop fighting, but he will speak between attacks — if the players acknowledge that his work was genuinely brilliant before the fire. Not flattery: acknowledgment. Players who demonstrate they actually looked at the backstage flats, actually saw the playbills in the entrance hall, actually understand what was built here and then destroyed will reach something in him. What they get in return are fragments: who came, what was taken, the name he will not say. He is not a monster. He is a brilliant man eaten by grief and obsession, and he cannot see the shape of what he has become.
 >
-> **The trapdoor mechanics:** Players who studied the lever board in the Scene Shop can use a **bonus action** to operate one of the levers (if they are adjacent to the stage edge, where a secondary board is accessible). On a success, a trapdoor opens — and if Mangiafuoco is using *Vanish Below* or *Master of the Stage* on that trapdoor at that moment, his movement is disrupted (he must use a full action to find an alternate exit).
+> **The trapdoor mechanics:** Players who studied the lever board in the Scene Shop can use a **bonus action** to operate one of the levers (if they are adjacent to the stage edge, where a secondary board is accessible). On a success, a trapdoor opens — and if Magnifico is using *Vanish Below* or *Master of the Stage* on that trapdoor at that moment, his movement is disrupted (he must use a full action to find an alternate exit).
 
 > [!info] Defeat and the Office Key
-> Mangiafuoco does not die. He collapses, exhausted and burned, in the centre of the stage, surrounded by still puppets. He stares up at the swaying scenery above him. He says something — quiet, addressed to no one — about the man who destroyed him. He says the thing he wants done to that man. Then he is silent.
+> Magnifico does not die. He collapses, exhausted and burned, in the centre of the stage, surrounded by still puppets. He stares up at the swaying scenery above him. He says something — quiet, addressed to no one — about the man who destroyed him. He says the thing he wants done to that man. Then he is silent.
 >
 > On his person: a large iron key on a chain around his neck. His coat has been burned through on one side; the key is visible. It is cold despite the fire. The key to his office.
 
 ---
 
-## Mangiafuoco's Office — Chapter Payoff
+## Magnifico's Office — Chapter Payoff
 > [!success] Password: board
 
 > [!info] Scene: The Office
@@ -495,7 +512,7 @@ related:
 
 ![[Consipircy Wall.png]]
 
-> [!note] Mangiafuoco's Diary — On the Desk
+> [!note] Magnifico's Diary — On the Desk
 > A plain leather journal, well-used, the binding cracked from being opened flat. The last entries are dated and legible.
 >
 > > *He sent his scientist — Victor — to make a deal. Incredible mechanical puppets, and as many Animal workers as I wanted, in exchange for a service. What a joke. The creatures are useless for this work; clumsy paws cannot maintain such intricate machinery. I sent them all back. I found much better workers.*
@@ -515,10 +532,10 @@ related:
 >
 > If the players show Kanga the diary, she reads the relevant entry without expression. She turns the page. She does not ask to keep the journal.
 >
-> "Victor" is named here for the first time. Mangiafuoco met him. The mechanical puppets throughout this building — the bar tender, the singer, the cleaner, all of them — are Victor's work. The Coachman's scientist built them as part of the deal. The players are standing in a building full of his inventions and do not yet know his name. There will be more of his work ahead.
+> "Victor" is named here for the first time. Magnifico met him. The mechanical puppets throughout this building — the bar tender, the singer, the cleaner, all of them — are Victor's work. The Coachman's scientist built them as part of the deal. The players are standing in a building full of his inventions and do not yet know his name. There will be more of his work ahead.
 
 > [!info] The Conspiracy Board
-> Mangiafuoco has been trying to find the man who destroyed him. He had three leads. He never acted on any of them — too consumed, too broken to leave the building. The work is here, complete, waiting for someone with the capacity to use it.
+> Magnifico has been trying to find the man who destroyed him. He had three leads. He never acted on any of them — too consumed, too broken to leave the building. The work is here, complete, waiting for someone with the capacity to use it.
 >
 > **Four clusters, connected by red string:**
 >
@@ -530,7 +547,7 @@ related:
 >
 > - **Centre — where all three strings meet:** Frantic handwriting in large letters — *"make HIM pay"* — and pinned at the absolute centre: a plain white business card. No company name. No address. No print except one image: a black wagon wheel, clean and precise on white card.
 >
-> Mangiafuoco circled the same symbol three times in three different contexts and never left this building. The players have his work now. They have three threads.
+> Magnifico circled the same symbol three times in three different contexts and never left this building. The players have his work now. They have three threads.
 
 > [!tip] GM Note — Let Them Think
 > Give the players time with this room. Do not rush them to the exit. This is the moment the campaign expands — from a single trail to three separate directions, all pointing at the same mark. Each thread should feel distinct and equally interesting. The Circus is spectacle and horror. Molino Verde is eerie and intimate. The harbour is grey and procedural. Let the players argue about which to follow first. The right answer is whichever excites them most.
@@ -562,5 +579,5 @@ related:
 %%
 Chapter design added 2026-03-24. Revised 2026-04-09.
 Cross-reference: [[Overview]], [[Pinocchio Research]], [[Story Beats]], [[Base Camp - 100 Acre Wood]]
-Characters: [[Mangiafuoco]], [[Kanga]], [[Lampwick]], [[Pinocchio]]
+Characters: [[Magnifico]], [[Kanga]], [[Lampwick]], [[Pinocchio]]
 %%

@@ -84,7 +84,7 @@
 >
 > ![[Geppetto.png]]
 >
-> **Key NPC: Geppetto** _(jeh-PET-oh)_*(📖 Book / 🎬 Film)* — Small, white-haired, red-eyed from a night without sleep, doing his best not to show how upset he is. He strikes you as proud and would not normally ask for help. When he speaks, he sticks to facts. *He loves Pinocchio completely and without reservation, and this is the one truth in everything he says that doesn't require checking.*
+> **Key NPC: Giuseppe Geppetto** *(📖 Book / 🎬 Film)* — Small, white-haired, red-eyed from a night without sleep, doing his best not to show how upset he is. He strikes you as proud and would not normally ask for help. When he speaks, he sticks to facts. *He loves Pinocchio completely and without reservation, and this is the one truth in everything he says that doesn't require checking.*
 >
 > > [!example]- Geppetto's Account
 > > Two days ago, Pinocchio left at half past seven. The errand was simple: deposit the week's shop takings at the Savings Bank on the west side of the square, then on to school, something he has done countless times. The purse held the full week's earnings — roughly eighty gold pieces. The boy was in good spirits, swinging the purse as he went. Geppetto watched from the shop window until he turned the corner. He did not come home for supper. The schoolmistress visited after school: Pinocchio and his friend Lampwick was not in class. Geppetto went to check with the bank. The deposit was never made. He filed a report with the town watch the following morning. Nothing has come of it. No investigation. No follow-up. Nothing.
@@ -103,6 +103,11 @@
 
 > [!tip] GM Note — The investigation begins
 > The players are now free to explore the town as they see fit. They may follow up on leads and hunches.
+> Places of interest:
+> - The Bakery: Pinocchio’s friend is also missing
+> - The town square: Pinocchio would’ve passed through here to get to the bank
+> - The bank: This should’ve been Pinocchio’s first stop
+> - The school: This was Pinocchio’s destination
 ## The Bakery
 
 > [!success] Password: baker
@@ -115,18 +120,18 @@
 >
 > **What players can learn here:**
 > - Lampwick left for school *after* Pinocchio — running late, in a hurry, heading north toward the square.
-> - Lampwick has been collecting the Mangiafuoco *(man-jah-FWOH-koh)* posters for weeks — pulling them off posts, pinning them up in his room. Several torn ones are still there. His mother can take the players up to see if they ask. The collection makes the obsession unmistakable. Geppetto's puppets are there too, lining the shelves — a dozen of them, each one a gift over the years.
+> - Lampwick has been collecting the Magnifaco posters for weeks — pulling them off posts, pinning them up in his room. Several torn ones are still there. His mother can take the players up to see if they ask. The collection makes the obsession unmistakable. Geppetto's puppets are there too, lining the shelves — a dozen of them, each one a gift over the years.
 > - His parents last saw him heading north toward the square. He has not come home since.
 
 > [!example] **Emilio** *(baker, Lampwick's father)*
 >
 > **Personality:** Warm and deliberate, with a craftsman's patience in the way he measures his words. He is frightened and working hard not to show it; the effort is visible. His hands keep finding small tasks — straightening a display, wiping the counter — because stillness means thinking, and thinking is worse right now. He and Geppetto have been neighbours for twenty years; Emilio has bought Geppetto's puppets for Lampwick since the boy could walk. He doesn't say it out loud, but it sits in the room between the two missing boys.
 >
-> If the players seem trustworthy — a **DC 12 Insight** check to read the room, or simply treating him with patience rather than urgency — he lowers his voice and confides: Lampwick has been obsessing over the Mangiafuoco posters for weeks. Pulling them off posts. Pinning them in his room. Talking about nothing else — the theatre. *"I told him it was foolishness. I should have talked to him properly instead."* He does not say he fears Lampwick left willingly. He doesn't have to say it plainly. The puppets Geppetto made him are still on the shelf. But that morning, his school shoes were still by the door, instead his walking boots were gone.
+> If the players seem trustworthy — a **DC 12 Insight** check to read the room, or simply treating him with patience rather than urgency — he lowers his voice and confides: Lampwick has been obsessing over the Magnifaco posters for weeks. Pulling them off posts. Pinning them in his room. Talking about nothing else — the theatre. *"I told him it was foolishness. I should have talked to him properly instead."* He does not say he fears Lampwick left willingly. He doesn't have to say it plainly. The puppets Geppetto made him are still on the shelf. But that morning, his school shoes were still by the door, instead his walking boots were gone.
 >
 > **What he knows:**
 > - Lampwick left later than Pinocchio — running late, heading north toward the square. Emilio watched him go from the shop doorway.
-> - He has been collecting the Mangiafuoco posters for weeks. Not just looking at them — keeping them. Several are pinned in his room upstairs.
+> - He has been collecting the Magnifaco posters for weeks. Not just looking at them — keeping them. Several are pinned in his room upstairs.
 > - He noticed the intensity long before this morning and said nothing useful about it. This is what he is actually ashamed of.
 
 > [!example] **Carmela** *(Lampwick's mother)*
@@ -137,7 +142,7 @@
 >
 > **What she knows:**
 > - Lampwick left after Pinocchio, hurrying, heading north through the square.
-> - There are more Mangiafuoco posters in his room — she will take the players up to see, if they ask. The collection makes his intentions hard to dismiss.
+> - There are more Magnifaco posters in his room — she will take the players up to see, if they ask. The collection makes his intentions hard to dismiss.
 > - She does not know exactly what happened to him. But she is certain it involves those posters. *"A mother knows,"* she says, with the flat conviction of someone who has already passed through doubt and come out the other side.
 
 ## The Town Square
@@ -145,7 +150,7 @@
 > [!success] Password: town
 
 > [!info] **The Town Square** *(centre)*
-> *The square opens up between a cloth merchant's awning and a fish-seller's stall, loud with late-morning trade. Pigeons scatter between the wheels of a slow cart. The cobblestones are close-fitted and smooth; a dropped coin would ring here and everyone within twenty feet would hear it. Around the square's edges, pasted to the stone walls are serval posters.
+> *The square opens up between a cloth merchant's awning and a fish-seller's stall, loud with late-morning trade. Pigeons scatter between the wheels of a slow cart. The cobblestones are close-fitted and smooth; a dropped coin would ring here and everyone within twenty feet would hear it. Around the square's edges, pasted to the stone walls are serval posters.*
 > > [!success] Password Posters: centre 
 > ![[Poster.PNG]]
 >
@@ -161,12 +166,12 @@
 
 ### The Flower Seller
 
-> [!example] **The Flower Seller *(Fiamma Ferraro)*
+> [!example] **The Flower Seller *(Figma Farendo)*
 > ![[The Flower Seller.png]]
-> - **Fiamma Ferraro, the flower seller** *(FYAH-mah feh-RAH-roh)* — Stout, sharp-eyed, stationed near the south entry of the square. She has everything to tell — but she doesn't want to look like a gossip. She needs to feel like she's serving justice, not satisfying curiosity.
+> - **Figma Farend, the flower seller** — Stout, sharp-eyed, stationed near the south entry of the square. She has everything to tell — but she doesn't want to look like a gossip. She needs to feel like she's serving justice, not satisfying curiosity.
 >
-> > [!tip] GM Note — Fiamma's Social Layer
-> > Fiamma holds back initially — not from hostility, but from dignity. She doesn't want to be seen as a busybody. Unlock her full account with one of the following:
+> > [!tip] GM Note — Figma's Social Layer
+> > Figma holds back initially — not from hostility, but from dignity. She doesn't want to be seen as a busybody. Unlock her full account with one of the following:
 > > - **DC 10 Persuasion** — frame it as "you're a witness to something important," not "you saw something interesting"
 > > - **Buy flowers** (1 gold) — she softens immediately; the transaction makes the conversation legitimate
 > > - **Frame it as serving justice** — tell her the boy is in danger and you're trying to help. She responds to purpose.
@@ -178,9 +183,9 @@
 > 
 ### The Newspaper Seller
 
-> [!example] **The Newspaper Seller *(Nico Carbone)*
+> [!example] **The Newspaper Seller *(Nico Carlone)*
 > ![[The newpaper seller.png]]
-> - **Nico Carbone, the newspaper seller** *(NEE-koh kar-BOH-neh)* — Sharp-faced, northwest corner of the square.  He won't talk freely without a small transaction first.
+> - **Nico Carlone, the newspaper seller** — Sharp-faced, northwest corner of the square.  He won't talk freely without a small transaction first.
 >
 > > [!tip] GM Note — Nico's Social Layer
 > > Nico is transactional, not hostile. He gives information to people who give something first — that's how his corner of the world works.
@@ -192,9 +197,9 @@
 > > 3. I saw him enter the Inn
 ### The Postwoman
 
-> [!example] **The Postwoman** *(Delia Conti)*
+> [!example] **The Postwoman** *(Delia Conetti)*
 > ![[The Postwoman.png]]
-> - **Delia Conti, the postwoman, mid-round** *(DEL-yah KON-tee)* — Moving through the square when it happened; she didn't stop. But she remembers the Fox clearly: *"Silver-topped cane, well-dressed, feigning a limp. Couldn't tell you what happened to the limp when they reached the corner."* Made a delivery to the cobbler's five minutes later and mentioned it in passing.
+> - **Delia Conetti, the postwoman, mid-round** — Moving through the square when it happened; she didn't stop. But she remembers the Fox clearly: *"Silver-topped cane, well-dressed, feigning a limp. Couldn't tell you what happened to the limp when they reached the corner."* Made a delivery to the cobbler's five minutes later and mentioned it in passing.
 >
 > > [!tip] GM Note — Delia's Social Layer
 > > Delia needs no persuasion — she's helpful by default. The constraint is time: she has a route to finish and won't linger. Keep her answers brief and purposeful.
@@ -203,9 +208,9 @@
 
 ### The Police Officer
 
-> [!example] **The Police Officer** *(Leopoldo)*
+> [!example] **The Police Officer** *(Francis Leopold)*
 > ![[The Police Officer.png]]
-> **The Police Officer (Leopoldo):** Can be encountered here or anywhere in town. He is not a villain, but he is distinctly unpleasant: he thinks little boys are troublemakers not worth worrying about, he is clearly more interested in the Fox and Cat as a career case (a bigger collar, better for his record), and he is visibly irritated by the party acting as amateur investigators stepping on a real investigation. Geppetto filed a formal report two days ago. Leopoldo logged it. He has conducted no investigation, made no enquiries, and followed up with no one — he is certain the boys left of their own will and are the problem of the officer in another town to return them. He is too busy with the ruckus at the Inn and the Cobbler is being a nuisance about some shop lifting, probably children. He answers direct questions, but every answer comes wrapped in faint contempt.
+> **The Police Officer (Francis Leopold):** Can be encountered here or anywhere in town. He is not a villain, but he is distinctly unpleasant: he thinks little boys are troublemakers not worth worrying about, he is clearly more interested in the Fox and Cat as a career case (a bigger collar, better for his record), and he is visibly irritated by the party acting as amateur investigators stepping on a real investigation. Geppetto filed a formal report two days ago. Leopoldo logged it. He has conducted no investigation, made no enquiries, and followed up with no one — he is certain the boys left of their own will and are the problem of the officer in another town to return them. He is too busy with the ruckus at the Inn and the Cobbler is being a nuisance about some shop lifting, probably children. He answers direct questions, but every answer comes wrapped in faint contempt.
 > 
 >> [!info] Talking Points
 >> - He has received report of missing children from two nearby villages in the past month
@@ -226,7 +231,7 @@
 > *A narrow two-storey building with a brass plate and a door that sticks. Inside, two clerks work behind a long wooden counter in an atmosphere of enforced calm. The ledgers are perfect. Nothing that happens here is surprising, which is exactly why they remember what didn't.*
 >
 > ![[The Banker.png]]
-> **Key NPC: Isidoro Palmieri, the senior clerk** — Thin, precise, clearly frustrated, and waiting for someone to ask the right questions. Genuinely useful if treated with patience; less so if you rush him. They are concerned Officer Leopoldo is not taking it seriously. They encourage the players to talk to him.
+> **Key NPC: Ilio Palmpetti, the senior clerk** — Thin, precise, clearly frustrated, and waiting for someone to ask the right questions. Genuinely useful if treated with patience; less so if you rush him. They are concerned Officer Leopold is not taking it seriously. They encourage the players to talk to him.
 >
 > **What players can learn here:**
 > - The puppet-boy never arrived. The deposit was expected — Geppetto is a regular, reliable, same time most weeks. The absence has been noted in the log.
@@ -239,7 +244,7 @@
 > *A ground-floor shopfront with a worn step and a window full of lasts and leather. The cobbler is a broad, deliberate man who has worked this corner for twenty years and knows every face in the square. He is currently sitting behind his counter with a cup of tea going cold, waiting for the police to take a statement.*
 >
 > ![[The Cobbler.png]]
-> **Key NPC: Rodolfo Amati, the cobbler** *(roh-DOL-foh ah-MAH-tee)* — Not given to drama, but quietly furious. He has dealt with the Fox and Cat before. He knows exactly who they are. He spent most of the morning looking out his shop window looking for them. He saw them leave the Inn and head into the woods — but he won't easily volunteer that he himself was swindled. That part is embarrassing.
+> **Key NPC: Renaldo Amati, the cobbler** — Not given to drama, but quietly furious. He has dealt with the Fox and Cat before. He knows exactly who they are. He spent most of the morning looking out his shop window looking for them. He saw them leave the Inn and head into the woods — but he won't easily volunteer that he himself was swindled. That part is embarrassing.
 >
 > **What players can learn here:**
 > - He did **not** see Pinocchio.
@@ -247,8 +252,8 @@
 > - He heard about a ruckus at the Red Crawfish Inn this morning — a disputed bill, a boy running. He says it plainly: *"If you're looking for the boys, you want the Inn. East side of the square. The crawfish sign above the door."* This is the clearest and most direct pointer to the Inn in the entire investigation.
 > - The Fox and Cat are **not** opportunists. They are known criminals with a pattern and a file in this town. The cobbler says this as established fact, without drama.
 >
-> > [!tip] GM Note — Rodolfo's Social Layer
-> > Rodolfo will freely point the party to the Inn — that costs him nothing. But getting his *full* account (that the Fox and Cat robbed him personally, that the police did nothing, the depth of his ongoing fury) requires a bit more. He doesn't want to look like a victim in front of strangers.
+> > [!tip] GM Note — Renaldo‘s Social Layer
+> > Renaldo will freely point the party to the Inn — that costs him nothing. But getting his *full* account (that the Fox and Cat robbed him personally, that the police did nothing, the depth of his ongoing fury) requires a bit more. He doesn't want to look like a victim in front of strangers.
 > >
 > > To unlock his complete story, the party needs one of the following:
 > > - **DC 12 Persuasion** — standard approach; ask respectfully and he'll talk
@@ -263,14 +268,14 @@
 > *A tall building with high windows, presided over by a woman who has known every child in this neighbourhood for thirty years. The desks inside are in perfect rows. A spelling-chart on the wall. The smell of chalk and a particular quality of attentive quiet.*
 >
 > ![[The Schoolmistress.png]]
-> **Key NPC: Serafina Conti, the schoolmistress** *(seh-rah-FEE-nah KON-tee)* — Warm and watchful, with a register that is never wrong. She sent word to Geppetto the moment she was certain. She knows her students well enough to know when something is wrong.
+> **Key NPC: Sophia Corneti, the schoolmistress** — Warm and watchful, with a register that is never wrong. She sent word to Geppetto the moment she was certain. She knows her students well enough to know when something is wrong.
 >
 > **What players can learn here:**
 > - Pinocchio was not at school. Noted in the register: *ABSENT — no message sent.* An unexplained absence is a serious matter.
-> - **Lampwick is also absent.** And this worries Serafina differently — specifically. Lampwick has been distracted lately. *Obsessed* with the idea of becoming a puppeteer. Those posters around town recently have lit something in him; he's been talking about nothing else for weeks. Serafina does not think Lampwick was taken. She thinks Lampwick left of his own accord — she just doesn't know where, or whether Pinocchio went with him. Out on the roads are a dangerous place for a child.
+> - **Lampwick is also absent.** And this worries Sophia differently — specifically. Lampwick has been distracted lately. *Obsessed* with the idea of becoming a puppeteer. Those posters around town recently have lit something in him; he's been talking about nothing else for weeks. Serafina does not think Lampwick was taken. She thinks Lampwick left of his own accord — she just doesn't know where, or whether Pinocchio went with him. Out on the roads are a dangerous place for a child.
 >
 > > [!tip] GM Note — The Lampwick Thread
-> > Lampwick ran away voluntarily to join Mangiafuoco's Puppet Theatre — that's where the trail leads, and the posters make the connection obvious in retrospect. The players can't and shouldn't resolve this in Chapter 1; it pays off in a later chapter when the party reaches the theatre and finds Lampwick inside it, willing but no longer entirely free. Don't let anyone pull this thread now. Serafina Conti's specific worry — "obsessed," the posters, the sense that his absences had started to feel like preparation — should simply sit in the room and be remembered later.
+> > Lampwick ran away voluntarily to join Magnifico’s Puppet Theatre — that's where the trail leads, and the posters make the connection obvious in retrospect. The players can't and shouldn't resolve this in Chapter 1; it pays off in a later chapter when the party reaches the theatre and finds Lampwick inside it, willing but no longer entirely free. Don't let anyone pull this thread now. Sophia Corneti’s specific worry — "obsessed," the posters, the sense that his absences had started to feel like preparation — should simply sit in the room and be remembered later.
 
 ---
 
@@ -282,7 +287,7 @@
 >
 > The party pushes open the door of the Red Crawfish Inn. The room is low and amber-lit, smelling of old wine and fried oil. A carved wooden crawfish hangs above the door. There is a fire that smokes badly. A door to the kitchen swings on a squeaking hinge.
 >
-> **Mastro Lucone, the innkeeper**, sees the party come in. He is a broad man in a stained apron, and he has been waiting. He does not wait for them to speak.
+> **Mario Lucone, the innkeeper**, sees the party come in. He is a broad man in a stained apron, and he has been waiting. He does not wait for them to speak.
 >
 > *"You're working for the old woodcarver?" a hush comes over the inn.*
 > 
@@ -294,22 +299,22 @@
 >
 > He moves to block the exit. He is not asking.
 
-> [!example] The Innkeeper — Mastro Lucone *(📖 Book)*
+> [!example] The Innkeeper — Mario Lucone *(📖 Book)*
 >
 > **Personality:** Not a villain — a working man who has been cheated once too often and has decided the only way to stop being cheated is to stop letting people leave. His anger is genuine; his logic (*you work for the father, you settle the son's tab*) is aggressive but consistent. He is not extracting blood money; he wants to be made whole. He will not be moved by argument alone, and he will not let anyone leave on a promise. "Taddeo! Rosa! We've got some debtors to deal with!" *He bolts the door* **Roll for Initiative**
 >
 > ![[The Innkeeper.png]]
 > **His account:** The Fox and Cat arrived mid-morning with the boy. They ordered lavishly. The Fox talked through the whole meal, low and close to the boy's ear. Just before midday, the Fox rose and announced — publicly, in a voice that carried — that everything was *"taken care of."* Then he and the Cat were gone through the front door. When it was clear they weren't returning, Lucone came to collect. *"The boy kept saying the Fox had settled it, he was clutching a coin purse full enough to pay twice over. When I raised my voice to demand payment, and people looked, and he ran. East."*
 >
-> **Mechanical stat block:** Use the **Mastro Lucone** stat block (see [[The Innkeeper]]). He fights to grapple, block exits, and create noise. He has the weight of a man who has spent thirty years hauling barrels and the *Righteous Fury* trait while he feels unacknowledged.
+> **Mechanical stat block:** Use the **Mario Lucone** stat block (see [[The Innkeeper]]). He fights to grapple, block exits, and create noise. He has the weight of a man who has spent thirty years hauling barrels and the *Righteous Fury* trait while he feels unacknowledged.
 
-> [!example] The Innkeeper's Wife — Vittoria Lucone *(vit-TOR-yah loo-KOH-neh)*
+> [!example] The Innkeeper's Wife — Victoria Lucone
 >
 > **Personality:** More reasonable than her husband, and she knows it. She is in the kitchen — through that squeaky door — and she will not let this go too far. She does not want blood in the taproom. She does not want the law at her own door. And she does not want her husband to embarrass himself in front of strangers. She is the safety valve.
 >
-> **The safety valve mechanic:** If the party is clearly losing — two or more characters down, or things turning ugly — Vittoria comes through the kitchen door, wipes her hands on her apron, and puts herself between her husband and the party.
+> **The safety valve mechanic:** If the party is clearly losing — two or more characters down, or things turning ugly — Victoria comes through the kitchen door, wipes her hands on her apron, and puts herself between her husband and the party.
 >
-> *"That is enough. Sit down, Lucio. These people didn't cheat you."*
+> *"That is enough. Sit down, Mario. These people didn't cheat you."*
 >
 > She does not end the negotiation. She ends the violence. Once she intervenes, the room settles — and the question of the bill remains, but the context has shifted. She either gives he husbands account or confirms it if already given.
 
@@ -333,7 +338,7 @@
 >
 > - **Rosa Ferrini, the waitress** *(ROH-zah feh-REE-nee)* (see [[The Waitress]]) — She fights because she has to, not because she wants to. CR 1/8, slightly above average DEX. Her attacks are halfhearted — a tray raised more as a shield than a weapon. A **DC 10 Persuasion** check mid-combat (used as an action) turns her from opponent to bystander. If any ally goes down, her *Reluctant Fighter* trait lets her Disengage for free. She is the encounter's soft exit and, if won over, a minor source of information about the morning.
 >
-> **The wife's intervention:** If the party is losing badly (two or more unconscious, or clearly overwhelmed), Vittoria comes through the door and stops it. This should feel like rescue, not failure.
+> **The wife's intervention:** If the party is losing badly (two or more unconscious, or clearly overwhelmed), Victoria comes through the door and stops it. This should feel like rescue, not failure.
 
 ---
 # Rabbit's Introduction
@@ -361,13 +366,9 @@
 >
 > *"This Field of Miracles is located in the woods where I live, which is where the boy went. I can show you the way, maybe then my journey won't be wasted."*
 >
-> A beat.
+> A beat. *He straightens his coat.*
 >
-> *"I assume you have horses. No? Hmm."*
->
-> *He straightens his coat.*
->
-> *"Then we walk."*
+> *"If we leave now we should get to a hundred acre woods before night fall."*
 
 > [!example] Character: Rabbit *(Milne original / Disney)*
 >
