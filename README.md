@@ -1,6 +1,6 @@
 # D&D Campaign Tools
 
-**Version 26.04.10.3** · [mydndcampaign.stoplis.workers.dev](https://mydndcampaign.stoplis.workers.dev)
+**Version 26.04.17.1**
 
 A collection of browser-based tools for running a D&D 5e campaign. No build step, no dependencies — just static HTML files served directly from Cloudflare.
 
@@ -8,10 +8,10 @@ A collection of browser-based tools for running a D&D 5e campaign. No build step
 
 ## Tools
 
-- **Character Creator** — Players build their characters for the campaign (race, class, stats, backstory).
 - **Campaign Journal** — Progressive reveal tool. The DM gives out passwords during play to unlock chapter sections and individual entries (character portraits, location images, handouts). Unlocks persist in the browser.
 - **Fast Crafting** — Item browser for a player with the fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions.
 - **Spell Book** — Searchable spell reference for the Sorcerer and Bard players. Cantrips and level 1 spells from the 2024 PHB, filterable by class, level, and school.
+- **Spider Merchant** — Password-gated magic item shop. Players browse 33 items (filterable by rarity) and choose 1 for free. Each item shows flavour text separately from mechanics, with key terms bolded.
 - **DM Screen** — Password-protected DM tool with encounter manager, dice roller, condition tracker, and document viewer. Chapter notes and images load from the repo automatically. PHB and DMG auto-load on the Rules tab.
 
 ---
@@ -20,10 +20,10 @@ A collection of browser-based tools for running a D&D 5e campaign. No build step
 
 ```
 index.html              ← Landing page (links to all tools, version number)
-character-creator.html  ← Character Creator
 campaign-journal.html   ← Campaign Journal (password-gated progressive reveal)
 fast-crafting.html      ← Fast Crafting item browser
 spell-book.html         ← Spell Book (Sorcerer + Bard, cantrips + level 1)
+spider-merchant.html    ← Spider Merchant shop (33 magic items, password-gated)
 dm-screen.html          ← DM Screen (password: "Coachman")
 manifest.json           ← Auto-generated index of notes & images (for DM Screen)
 wrangler.jsonc          ← Cloudflare Workers config
@@ -111,15 +111,13 @@ git commit -m "Your message here"
 git push
 ```
 
-### Custom domain
-Cloudflare Pages project → **Custom domains** → **Set up a custom domain**.
-
 ---
 
 ## Version History
 
 | Version | Date | Changes |
 |---|---|---|
+| 26.04.17.1 | 17 Apr 2026 | Removed Character Creator; added Spider Merchant shop (33 items, rarity filter, flavour/mechanics split, bolded key terms) |
 | 26.04.10.3 | 10 Apr 2026 | Added version number to landing page |
 | 26.04.10.2 | 10 Apr 2026 | Added Spell Book (Sorcerer + Bard, cantrips + level 1, 2024 PHB) |
 | 26.04.10.1 | 10 Apr 2026 | Added Fast Crafting item browser (21 items, 2024 PHB) |
