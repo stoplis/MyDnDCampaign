@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Merchant</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1117;
+            color: #e5e7eb;
+            min-height: 100vh;
+            padding: 1.5rem 1rem 2rem;
+        }
+
+        .header {
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f3f4f6;
+            letter-spacing: 0.05em;
+        }
+        .header p {
+            margin-top: 0.3rem;
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        .filters {
+            max-width: 800px;
+            margin: 0 auto 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .filter-btn {
+            padding: 0.35rem 0.85rem;
+            border-radius: 999px;
+            border: 1px solid #2a2d3a;
+            background: #1a1d27;
+            color: #9ca3af;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .filter-btn:hover { color: #e5e7eb; border-color: #6366f1; }
+        .filter-btn.active {
+            background: #6366f1;
+            border-color: #6366f1;
+            color: #fff;
+        }
+
+        .grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 0.65rem;
+        }
+
+        .card {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 0.625rem;
+            padding: 0.85rem;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .card:hover, .card:active {
+            background: #22253a;
+            border-color: #6366f1;
+        }
+
+        .card-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #f3f4f6;
+            line-height: 1.3;
+        }
+        .card-type {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #818cf8;
+        }
+        .card-rarity {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .card-attunement {
+            font-size: 0.72rem;
+            color: #6b7280;
+        }
+        .card-for {
+            display: inline-block;
+            margin-top: 0.15rem;
+            padding: 0.15rem 0.5rem;
+            background: rgba(251,191,36,0.12);
+            border: 1px solid rgba(251,191,36,0.3);
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: #fbbf24;
+            width: fit-content;
+        }
+
+        /* Detail overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0;
+            z-index: 100;
+        }
+        .overlay.active { display: flex; }
+
+        @media (min-width: 600px) {
+            .overlay { align-items: center; padding: 1.5rem; }
+        }
+
+        .detail {
+            background: #1a1d27;
+            border: 1px solid #2a2d3a;
+            border-radius: 0.875rem 0.875rem 0 0;
+            padding: 1.5rem 1.25rem 2rem;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            animation: slideUp 0.2s ease;
+        }
+        @media (min-width: 600px) {
+            .detail {
+                border-radius: 0.875rem;
+                max-width: 520px;
+                max-height: 85vh;
+                animation: none;
+            }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .detail-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f3f4f6;
+            line-height: 1.3;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 1.4rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            flex-shrink: 0;
+            transition: color 0.15s;
+        }
+        .close-btn:hover { color: #e5e7eb; }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .chip {
+            padding: 0.25rem 0.65rem;
+            background: #22253a;
+            border-radius: 0.375rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #c4c9d4;
+        }
+        .chip-type { color: #818cf8; }
+        .chip-attunement { color: #9ca3af; }
+
+        .detail-for {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(251,191,36,0.1);
+            border: 1px solid rgba(251,191,36,0.3);
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #fbbf24;
+            width: fit-content;
+        }
+        .detail-for-label {
+            font-weight: 400;
+            color: #9ca3af;
+        }
+
+        .detail-desc {
+            font-size: 0.875rem;
+            color: #d1d5db;
+            line-height: 1.65;
+            white-space: pre-wrap;
+        }
+
+        .rarity-common   { color: #9ca3af; }
+        .rarity-uncommon { color: #4ade80; }
+        .rarity-rare     { color: #60a5fa; }
+        .rarity-very-rare { color: #c084fc; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Spider Merchant</h1>
+        <p>Choose any 1 item — free of charge</p>
+    </div>
+
+    <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="All">All</button>
+        <button class="filter-btn" data-filter="Common">Common</button>
+        <button class="filter-btn" data-filter="Uncommon">Uncommon</button>
+        <button class="filter-btn" data-filter="Rare">Rare</button>
+        <button class="filter-btn" data-filter="Very Rare">Very Rare</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="overlay" id="overlay">
+        <div class="detail" id="detail">
+            <div class="detail-header">
+                <div class="detail-name" id="d-name"></div>
+                <button class="close-btn" id="close-btn" aria-label="Close">×</button>
+            </div>
+            <div class="detail-meta" id="d-meta"></div>
+            <div id="d-for"></div>
+            <div class="detail-desc" id="d-desc"></div>
+        </div>
+    </div>
+
+    <script>
+        const ITEMS = [
+            {
+                name: "Alchemist Ring",
+                type: "Ring",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                description: "While attuned to this ring, whenever you drink a healing potion, you regain an additional 1d6 Hit Points. The bonus 1d6 applies to any potion that restores Hit Points on drinking — standard Potions of Healing and their greater variants alike. It does not apply to healing received from spells or other sources, only potions imbibed by the attuned wearer."
+            },
+            {
+                name: "All or Nothing Coin",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "Before making a roll that would use a d20, you may declare you are using this coin instead of rolling. Flip the coin: Heads — the roll is treated as a Natural 20 (critical success). Tails — the roll is treated as a Natural 1 (critical failure). The coin can be used twice per Short Rest. This coin does not modify your roll — it replaces it entirely. Bonuses, proficiency, and advantage/disadvantage do not apply."
+            },
+            {
+                name: "Arrow of Displacement",
+                type: "Weapon (Arrow)",
+                rarity: "Rare",
+                attunement: false,
+                intendedFor: "Rogue",
+                description: "An arrow tipped with a shard of clear quartz crystal that hums faintly when nocked. When fired and the arrow strikes, the archer is instantly teleported to the arrow's landing point. When the arrow embeds in a surface — a wall, the ground, a door — the archer teleports to the arrow's location. When the arrow hits a creature, the creature must make a DC 14 Wisdom saving throw. On a failed save, the archer and the creature swap positions instantly. On a successful save, the swap does not occur — the creature is still struck by the arrow and takes normal damage. The attack roll to hit is still required against the creature's AC."
+            },
+            {
+                name: "Arrow of Yondu",
+                type: "Weapon (Arrow)",
+                rarity: "Rare",
+                attunement: false,
+                intendedFor: "Bard",
+                description: "A gleaming red arrow that floats upright when held aloft, as if eager. It does not require a bow. When the wielder raises it overhead and whistles, it launches itself. Hold the arrow aloft and whistle. No attack roll is made and no bow is required. The arrow launches and passes through a target enemy of your choice within range, automatically dealing 1d6 piercing damage — ignoring Armor Class. After each strike, roll d20 + your Wisdom modifier. On a 15 or higher, the arrow wheels and drives through another target of your choice, dealing 1d6 piercing damage again. Repeat this roll after each consecutive hit. Each new target must be a different creature."
+            },
+            {
+                name: "Boots of Striding and Springing",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                description: "While you wear these boots, your Speed becomes 30 feet unless your Speed is already higher, and your Speed is not reduced by carrying weight in excess of your carrying capacity or wearing Heavy Armor. Once on each of your turns, you can jump up to 30 feet by spending only 10 feet of movement. A normal jump costs movement equal to the distance jumped. Spending 10 ft. of movement to jump 30 ft. means you effectively gain 20 ft. of free distance once per turn — very strong for closing gaps, vaulting obstacles, or escaping grapples."
+            },
+            {
+                name: "Bracers of the Woodland Hunter",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                description: "Worn leather bracers stitched with a pattern of leaves and animal tracks, darkened by long use in the field. While attuned, they hum with a quiet readiness. Once per Long Rest, you may cast Hunter's Mark as a 1st-level spell without expending a spell slot. You do not need to be a spellcaster. The spell uses your Wisdom modifier as your spellcasting ability. Non-magical difficult terrain does not slow your movement. Mud, undergrowth, shallow water, loose rock, tangled roots — none of these cost you extra movement while you wear these bracers. Magically created difficult terrain still affects you normally."
+            },
+            {
+                name: "Clark's Glasses of Kent",
+                type: "Wondrous Item",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: null,
+                description: "An unremarkable pair of thick-framed spectacles that seem impossibly ordinary. No enchantment is visible on them. The first time you attune to these glasses, you establish your alter ego — a name, a brief backstory, and the persona you project. This choice is permanent for as long as you remain attuned. While wearing the glasses, a subtle magical compulsion affects the minds of all creatures that perceive you: creatures cannot mentally connect you (the wearer) with your real identity. To them, you are entirely and completely your alter ego — a different person in every sense. You do not physically change. You look exactly the same. The magic works on the minds of observers, not your appearance. Your real identity and your alter ego exist as two entirely separate people in the minds of those who know both."
+            },
+            {
+                name: "Cloak of Displacement",
+                type: "Wondrous Item",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: null,
+                description: "A shimmering cloak that makes you appear to be somewhere slightly different from where you actually stand — like a desert mirage in motion. While you wear this cloak, it projects an illusion that makes you appear to be standing in a place near your actual location, causing any creature to have Disadvantage on attack rolls against you. The displacement effect is suppressed whenever you take any damage (until the start of your next turn) or your Speed is 0."
+            },
+            {
+                name: "Decanter of Endless Water",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "A stoppered flask that sloshes when shaken. Take a Magic action to remove the stopper and speak one of three command words. Fresh or salt water (your choice) pours out until the start of your next turn. First word produces 1 gallon of water. Second word produces 5 gallons of water. Third word produces 30 gallons — a geyser in a 30-ft. line, 1 ft. wide. When using the third command, one creature of your choice in the line must succeed on a DC 13 Strength saving throw or take 1d4 Bludgeoning damage and fall Prone. Alternatively, target one object in the line weighing 200 lb. or less — it is knocked over."
+            },
+            {
+                name: "Dust of Dryness",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "This small packet contains 1d6 + 4 pinches of dust (roll when found). Sprinkle a pinch over water to absorb up to a 15-foot Cube of water into one marble-sized pellet. The pellet floats or rests where the dust was sprinkled and weighs nothing. A creature can smash a pellet against a hard surface, shattering it and releasing all the absorbed water. This destroys the pellet. Sprinkle a pinch on a creature within 5 feet that is composed mostly of water (Water Elemental, Water Weird, etc.). That creature makes a DC 13 Constitution saving throw, taking 10d6 Necrotic damage on a failure or half on a success."
+            },
+            {
+                name: "Fan of Gusts",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                description: "A delicate folding fan painted with swirling clouds and silver birds. When snapped open with a flourish, a real breeze follows. Once per day, you can take a Magic action to snap the fan open and cast the Gust cantrip, choosing one of the following effects at a point within 30 feet: Push — One Medium or smaller creature must succeed on a Strength saving throw (DC 13) or be pushed up to 5 feet away from you. Move Object — Move one unattended object weighing 5 lbs or less up to 10 feet. Sensory Effect — Create a harmless air effect — rustling leaves, slamming shutters, a rippling cloak."
+            },
+            {
+                name: "Feather Fall Duster",
+                type: "Wand",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "A long, fluffy pink feather duster that smells faintly of lavender. The feathers never seem to get dirty, no matter what you dust with them. The duster has 4 charges and regains 1d4 expended charges daily at dawn. While holding the duster, you can use your reaction to expend 1 charge and cast Feather Fall, targeting up to 5 falling creatures within 60 feet. Each chosen creature's rate of descent slows to 60 feet per round until the spell ends. A creature that lands before the spell ends takes no falling damage, and the spell ends for that creature."
+            },
+            {
+                name: "Glamoured Studded Leather",
+                type: "Armor (Studded Leather)",
+                rarity: "Rare",
+                attunement: false,
+                intendedFor: "Bard",
+                description: "Studded leather armor with an enchantment that lets it appear to be anything you want — from a fine noble's coat to a heavy breastplate. While wearing this armor, you gain a +1 bonus to Armor Class (in addition to the armor's normal AC of 12 + Dex modifier). Total AC: 13 + Dex modifier. You can take a Bonus Action to cause the armor to assume the appearance of any normal set of clothing or other kind of armor. You decide what it looks like — including color, style, and accessories — but the armor retains its normal bulk and weight. The illusory appearance lasts until you use this property again or doff the armor."
+            },
+            {
+                name: "Glutton's Fork",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                description: "A large, slightly tarnished silver fork with an unusual warmth to the handle. It hums faintly when brought near anything edible — or near anything at all, really. Tap the fork against any non-magical item that could physically fit in your mouth. The item becomes edible — flavourless but perfectly safe to consume. When you eat it, you regain 2d6 Hit Points. The item is destroyed in the process. The fork cannot be used again until the next dawn. Almost anything physical and fittable: a piece of rope, a door handle, a lockpick, a document, a copper coin, a boot buckle."
+            },
+            {
+                name: "Goggles of Night",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "While wearing these dark lenses, you have Darkvision out to 60 feet. If you already have Darkvision, wearing the goggles increases its range by 60 feet. Unlike most vision items, the Goggles of Night require no attunement — any character can put them on and immediately benefit. Characters without natural Darkvision gain full 60 ft. Darkvision instantly. Races with 60 ft. Darkvision extend to 120 ft."
+            },
+            {
+                name: "Grease Bottles",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                description: "A small sealed bottle filled with a viscous, shimmering liquid that smells faintly of animal fat. You can throw a grease bottle as a ranged weapon attack using Strength or Dexterity. On a hit (or when thrown at a point on the ground), the bottle shatters and the contents spread across a 10-foot square centred on the target point. The area becomes Difficult Terrain for 1 minute. Each creature standing in the area when the grease appears must succeed on a DC 13 Dexterity saving throw or have the Prone condition. A creature that enters the area or ends its turn there must also succeed on that save or fall Prone. Unlike mundane grease, this alchemical variety is highly flammable. If the grease is set alight, it burns for 1 minute. A creature that enters the burning grease or starts its turn in the area takes 2d6 fire damage."
+            },
+            {
+                name: "Hat of Vermin",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                description: "This hat has 3 charges and regains all expended charges daily at dawn. While holding the hat, you can take a Magic action to expend 1 charge and summon your choice of: Bat, Frog, or Rat. The creature magically appears in the hat and immediately tries to get away from you. It is Indifferent toward you and other creatures, is not under your control, and behaves as an ordinary creature of its kind. The creature disappears after 1 hour or when it drops to 0 Hit Points."
+            },
+            {
+                name: "Hat of Wizardry",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: true,
+                intendedFor: null,
+                description: "A cone-shaped hat adorned with moons and stars. While wearing it, a Wizard gains two benefits. You can use the hat as a Spellcasting Focus for your Wizard spells. As a Magic action, you can attempt to cast a Wizard cantrip you don't know. The cantrip must be on the Wizard spell list and have a casting time of an action. Make a DC 10 Intelligence (Arcana) check: Success — The spell is cast. Failure — The spell fails and the action is wasted. Either way, this property cannot be used again until after a Long Rest."
+            },
+            {
+                name: "Immovable Rod",
+                type: "Rod",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "This iron rod has a button on one end. You can take a Utilize action to press the button, which causes the rod to become magically fixed in place. Until you or another creature takes a Utilize action to push the button again, the rod doesn't move — even if it defies gravity. The rod can hold up to 8,000 pounds of weight. More weight causes the rod to deactivate and fall. A creature can take a Utilize action to make a DC 30 Strength (Athletics) check, moving the fixed rod up to 10 feet on a successful check."
+            },
+            {
+                name: "Jar of Bees",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                description: "A glass jar of ordinary, angry bees. The lid is a mesh screen so they can breathe. They are extremely unhappy about this. When thrown, the jar shatters on impact and the bees erupt outward in a furious cloud. As an action, make a ranged attack roll (Dexterity modifier, no proficiency unless proficient with improvised weapons) to throw the jar up to 50 feet. On a Hit: The jar lands where intended, shatters on impact, and affects all creatures within a 5-foot radius of the target point. Each affected creature takes 1d6 piercing damage and is Distracted until the end of its next turn. On a Miss: You fumble the throw. The jar slips, tumbles, and shatters at your feet. You and all creatures within 5 feet of you take the 1d6 piercing damage and are Distracted until the end of their next turn."
+            },
+            {
+                name: "Mockingbird Gum",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "Green and blue speckled sticks of chewing gum with a sharp minty smell. The packaging shows a small bird perched mid-song, its beak open wide. Found in packs of 1d10 sticks. As an action, you can eat one stick of Mockingbird Gum. For the next 1 hour, you gain the ability to perfectly imitate the voice of any creature you have heard speak. You can switch between imitated voices freely during this time. A creature that hears you can attempt to detect the imitation by making a DC 20 Wisdom (Insight) check. On a success, the creature recognises the voice as an imitation."
+            },
+            {
+                name: "Pole of Collapsing",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                description: "An unremarkable 10-foot pole that has one extremely convenient property. This item functions as a standard 10-foot Pole. While holding it, you can take a Magic action to: Collapse the pole into a 1-foot-long rod for ease of storage. Its weight does not change. Extend the rod back into a full 10-foot pole. The pole extends only as far as the surrounding space allows — it will not push through ceilings or walls."
+            },
+            {
+                name: "Portable Hole",
+                type: "Wondrous Item",
+                rarity: "Rare",
+                attunement: false,
+                intendedFor: null,
+                description: "A fine black cloth, soft as silk, folded to the size of a handkerchief. It unfolds into a circular sheet 6 feet in diameter. Take a Magic action to unfold the cloth and place it on or against a solid surface. It creates an extradimensional hole 10 feet deep. The cylindrical space exists on a different plane of existence — it cannot be used to create open passages between locations. Any creature inside an open Portable Hole can exit by climbing out. Take a Magic action to grab the edges and fold the cloth up. The hole closes. Any creatures or objects inside remain in the extradimensional space. The hole weighs nothing regardless of contents. A creature trapped inside can take an action to make a DC 10 Strength (Athletics) check. On a success, it forces its way out and appears within 5 feet of the hole's location. A closed hole holds enough air for 1 hour of breathing, divided by the number of breathing creatures inside."
+            },
+            {
+                name: "Ring of Recall",
+                type: "Ring",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: "Sorcerer",
+                description: "A slender silver ring set with a small, clouded gem that briefly clears when a spell goes wrong. It remembers what was lost. When you cast a spell using a spell slot and the casting fails, you may use your Reaction to regain the expended spell slot. The ring cannot be used again until the next Long Rest. A cast fails — and the ring triggers — when a spell slot is expended but the spell does not connect: The spell attack roll misses (rolls below the target's AC). The target succeeds on their saving throw and the spell has no effect on them."
+            },
+            {
+                name: "Ring of Telekinesis",
+                type: "Ring",
+                rarity: "Very Rare",
+                attunement: true,
+                intendedFor: null,
+                description: "While wearing this ring, you can cast Telekinesis from it. You move or manipulate creatures or objects by thought. On cast and as a Magic action on subsequent turns, exert your will on one creature or object within 60 feet. Creature (Huge or smaller) — The target makes a Strength saving throw (DC = your spell save DC). On a failure, you move it up to 30 feet in any direction. Until the end of your next turn it has the Restrained condition. If lifted into the air, it is suspended — it falls at the end of your next turn unless you use this option again. Object (Huge or smaller, unattended) — You automatically move it up to 30 feet in any direction within range. Object (worn or carried) — The bearer makes a Strength saving throw. On a failure, you pull the object free and move it up to 30 feet. Fine Control — You can exert precise telekinetic grip to manipulate tools, open doors or containers, stow or retrieve items from open containers, or pour vials. The ring casts Telekinesis at will — no charges, no spell slots, no daily limit."
+            },
+            {
+                name: "Ring of the Giantslayer",
+                type: "Ring",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: null,
+                description: "A plain, unadorned copper ring — no engravings, no gems, nothing to suggest what it does. It is slightly too cold to the touch regardless of the wearer's body heat. Against large enemies, the wearer moves differently. Faster. More certain. While attuned to and wearing this ring, you gain the following benefits against any creature of Large size or larger: +2 bonus to Armor Class, +2 bonus to attack rolls. These bonuses apply only when the attacker or threat is Large or larger. They do not apply against Medium or smaller creatures."
+            },
+            {
+                name: "Rope of Climbing",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "A 60-foot length of rope that can hold up to 3,000 pounds. While holding one end, you can take a Magic action to command the other end to animate and move toward a destination up to the rope's length away. The animated end moves 10 feet on your turn when first commanded, and 10 feet at the start of each subsequent turn until it reaches its destination or you tell it to stop. You can command the rope to: Fasten itself securely to an object, Unfasten from an object, Knot itself (knots appear every 1 ft., rope shortens to 50 ft., grants Advantage on Athletics checks to climb), Unknot itself, Coil itself for carrying. AC 20, HP 20, Damage Immunity — Poison, Psychic, Regeneration — 1 HP every 5 minutes (while above 0 HP)."
+            },
+            {
+                name: "Slippers of Spider Climbing",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                description: "While you wear these light shoes, you can move up, down, and across vertical surfaces and along ceilings, while leaving your hands free. You have a Climb Speed equal to your Speed. The slippers do not allow movement on slippery surfaces, such as those covered by ice or oil. Climbing Speed equal to your full Speed means no movement penalty for vertical surfaces — a creature with Speed 30 climbs at 30 ft. Combined with free hands, this opens up melee attacks, spellcasting, or ranged fire from the ceiling or walls."
+            },
+            {
+                name: "Stone of Farspeech",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                description: "A smooth, palm-sized stone warm to the touch, faintly iridescent. It pulses gently when its paired stone is nearby. When held and spoken to, the voice carries — to wherever it needs to go. Stones of Farspeech are made in matched pairs. While holding a stone, you can speak into it to send your voice in real time to the holder of the paired stone, anywhere on the same plane of existence. The paired stone holder hears you clearly and can respond in kind. Communication is two-way and instantaneous — a conversation, not a message. There is no daily limit on use. The stones work as long as both are held by a living creature on the same plane. Both holders must be actively holding their stone for communication to work. The stones only reach each other — not other stones of Farspeech. Communication does not work across planar boundaries. If either stone is destroyed, the other becomes nonmagical."
+            },
+            {
+                name: "Tankard of Potent Drink",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                description: "A sturdy, well-worn tankard etched with images of revellers and overflowing cups. It has seen better days, but it never leaks. When an alcoholic beverage is consumed from this tankard, it is twice as potent as normal. The effects of intoxication onset faster and hit harder — DM determines appropriate mechanical effects (disadvantage on Wisdom checks, Constitution saves, etc. at their discretion). When plain water is consumed from this tankard, the drinker immediately becomes sober, removing all effects of intoxication regardless of how much they have drunk."
+            },
+            {
+                name: "Wand of Switcheroo",
+                type: "Wand",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: null,
+                description: "A crooked little wand carved from pale driftwood, with two small copper rings near the tip that seem to trade places whenever you blink. The wand has 3 charges and regains 1d3 expended charges daily at dawn. While holding this wand, you can take an action to target a creature your size or smaller within 100 feet of you and expend 1 charge: Willing creature — You and the creature immediately swap positions. No save required. Unwilling creature — The creature must make a DC 16 Charisma saving throw. On a failed save, you and the creature swap positions. On a successful save, nothing happens and the charge is wasted. The swap is instantaneous teleportation — neither creature provokes opportunity attacks as part of the swap. If you expend the wand's last charge, roll a d20. On a 1, the wand magically switches places with a random ordinary stick somewhere nearby, and the wand itself is lost forever."
+            },
+            {
+                name: "Wand of the War Mage",
+                type: "Wand",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: "Sorcerer",
+                description: "A simple but elegant wand of dark metal, typically forged for battlemages. It channels offensive magic with greater precision. While holding this wand, you gain a +1 bonus to spell attack rolls. In addition, you ignore Cover when making a spell attack roll. The bonus applies to every spell attack roll — Fire Bolt, Eldritch Blast, Scorching Ray, Guiding Bolt, etc. Any attack roll spell benefits."
+            },
+            {
+                name: "Winged Boots",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                description: "These boots have 4 charges and regain 1d4 expended charges daily at dawn. While wearing the boots, you can take a Magic action to expend 1 charge, gaining a Fly Speed of 30 feet for 1 hour. Each charge grants 1 hour of flight at 30 ft. Fly Speed. If you are flying when the duration expires, you descend at a rate of 30 feet per round until you land. Charges recharge to a random amount (1–4) each dawn — you may not always have a full four. Keep track of when the charge was activated. 1 hour of in-game time can pass quickly across a tense encounter or exploration sequence."
+            }
+        ];
+
+        const RARITY_ORDER = ["Common", "Uncommon", "Rare", "Very Rare"];
+        const RARITY_CLASS = {
+            "Common": "rarity-common",
+            "Uncommon": "rarity-uncommon",
+            "Rare": "rarity-rare",
+            "Very Rare": "rarity-very-rare"
+        };
+
+        let activeFilter = "All";
+
+        function rarityClass(r) {
+            return RARITY_CLASS[r] || "";
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('grid');
+            const filtered = activeFilter === "All"
+                ? ITEMS
+                : ITEMS.filter(i => i.rarity === activeFilter);
+
+            filtered.sort((a, b) =>
+                RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity) ||
+                a.name.localeCompare(b.name)
+            );
+
+            grid.innerHTML = filtered.map((item, idx) => {
+                const origIdx = ITEMS.indexOf(item);
+                return `<div class="card" data-idx="${origIdx}" tabindex="0" role="button" aria-label="${item.name}">
+                    <div class="card-name">${item.name}</div>
+                    <div class="card-type">${item.type}</div>
+                    <div class="card-rarity ${rarityClass(item.rarity)}">${item.rarity}</div>
+                    ${item.attunement ? '<div class="card-attunement">Requires attunement</div>' : ''}
+                    ${item.intendedFor ? `<div class="card-for">For: ${item.intendedFor}</div>` : ''}
+                </div>`;
+            }).join('');
+
+            grid.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', () => openDetail(parseInt(card.dataset.idx)));
+                card.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') openDetail(parseInt(card.dataset.idx));
+                });
+            });
+        }
+
+        function openDetail(idx) {
+            const item = ITEMS[idx];
+            document.getElementById('d-name').textContent = item.name;
+
+            const meta = document.getElementById('d-meta');
+            meta.innerHTML = `
+                <span class="chip chip-type">${item.type}</span>
+                <span class="chip ${rarityClass(item.rarity)}">${item.rarity}</span>
+                ${item.attunement ? '<span class="chip chip-attunement">Requires attunement</span>' : ''}
+            `;
+
+            const forEl = document.getElementById('d-for');
+            forEl.innerHTML = item.intendedFor
+                ? `<div class="detail-for"><span class="detail-for-label">Recommended for</span> ${item.intendedFor}</div>`
+                : '';
+
+            document.getElementById('d-desc').textContent = item.description;
+
+            const overlay = document.getElementById('overlay');
+            overlay.classList.add('active');
+        }
+
+        function closeDetail() {
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        document.getElementById('close-btn').addEventListener('click', closeDetail);
+        document.getElementById('overlay').addEventListener('click', e => {
+            if (e.target === document.getElementById('overlay')) closeDetail();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeDetail();
+        });
+
+        document.getElementById('filters').addEventListener('click', e => {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+            activeFilter = btn.dataset.filter;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderGrid();
+        });
+
+        renderGrid();
+    </script>
+</body>
+</html>
