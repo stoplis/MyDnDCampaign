@@ -184,6 +184,10 @@
                 Spell Book
                 <span class="tool-desc">Sorcerer &amp; Bard spells</span>
             </a>
+            <button class="tool-link" id="merchant-btn" type="button">
+                Merchant
+                <span class="tool-desc">Browse the merchant's wares — choose 1</span>
+            </button>
             <button class="tool-link" id="dm-screen-btn" type="button">
                 DM Screen
                 <span class="tool-desc">Dungeon Master only</span>
@@ -191,7 +195,7 @@
         </div>
     </div>
 
-    <div class="version">v26.04.10.3</div>
+    <div class="version">v26.04.17.1</div>
 
     <div class="overlay" id="overlay">
         <div class="modal">
@@ -201,6 +205,18 @@
             <div class="modal-actions">
                 <button class="btn btn-cancel" id="cancel-btn" type="button">Cancel</button>
                 <button class="btn btn-submit" id="submit-btn" type="button">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="merchant-overlay">
+        <div class="modal">
+            <h2>Merchant</h2>
+            <p>Enter the password to continue.</p>
+            <input type="password" id="merchant-pw" autocomplete="off" spellcheck="false" placeholder="Password">
+            <div class="modal-actions">
+                <button class="btn btn-cancel" id="merchant-cancel-btn" type="button">Cancel</button>
+                <button class="btn btn-submit" id="merchant-submit-btn" type="button">Enter</button>
             </div>
         </div>
     </div>
@@ -236,6 +252,38 @@
         document.getElementById('submit-btn').addEventListener('click', tryPassword);
         pw.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') tryPassword();
+        });
+
+        const merchantOverlay = document.getElementById('merchant-overlay');
+        const merchantPw = document.getElementById('merchant-pw');
+
+        document.getElementById('merchant-btn').addEventListener('click', () => {
+            merchantOverlay.classList.add('active');
+            merchantPw.value = '';
+            merchantPw.classList.remove('error');
+            setTimeout(() => merchantPw.focus(), 50);
+        });
+
+        document.getElementById('merchant-cancel-btn').addEventListener('click', () => {
+            merchantOverlay.classList.remove('active');
+        });
+
+        merchantOverlay.addEventListener('click', (e) => {
+            if (e.target === merchantOverlay) merchantOverlay.classList.remove('active');
+        });
+
+        function tryMerchantPassword() {
+            if (merchantPw.value.trim().toLowerCase() === 'spider') {
+                window.location.href = 'spider-merchant.html';
+            } else {
+                merchantPw.classList.add('error');
+                setTimeout(() => merchantPw.classList.remove('error'), 400);
+            }
+        }
+
+        document.getElementById('merchant-submit-btn').addEventListener('click', tryMerchantPassword);
+        merchantPw.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') tryMerchantPassword();
         });
     </script>
 </body>
