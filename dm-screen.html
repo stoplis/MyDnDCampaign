@@ -2188,9 +2188,11 @@ function App() {
     setPcState(ps => ps.map(p => p.id === id ? {...p, ...patch} : p));
   }
 
-  const chapters = ["All", ...Array.from(new Set(
-    characters.filter(c => c.chapter_playable != null).map(c => c.chapter_playable)
-  )).sort((a,b) => a-b).map(String)];
+  const NOTE_CHAPTERS = [1, 2, 2.5, 3];
+  const chapters = ["All", ...Array.from(new Set([
+    ...characters.filter(c => c.chapter_playable != null).map(c => c.chapter_playable),
+    ...NOTE_CHAPTERS,
+  ])).sort((a,b) => a-b).map(String)];
 
   return (
     <div className="flex flex-col h-full bg-gray-900 text-gray-100 overflow-hidden" style={{minWidth:"900px"}}>
