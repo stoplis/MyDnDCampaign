@@ -1637,10 +1637,10 @@ function DocumentPanel({ characters, activeTab }) {
     prevTab.current = activeTab;
     // Map chapter number to note path
     const chapterMap = {
-      '1': 'notes/chapters/Chapter 1 - Around Town.md',
-      '2': 'notes/chapters/Chapter 2 - The Field of Miracles.md',
-      '3': 'notes/chapters/Chapter 3 - The Puppet Theatre.md',
-      '4': 'notes/chapters/Chapter 4 - The Circus.md',
+      '1':   'notes/chapters/Chapter 1 - Around Town.md',
+      '2':   'notes/chapters/Chapter 2 - The Field of Miracles.md',
+      '2.5': 'notes/chapters/Chapter 2.5 - Interlude 1.md',
+      '3':   'notes/chapters/Chapter 3 - The Puppet Theatre.md',
     };
     const path = chapterMap[activeTab];
     if (path) {

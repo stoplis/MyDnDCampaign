@@ -66,8 +66,7 @@ related:
 
 ---
 
-# The Theatre
-> [!success] Password: theatre
+# This Chapter
 
 > [!abstract] GM Overview
 > The Puppet Theatre is an exploration chapter built around three interlocking goals: restore power, clear the west wing to get the east wing key, and find the theatre key in the workshop to face Magnifico. Two optional rooms offer magic items. The chapter ends in Magnifico's office with the conspiracy board that opens the rest of the campaign.
@@ -80,44 +79,39 @@ related:
 
 ---
 
-## Exterior and First Approach
+# Exterior and First Approach
 
-> [!info] Scene: Arriving at the Theatre
-> The road delivers them to it without warning — a gap in the treeline and suddenly there it is: the Puppet Theatre of Magnifico, enormous and faded and, somehow, still magnificent. The facade is gilded plaster, the gilt peeling at the corners, the painted murals above the entry arch gone grey with weather. Along the right side of the building: holes in the roof, scorch marks on the stonework. There has been a fire here. From the outside it looks contained.
->
-> But the thing that stops you — before the fire damage does — is the wiring. Copper fittings at the base of the exterior walls. A wire running along the guttering, neat and deliberate. Small glass-and-metal fixtures at the entrance, dark now. This is a building that runs on something. Not torches. Not magic lamps. *Something else.*
->
-> The main doors are partially open. Not forced — simply left that way, as if whoever last went through them did not expect to need them again.
+The road delivers them to it without warning — a gap in the treeline and suddenly there it is: the Puppet Theatre of Magnifico, enormous and faded and, somehow, still magnificent. The facade is gilded plaster, the gilt peeling at the corners, the painted murals above the entry arch gone grey with weather. Along the right side of the building: holes in the roof, scorch marks on the stonework. There has been a fire here. From the outside it looks contained.
+
+But the thing that stops you — before the fire damage does — is the wiring. Copper fittings at the base of the exterior walls. A wire running along the guttering, neat and deliberate. Small glass-and-metal fixtures at the entrance, dark now. This is a building that runs on something. Not torches. Not magic lamps. *Something else.*
+
+The main doors are partially open. Not forced — simply left that way, as if whoever last went through them did not expect to need them again.
+
+> [!success] Password: theatre
+> ![[Theatre - Exterior.png]]
 
 > [!tip] GM Note — The Electricity
 > This is the first time the players have seen one of those buildings. Everyone in Albion has heard the rumours — a city somewhere, buildings lit by no candle or spell, running on some mechanism nobody can name. The players have never seen it. Now they are standing in front of one.
 >
 > The power is currently off. The fittings are cold and dark. But when it comes on, play the moment: the lights in this building are cool, pale, and utterly steady. They do not flicker. They illuminate corners that candlelight never reaches. It is impressive and faintly wrong at the same time. The puppets throughout the building are Victor Frankenstein's work — sent by the Coachman as part of his deal with Magnifico. Not magic. Science.
 
-> [!tip] GM Note — First Impression
-> The exterior does not look like a disaster site. It looks like a theatre that has been closed for a long time and not quite cared for. The fire was inside, contained to one wing. From here it is impressive: the scale, the gilded facade, the ambition of the place. Play it as beautiful and abandoned, not ruined. Magnifico built this over decades. Let that land before the players go inside — so they carry it with them when they finally face him.
-
-![[Theatre - Exterior.png]]
+The exterior does not look like a disaster site. It looks like a theatre that has been closed for a long time and not quite cared for. The fire was inside, contained to one wing. From here it is impressive: the scale, the gilded facade, the ambition of the place. Play it as beautiful and abandoned, not ruined. Magnifico built this over decades. Let that land before the players go inside — so they carry it with them when they finally face him.
 
 ---
 
-## Ground Floor: Entrance Hall / Box Office
+# Ground Floor: Entrance Hall / Box Office
 *(Centre Wing — always accessible)*
 
-> [!info] Scene: The Entrance Hall
-> *The grand entry foyer. The ceiling is thirty feet above — a faded sky-mural in cracked plaster, held up by grand white pillars that vanish into the dark above. The floor is deep red carpet, worn pale down the centre. Framed playbills cover the walls: performances from a decade and more ago, their colours faded but the compositions still beautiful. The smell of old velvet and dust and something floral that has not quite gone, with a trace of smoke drifting from somewhere further in.*
->
-> *At the far end: closed double doors into the theatre seating, bound with a heavy chain and padlock. A brass plaque beside them holds a keyhole set into a decorative cartouche — the lock that controls all entrances to the main theatre. Staircases rise on either side toward the first floor. A door to the left is labelled* WEST WING *— locked, the mechanism visible in the frame. To the right, a door marked* EAST WING *is also locked. But near it, partially behind a large plant pot: another door, heavy and plain, standing slightly ajar. A sign reads* AUTHORISED PUPPETS ONLY*. From behind it: the faint smell of oil and something warm, like a stove that has never been switched off.*
->
-> *Set into the right-hand wall: the box office booth — dark wood frame, a sliding glass window gone cloudy with years of fingerprints. Through the glass: a mechanical figure from the waist up, head slightly bowed, entirely still.*
+*The grand entry foyer. The ceiling is thirty feet above — a faded sky-mural in cracked plaster, held up by grand white pillars that vanish into the dark above. The floor is deep red carpet, worn pale down the centre. Framed playbills cover the walls: performances from a decade and more ago, their colours faded but the compositions still beautiful. The smell of old velvet and dust and something floral that has not quite gone, with a trace of smoke drifting from somewhere further in.*
+
+*At the far end: closed double doors into the theatre seating, bound with a heavy chain and padlock. A brass plaque beside them holds a keyhole set into a decorative cartouche — the lock that controls all entrances to the main theatre. Staircases rise on either side toward the first floor. A door to the left is labelled* WEST WING — locked, the mechanism visible in the frame. To the right, a door marked EAST WING is also locked. But near it, partially behind a large plant pot: another door, heavy and plain, standing slightly ajar. A sign reads AUTHORISED PUPPETS ONLY*. From behind it: the faint smell of oil and something warm, like a stove that has never been switched off.*
+
+*Set into the right-hand wall: the box office booth — dark wood frame, a sliding glass window gone cloudy with years of fingerprints. Through the glass: a mechanical figure from the waist up, head slightly bowed, entirely still.*
 
 ![[Theatre - Entrance.png]]
 
-#### Map
-
 > [!success] Password: theatremap
-
-![[Theatre Map.png]]
+> ![[Theatre Map.png]]
 
 | 1   | Entrance     |
 | --- | ------------ |
@@ -134,18 +128,17 @@ related:
 
 ---
 
-## Ground Floor: The Plant Room
+# Ground Floor: The Plant Room
 *(East Wing — accessible from lobby, door ajar)*
 
-> [!info] Scene: The Plant Room
-> A small, purely functional room: bare breeze-block walls, exposed pipework, the smell of oil and warm metal. Against the far wall stands a large steel cabinet, copper-edged, with a glass panel showing a tangle of wiring within. A cast-iron plate reads POWER CONTROL. A heavy black lever points downward, labelled MAIN.
->
-> On the floor, wedged under the cabinet, a sheet of headed notepaper:
+A small, purely functional room: bare breeze-block walls, exposed pipework, the smell of oil and warm metal. Against the far wall stands a large steel cabinet, copper-edged, with a glass panel showing a tangle of wiring within. A cast-iron plate reads POWER CONTROL. A heavy black lever points downward, labelled MAIN.
+
+On the floor, wedged under the cabinet, a sheet of headed notepaper:
 
 > [!quote] Internal Note — Puppet Maintenance
 > *If the Bartender unit begins exhibiting erratic behaviour, simply power down and restart. This is a known intermittent fault and scheduled for correction next week.*
 
-> [!warning] The Power Mechanic
+> [!info] The Power Mechanic
 > When the MAIN lever is thrown:
 >
 > - The lights come on throughout the building — cool, pale, and entirely steady, from glass-and-wire fixtures on every ceiling. Every corner illuminated. Shadows disappear. It is extraordinary and faintly unsettling.
@@ -154,16 +147,16 @@ related:
 
 ---
 
-## The Box Office Puppet
+# The Box Office Puppet
 
-> [!info] When the Lights Come On
-> The mechanical figure behind the box office glass straightens, tilts her head, and opens the sliding window. She is a woman from the waist up — her hair arranged precisely under a small cap, her face painted with a warm and permanently attentive expression. Her voice, when it comes, is warm and slightly tinny, like music from a music box.
->
-> *"Welcome to the Puppet Theatre of Magnifico. How may I assist you today?"*
->
-> She will not become hostile. She will not be offended. She will try, sincerely, to be helpful within the limits of her programming.
-> 
-![[Box Office.PNG]]
+The mechanical figure behind the box office glass straightens, tilts her head, and opens the sliding window. She is a woman from the waist up — her hair arranged precisely under a small cap, her face painted with a warm and permanently attentive expression. Her voice, when it comes, is warm and slightly tinny, like music from a music box.
+
+*"Welcome to the Puppet Theatre of Magnifico. How may I assist you today?"*
+
+She will not become hostile. She will not be offended. She will try, sincerely, to be helpful within the limits of her programming.
+
+>[!success] Password: boxoffice
+>![[Box Office.PNG]]
 
 > [!example] What the Box Office Puppet Knows
 >
@@ -173,7 +166,7 @@ related:
 > - **The children / workers:** *"Our workers are accommodated in the workshop. Very comfortable arrangements — bunks, a common area. Through the east wing."* She says this cheerfully. She was not programmed to know the difference between workers and children. The cheerfulness is genuine and terrible.
 > - **Anything else:** She engages helpfully but deflects on anything outside her programming — recent events, the fire, Magnifico's activities — with a pleasant *"I'm afraid I don't have information about that."*
 
-> [!warning] When the Players Return with the Theatre Key
+> [!info] When the Players Return with the Theatre Key
 > As the players approach the chained theatre doors with the Usher's key, the box office window opens.
 >
 > *"I've let the boss know you're here. He's expecting you."*
@@ -182,19 +175,19 @@ related:
 
 ---
 
-## Ground Floor: The Bar
+# Ground Floor: The Bar
 *(West Wing — unlocked when power is restored)*
 
+>[!success] Password: bar
 ![[Theatre - The Bar.png]]
 
-> [!info] Scene: The Bar
-> *A long room — a mahogany bar running the full length of one wall, shelves behind it still stocked with bottles that have gone to sediment. Tall stools along the counter. A few small tables, some overturned. At one end of the bar, a brass lever set into the wall with a small plaque reading* BAR POWER DO NOT TOUCH*, currently down.*
->
-> *Behind the bar: not a person but a puppet — a man from the waist up, with a considerable moustache and a professional expression, mounted on a brass track that runs the full length of the bar. He is currently dormant, facing away.*
->
-> *From the next room: the faint sound of someone humming a tune, slightly off-key.*
+*A long room — a mahogany bar running the full length of one wall, shelves behind it still stocked with bottles that have gone to sediment. Tall stools along the counter. A few small tables, some overturned. At one end of the bar, a brass lever set into the wall with a small plaque reading* BAR POWER DO NOT TOUCH*, currently down.*
 
-> [!warning] Bar Tender Mechanic
+*Behind the bar: not a person but a puppet — a man from the waist up, with a considerable moustache and a professional expression, mounted on a brass track that runs the full length of the bar. He is currently dormant, facing away.*
+
+*From the next room: the faint sound of someone humming a tune, slightly off-key.*
+
+> [!example] Bar Tender Mechanic
 > When a player operates the BAR POWER lever, or when general power is restored while they are in the room:
 >
 > **Roll a d20.** DC 10.
@@ -203,10 +196,11 @@ related:
 >
 > **Reroll this check each time the players re-enter the room** after powering him down and back up. The fault is intermittent. The note warned them.
 
-![[Bar Tender Good.PNG]]
-
 > [!example] If Friendly
 > The bar tender does not ask questions about why people are in a closed and fire-damaged theatre. He pours drinks and talks, eager to discuss rumours.
+>
+> >[!success] Password: goodbar
+> > ![[Bar Tender Good.PNG]]
 >
 > If the players engage him in conversation:
 > - *"The singer next door — sensitive instrument, that one. Gets herself wound up something terrible once she's started. The thing that settles her is music she recognises. Familiar melody, played right, and she calms down entirely. Works every time."* He slides a complimentary drink across the bar.
@@ -215,10 +209,12 @@ related:
 >
 > He genuinely does not know what he is describing.
 
-![[Bar Tender Bad.PNG]]
-
 > [!warning] If Hostile
 > He slides to the far end of the bar, turns, and begins throwing glasses with impressive accuracy. He accompanies each throw with an insult.
+>
+>
+> >[!success] Password: barbad
+> > ![[Bar Tender Bad.PNG]]
 >
 > He cannot leave the track. All his attacks are ranged. He has **30 glasses** as ammunition.
 >
@@ -230,19 +226,19 @@ related:
 
 ---
 
-## Ground Floor: The Dining Room
+# Ground Floor: The Dining Room
 *(West Wing)*
 
-![[Dinning Room.PNG]]
+*A grand dining room — white tablecloths gone grey with dust, electric fittings along the walls buzzing with pale light, a large black grand piano near the far wall. At the end of the room a raised stage barely a foot high, with a standing microphone and a wooden stool. The room smells of old food and wood polish.*
 
-> [!info] Scene: The Dining Room
-> *A grand dining room — white tablecloths gone grey with dust, electric fittings along the walls buzzing with pale light, a large black grand piano near the far wall. At the end of the room a raised stage barely a foot high, with a standing microphone and a wooden stool. The room smells of old food and wood polish.*
->
-> *The* **Singer** *stands at the microphone, hands at her sides, head slightly bowed, dressed in performance whites. The* **Piano Player** *sits at the piano, hands poised above the keys, perfectly still.*
->
-> *Both activate the moment the players cross the threshold.*
+>[!success] Password: dinner
+>![[Dinning Room.PNG]]
 
-> [!warning] Combat: The Dining Room
+*The* Singer stands at the microphone, hands at her sides, head slightly bowed, dressed in performance whites. The Piano Player sits at the piano, hands poised above the keys, perfectly still.
+
+*Both activate the moment the players cross the threshold.*
+
+> [!warning] Combat Encounter: The Dining Room
 > **Opening initiative:** Singer and Piano Player.
 >
 > **End of Round 1:** A south door opens and the **Cleaner** enters, mop in hand. Simultaneously, the kitchen door swings open and the **Waiter** steps through. Both join combat immediately.
@@ -254,7 +250,8 @@ related:
 >
 > A party that listened to the bar tender and came prepared will feel this moment clearly.
 
-![[Singer.PNG]]
+>[!success] Password: singer
+> ![[Singer.PNG]]
 
 > [!info] Stat Block — The Singer
 > *CR 1 | Construct | Medium | Unaligned*
@@ -281,7 +278,8 @@ related:
 > **Actions:**
 > - ***Keyboard Slam.*** *Melee Attack.* +3 to hit, reach 5 ft. Hit: 1d6+1 bludgeoning.
 
-![[Cleaner.PNG]]
+>[!success] Password: cleaner
+> ![[Cleaner.PNG]]
 
 > [!info] Stat Block — The Waiter
 > *CR ½ | Construct | Medium | Unaligned*
@@ -300,18 +298,14 @@ related:
 > **Actions:**
 > - ***Mop Sweep.*** *Melee Attack.* +3 to hit, reach 10 ft. Hit: 1d6+1 bludgeoning. Target must succeed on a **DC 11 DEX save** or fall prone.
 
-> [!tip] GM Note — The Dining Room
-> Four enemies is a meaningful fight for a Level 2 party. The Piano Player is the tactical priority: taking it out removes the Singer's advantage and bonus damage. Players who listened to the bar tender and come in with a musical instrument ready should feel that their preparation mattered.
-
 ---
 
-## Ground Floor: The Kitchen
+# Ground Floor: The Kitchen
 *(West Wing)*
 
-> [!info] Scene: The Kitchen
-> *A professional theatre kitchen, now cold. Copper pots. A steel range. Everything professionally arranged, then abandoned mid-service — plates half-finished at the pass, a sauce solidified in its pan, an oven door hanging open. Dusty but in its place.*
->
-> *The* **Chef** *stands at the central preparation counter, cleaver in hand, methodically dicing something that was once a vegetable into pieces approximately 2mm wide. He has been doing this since the power came on.*
+*A professional theatre kitchen, now cold. Copper pots. A steel range. Everything professionally arranged, then abandoned mid-service — plates half-finished at the pass, a sauce solidified in its pan, an oven door hanging open. Dusty but in its place.*
+
+*The* Chef stands at the central preparation counter, cleaver in hand, methodically dicing something that was once a vegetable into pieces approximately 2mm wide. He has been doing this since the power came on.
 
 > [!warning] If Players Enter
 > The Chef turns, assesses them, turns back, and continues. He will not initiate combat unless the players attempt to take anything from the kitchen, or attack him first.
@@ -320,26 +314,25 @@ related:
 
 ---
 
-## Ground Floor: The Bathrooms *(West Wing)*
+# Ground Floor: The Bathrooms *(West Wing)*
 
-> [!info] Scene
-> *Larger than the centre bathrooms. Tiled. The Cleaner's supply cart parked inside, everything neatly arranged. A mop bucket. An untouched bar of soap.*
->
-> This is where the Cleaner enters from at the end of Round 1 in the Dining Room.
+*Larger than the centre bathrooms. Tiled. The Cleaner's supply cart parked inside, everything neatly arranged. A mop bucket. An untouched bar of soap.*
+
+This is where the Cleaner enters from at the end of Round 1 in the Dining Room.
 
 ---
 
-## East Wing: Scene Shop / Backstage
+# East Wing: Scene Shop / Backstage
 *(East Wing Key required — Optional)*
 
-> [!success] Password: backdrop
+*A large space behind and beside the stage — the working heart of a theatre. Rope and rigging hang from a ceiling too high to see clearly. Painted scenery flats lean against every wall: forests, palaces, oceans, a village in winter, a night sky dense with carefully rendered stars. All beautiful. All made by one person, over many years. The craftsmanship is extraordinary — standing in front of the largest flat, a painted autumn forest, is almost like standing in a real one.*
 
-> [!info] Scene: The Scene Shop
-> *A large space behind and beside the stage — the working heart of a theatre. Rope and rigging hang from a ceiling too high to see clearly. Painted scenery flats lean against every wall: forests, palaces, oceans, a village in winter, a night sky dense with carefully rendered stars. All beautiful. All made by one person, over many years. The craftsmanship is extraordinary — standing in front of the largest flat, a painted autumn forest, is almost like standing in a real one.*
->
-> *Dusty and still. The fire smell faint here, just a trace in the old canvas. Otherwise only the smell of size and wood and cloth, the smell of a theatre at rest.*
->
-> *Mounted on the far wall: a locked glass display case. Inside, on a simple stand: a cloak. Moving gently, as though caught in a breeze. There is no breeze.*
+*Dusty and still. The fire smell faint here, just a trace in the old canvas. Otherwise only the smell of size and wood and cloth, the smell of a theatre at rest.*
+
+*Mounted on the far wall: a locked glass display case. Inside, on a simple stand: a cloak. Moving gently, as though caught in a breeze. There is no breeze.*
+
+> [!success] Password: backdrop
+> ![[Theatre - Backstage.png]]
 
 > [!note] Loot — Cloak of Billowing
 > ***Cloak of Billowing*** *— Wondrous Item, Common*
@@ -347,32 +340,29 @@ related:
 >
 > *Locked glass case: DC 13 Thieves' Tools or DC 15 Athletics to break.*
 
-![[Theatre - Backstage.png]]
 
 ---
 
-## East Wing: The Puppet Workshop
+# East Wing: The Puppet Workshop
 *(East Wing Key required)*
 
-> [!success] Password: beds
-
-> [!warning] Scene: The Corridor
+> [!info] Scene: The Corridor
 > From the far end of the corridor the players can see a small butterfly resting on the workshop door handle. It is pale gold, perfectly still, with no explanation for how it got here — no windows, no way in from outside.
 >
 > As they move toward it, it is gone. Not flying away. Simply not there anymore.
 
-> [!info] Scene: The Workshop
-> *The door opens onto the worst of it. The fire started here — you can see exactly where, in the right half of the room as you enter. The benches are charred down to their iron legs. The reference drawings that once covered the right wall are gone, the board itself blackened, the wall behind it open to the weather in one corner where the fire burned clean through. Puppet parts in barrels by the wall have melted into each other, fused in postures no puppet would choose. The floorboards on the right side are soft and dark, dangerous underfoot.*
->
-> *And then, past the midpoint of the room, the fire stopped. The left half is intact — dusty, undisturbed, structurally sound. The smell of varnish still here, mixed with ash. Bunkbeds in two rows, small and close together. Small shoes at the foot of each one. A list of names on the far wall, written in careful capitals.*
->
-> *On the fire-damaged side, slumped against the baseboard: the* **Usher**. *His left side has been fused and blackened by the fire. The right arm hangs free. His face is partially intact — the fixed, polished expression of a puppet built to welcome people. He is well past any maintenance now.*
->
-> *At the left wall, chained by the ankle to the last workbench on the intact side:* Kanga.
+*The door opens onto the worst of it. The fire started here — you can see exactly where, in the right half of the room as you enter. The benches are charred down to their iron legs. The reference drawings that once covered the right wall are gone, the board itself blackened, the wall behind it open to the weather in one corner where the fire burned clean through. Puppet parts in barrels by the wall have melted into each other, fused in postures no puppet would choose. The floorboards on the right side are soft and dark, dangerous underfoot.*
 
-![[Theatre - Workshop.png]]
+*And then, past the midpoint of the room, the fire stopped. The left half is intact — dusty, undisturbed, structurally sound. The smell of varnish still here, mixed with ash. Bunkbeds in two rows, small and close together. Small shoes at the foot of each one. A list of names on the far wall, written in careful capitals.*
 
-> [!example] Kanga *(Milne / Disney)*
+*On the fire-damaged side, slumped against the baseboard: the* **Usher**. *His left side has been fused and blackened by the fire. The right arm hangs free. His face is partially intact — the fixed, polished expression of a puppet built to welcome people. He is well past any maintenance now.*
+
+*At the left wall, chained by the ankle to the last workbench on the intact side:* Kanga.
+
+> [!success] Password: beds
+> ![[Theatre - Workshop.png]]
+
+> [!info] Kanga *(Milne / Disney)*
 >
 > **Personality:** Warm, steady, practical, and quietly furious in a way she is not allowing herself to show yet because showing it will not help the children. She has been in this room for weeks. She has organised everything within the reach of her chain — the bunkbeds are straight, the shoes are paired, the names on the wall are correct and legible. She has been keeping a mental record of everything since she arrived: who came, who left, what was said, what she heard through the walls at night. She gives this information to the players the moment she trusts them enough to believe it will be useful.
 >
@@ -380,7 +370,7 @@ related:
 >
 > She does not cry until she thinks the players cannot see her.
 
-> [!info] Kanga's Account *(given if players speak to her)*
+> [!example] Kanga's Account *(given if players speak to her)*
 >
 > She gives everything she knows, clearly and in order, without being asked twice:
 >
@@ -389,10 +379,7 @@ related:
 > - The men who came were weasels — dark coats, flat caps, moving in formation. They did not speak to Magnifico, did not negotiate, did not explain. They just took the children and left. She heard one of them say to another, quietly: *"Take them for shipping."* She does not know what that means. She has been thinking about it ever since.
 > - Since the raid, she has heard Magnifico in his office every night. Talking to himself. Something about a board on his wall. Something about making it right.
 
-> [!tip] GM Note — Kanga's Function
-> Kanga is the information hub of this chapter and the emotional anchor of its second half. She survived by being left behind — the weasels had no use for her, which is its own kind of cruelty. She has been alone here with the ghost of eleven children for weeks and has held herself together through sheer will and the conviction that someone would eventually come.
-
-> [!tip] Loot — The Usher
+> [!info] Loot — The Usher
 > **On the Usher's person:**
 >
 > - **The Theatre Key** — a large brass key on a neck chain, partially fused to his chest by the fire. Have the players do a DEX check as if the puppet may come to life as they try to take it. They won't. As they pull the keys free the puppets jacket opens slightly and they see something shining within.
@@ -403,17 +390,15 @@ related:
 
 ---
 
-## First Floor: The Music Room
+# First Floor: The Music Room
 *(West Staircase — Optional)*
 
-![[Music Room.PNG]]
+*The first floor landing. The east corridor is impassable — a section of the roof came down in the fire, pulling the ceiling with it. The box seats are unreachable.*
+
+*The west corridor is clear. At the end of it: the Music Room. A medium space, intimate after the grand rooms below. Sheet music everywhere — on stands, pinned to boards, stacked in portfolios on shelves. Instruments on wall mounts: a violin, a mandolin, a lute with an elaborately carved neck. A desk with a half-finished composition in careful handwriting. Everything completely still, music mid-composition when whoever wrote it stopped coming.*
 
 > [!success] Password: sheet
-
-> [!info] Scene: The Music Room
-> *The first floor landing. The east corridor is impassable — a section of the roof came down in the fire, pulling the ceiling with it. The box seats are unreachable.*
->
-> *The west corridor is clear. At the end of it: the Music Room. A medium space, intimate after the grand rooms below. Sheet music everywhere — on stands, pinned to boards, stacked in portfolios on shelves. Instruments on wall mounts: a violin, a mandolin, a lute with an elaborately carved neck. A desk with a half-finished composition in careful handwriting. Everything completely still, music mid-composition when whoever wrote it stopped coming.*
+> ![[Music Room.PNG]]
 
 > [!note] Loot — Instrument of Illusions
 > One instrument among the wall mounts — the carved lute — has a small folded card tied to its tuning pegs: *"For the right performer."*
@@ -425,29 +410,33 @@ related:
 
 ---
 
-## The Stage — Boss Arena
+# The Stage — Boss Arena
+
+The chain on the theatre doors falls away when the Usher's key turns in the brass plaque cartouche beside the entrance. The lock releases all the theatre door mechanisms at once.
+
+The doors open onto the full width of the stage. The footlights are lit — flickering gas jets in a row along the stage's front edge, burning warmer than the electric fittings elsewhere. Beyond them: the auditorium, rows of red velvet seats receding into darkness. The ceiling above the stage is hung with scenery that was never taken down — painted clouds, a forest canopy, a section of night sky — slowly swaying on frayed cables.
+
+Along both wings: a row of ballerina puppets stand motionless in white Swan Lake tutus, posed mid-arabesque. They will remain that way throughout.
+
 > [!success] Password: curtains
+> ![[Theatre - Stage.png]]
 
-![[Theatre - Stage.png]]
+Magnifico is at the back of the stage, his back to the door. He is seated at a small table, operating a puppet on the tabletop with both hands — running through a short sequence of movements, again and again. The puppet's left arm is not working correctly. He runs the sequence. The arm slips. He resets, patiently, and runs it again.
 
-> [!warning] Scene Setup — The Stage
-> The chain on the theatre doors falls away when the Usher's key turns in the brass plaque cartouche beside the entrance. The lock releases all the theatre door mechanisms at once.
->
-> The doors open onto the full width of the stage. The footlights are lit — flickering gas jets in a row along the stage's front edge, burning warmer than the electric fittings elsewhere. Beyond them: the auditorium, rows of red velvet seats receding into darkness. The ceiling above the stage is hung with scenery that was never taken down — painted clouds, a forest canopy, a section of night sky — slowly swaying on frayed cables.
->
-> Along both wings: a row of ballerina puppets stand motionless in white Swan Lake tutus, posed mid-arabesque. They will remain that way throughout.
->
-> Magnifico is at the back of the stage, his back to the door. He is seated at a small table, operating a puppet on the tabletop with both hands — running through a short sequence of movements, again and again. The puppet's left arm is not working correctly. He runs the sequence. The arm slips. He resets, patiently, and runs it again.
->
-> He does not react to the sound of the doors.
->
-> If the players move into the space: he continues. If they call out: he answers without turning, in the tone of someone explaining something to an assistant who has come at an inopportune moment. He asks if they have seen his notes for the left-arm linkage. He asks if the bar fire has been dealt with yet.
->
-> He is not performing. He is somewhere else entirely.
->
-> **He will only turn and register the players when they mention:** the Coachman (or "him"), the children, Pinocchio, or Kanga. When one of these words is spoken, he stops. Sets down the puppet. Turns.
+He does not react to the sound of the doors.
 
-![[Magnifico.PNG]]
+If the players move into the space: he continues. If they call out: he answers without turning, in the tone of someone explaining something to an assistant who has come at an inopportune moment. He asks if they have seen his notes for the left-arm linkage. He asks if the bar fire has been dealt with yet.
+
+He is not performing. He is somewhere else entirely.
+
+**He will only turn and register the players when they mention:** the Coachman (or "him"), the children, Pinocchio, or Kanga. When one of these words is spoken, he stops. Sets down the puppet. Turns.
+
+> [!warning] Combat Encounter: Magnifinco
+> - Magnifinco (Enemy)
+> - Balerinas (Enemies)
+
+>[!success] Password: swan
+>![[Magnifico.PNG]]
 
 > [!example] Magnifico — Boss Fight
 >
@@ -465,14 +454,14 @@ related:
 >
 > ***Master of the Stage.*** Magnifico knows every trapdoor, hatch, and rope mechanism on this stage. He can use a **bonus action** to drop through an adjacent trapdoor or ascend via a lift mechanism. When he reappears through a trapdoor on his next turn, he may make a melee attack as part of the same action as a free action.
 >
-> ***Puppet Caller.*** At the start of each of his turns, if there are fewer than 2 puppet minions on the stage, he summons 1d3 Chorus Puppets from the wings (they emerge from the curtains on his initiative count).
+> ***Puppet Caller.*** At the start of each of his turns, if there are fewer than 2 puppet minions on the stage, he summons 1d3 Ballerina Puppets from the wings (they emerge from the curtains on his initiative count).
 >
 > ---
 >
 > **Actions:**
 >
 > - ***Spark Burst.*** *Ranged Attack.* +6 to hit, range 30 ft. On hit: 2d6 fire damage. The target must succeed on a **DC 13 CON save** or be **Blinded** until the end of their next turn (smoke and flash powder).
-> - ***Puppet Smash.*** *Melee Attack.* +5 to hit, reach 5 ft. On hit: 2d8+3 bludgeoning (he wields a damaged Soldier Puppet arm as an improvised weapon).
+> - ***Puppet Smash.*** *Melee Attack.* +5 to hit, reach 5 ft. On hit: 2d8+3 bludgeoning (he wields a damaged Puppet arm as an improvised weapon).
 > - ***Vanish Below.*** Magnifico drops through an adjacent trapdoor (no action cost). He can be heard moving beneath the stage. On his next turn, he erupts through any trapdoor on the stage map as a free action, then acts normally.
 >
 > **Legendary Actions** *(1 per round, at the end of another creature's turn):*
@@ -495,24 +484,23 @@ related:
 >
 > **The trapdoor mechanics:** Players who studied the lever board in the Scene Shop can use a **bonus action** to operate one of the levers (if they are adjacent to the stage edge, where a secondary board is accessible). On a success, a trapdoor opens — and if Magnifico is using *Vanish Below* or *Master of the Stage* on that trapdoor at that moment, his movement is disrupted (he must use a full action to find an alternate exit).
 
-> [!info] Defeat and the Office Key
-> Magnifico does not die. He collapses, exhausted and burned, in the centre of the stage, surrounded by still puppets. He stares up at the swaying scenery above him. He says something — quiet, addressed to no one — about the man who destroyed him. He says the thing he wants done to that man. Then he is silent.
->
-> On his person: a large iron key on a chain around his neck. His coat has been burned through on one side; the key is visible. It is cold despite the fire. The key to his office.
+**Defeat and the Office Key**
+Magnifico does not die. He collapses, exhausted and burned, in the centre of the stage, surrounded by still puppets. He stares up at the swaying scenery above him. He says something — quiet, addressed to no one — about the man who destroyed him. He says the thing he wants done to that man. Then he is silent.
+
+On his person: a large iron key on a chain around his neck. His coat has been burned through on one side; the key is visible. It is cold despite the fire. The key to his office.
 
 ---
 
-## Magnifico's Office — Chapter Payoff
+# Magnifico's Office — Chapter Payoff
+
+A door at stage left, behind a painted flat of a village square. The key fits. The room beyond is intact — the fire did not reach here, and the neglect did not quite reach here either. A beautiful room: a leather-topped desk, floor-to-ceiling bookshelves, framed playbills in dense rows on every wall, a small brazier cold in the corner, a Persian rug. The desk is clear except for a single leather journal. It is the one room in the theatre that looks as it did before the fire.
+
+The wall opposite the door is covered entirely in a conspiracy board. Red string. Pinned papers. Circled symbols. It takes up the full wall.
+
 > [!success] Password: board
+> ![[Consipircy Wall.png]]
 
-> [!info] Scene: The Office
-> A door at stage left, behind a painted flat of a village square. The key fits. The room beyond is intact — the fire did not reach here, and the neglect did not quite reach here either. A beautiful room: a leather-topped desk, floor-to-ceiling bookshelves, framed playbills in dense rows on every wall, a small brazier cold in the corner, a Persian rug. The desk is clear except for a single leather journal. It is the one room in the theatre that looks as it did before the fire.
->
-> The wall opposite the door is covered entirely in a conspiracy board. Red string. Pinned papers. Circled symbols. It takes up the full wall.
-
-![[Consipircy Wall.png]]
-
-> [!note] Magnifico's Diary — On the Desk
+> [!quote] Magnifico's Diary — On the Desk
 > A plain leather journal, well-used, the binding cracked from being opened flat. The last entries are dated and legible.
 >
 > > *He sent his scientist — Victor — to make a deal. Incredible mechanical puppets, and as many Animal workers as I wanted, in exchange for a service. What a joke. The creatures are useless for this work; clumsy paws cannot maintain such intricate machinery. I sent them all back. I found much better workers.*
@@ -527,52 +515,33 @@ related:
 > >
 > > *I can't afford to let* **any** *of them go. Small hands for delicate work.*
 
-> [!tip] GM Note — The Diary
-> The "beast" sent as a gift — the animal who kept the children calm and productive — is Kanga. She did not know why she was sent here specifically, or what arrangement had been made. She survived the raid by being left behind; the weasels had no use for her, which tells you everything about how the Coachman thought of her.
->
-> If the players show Kanga the diary, she reads the relevant entry without expression. She turns the page. She does not ask to keep the journal.
->
-> "Victor" is named here for the first time. Magnifico met him. The mechanical puppets throughout this building — the bar tender, the singer, the cleaner, all of them — are Victor's work. The Coachman's scientist built them as part of the deal. The players are standing in a building full of his inventions and do not yet know his name. There will be more of his work ahead.
+**The Conspiracy Board**
+Magnifico has been trying to find the man who destroyed him. He had three leads. He never acted on any of them — too consumed, too broken to leave the building. The work is here, complete, waiting for someone with the capacity to use it.
 
-> [!info] The Conspiracy Board
-> Magnifico has been trying to find the man who destroyed him. He had three leads. He never acted on any of them — too consumed, too broken to leave the building. The work is here, complete, waiting for someone with the capacity to use it.
->
-> **Four clusters, connected by red string:**
->
-> - **Top left — A circus poster.** Bright colours, professional printing, recently made. *The Wandering Circus of Marvels* — the name arched above a large tent. The tent shape from above looks exactly like a wheel. Circled in red. A question mark beside it.
->
-> - **Top right — Missing children notices from Molino Verde** ("Green Mill"), a town several days east. Several notices pinned in a row, each with a small engraving of the village. In the background of every image: a water mill on the river. The water wheel in each image has been circled.
->
-> - **Bottom — A shipping company advertisement.** Grand Maritime Freight, established 1842. Illustrated with crates on a dock, roped together. One crate has a decorative rope pattern — eight spokes radiating from a central point. It looks exactly like a ship's wheel. Circled.
->
-> - **Centre — where all three strings meet:** Frantic handwriting in large letters — *"make HIM pay"* — and pinned at the absolute centre: a plain white business card. No company name. No address. No print except one image: a black wagon wheel, clean and precise on white card.
->
-> Magnifico circled the same symbol three times in three different contexts and never left this building. The players have his work now. They have three threads.
+**Four clusters, connected by red string:**
+- **Top left — A circus poster.** Bright colours, professional printing, recently made. *The Wandering Circus of Marvels* — the name arched above a large tent. The tent shape from above looks exactly like a wheel. Circled in red. A question mark beside it.
+ - **Top right — Missing children notices from Molino Verde** ("Green Mill"), a town several days east. Several notices pinned in a row, each with a small engraving of the village. In the background of every image: a water mill on the river. The water wheel in each image has been circled.
+- **Bottom — A shipping company advertisement.** Grand Maritime Freight, established 1842. Illustrated with crates on a dock, roped together. One crate has a decorative rope pattern — eight spokes radiating from a central point. It looks exactly like a ship's wheel. Circled.
+- **Centre — where all three strings meet:** Frantic handwriting in large letters — "make HIM pay" — and pinned at the absolute centre: a plain white business card. No company name. No address. No print except one image: a black wagon wheel, clean and precise on white card.
 
-> [!tip] GM Note — Let Them Think
-> Give the players time with this room. Do not rush them to the exit. This is the moment the campaign expands — from a single trail to three separate directions, all pointing at the same mark. Each thread should feel distinct and equally interesting. The Circus is spectacle and horror. Molino Verde is eerie and intimate. The harbour is grey and procedural. Let the players argue about which to follow first. The right answer is whichever excites them most.
->
-> If a player asks: *"Is this the symbol from the weasel's docket?"* — yes. The same one. Let that land.
+Magnifico circled the same symbol three times in three different contexts and never left this building. The players have his work now. They have three threads.
 
 ---
 
-# Kanga's Return — Level Up
+# Leaving the Theatre
 
-> [!success] Scene: Kanga Leaves
-> When the players return to the workshop to free Kanga, she is ready. The bolt cutters are hanging on the south wall — she has been looking at them for weeks, just out of reach. Once she has them in hand, the chain takes thirty seconds. She does not speak while she does it.
->
-> She does not leave immediately. She goes to the bunkbed side of the room. She stands in the doorway for a moment, looking at the cots and the shoes. She goes to the wall where the names are written and reads them all, not aloud, her finger tracing each one. Then she turns around and she is ready.
+When the players return to the workshop to free Kanga, she is ready. The bolt cutters are hanging on the south wall — she has been looking at them for weeks, just out of reach. Once she has them in hand, the chain takes thirty seconds. She does not speak while she does it.
 
-> [!tip] The Milestone — Level 3
-> *Tell this as part of the fiction:*
->
-> As Kanga walks out through the theatre's main doors and the daylight reaches her properly for the first time in weeks, she is going home. Home to Roo.
-> 
-> While you haven't found the boys Magiafucco's office has given you some leads.
->
-> The theatre is quiet behind you. The eye's on the box office puppet go out and somewhere, in a stone room filled with mechanical parts and copper wires we see man in a white lab coat illuminated by the glow of a glass ball. "Igor, send a message to the boss. There's a hidden diamond in the goods from the Theatre." We hear a mechanical wiring from somewhere in the room. He rubs his hand together, "The coachman will be pleased"
->
-> *Tell the players to level up. They are Level 3.*
+She does not leave immediately. She goes to the bunkbed side of the room. She stands in the doorway for a moment, looking at the cots and the shoes. She goes to the wall where the names are written and reads them all, not aloud, her finger tracing each one. Then she turns around and she is ready.
+
+The "beast" sent as a gift — the animal who kept the children calm and productive — is Kanga. She did not know why she was sent here specifically, or what arrangement had been made. She survived the raid by being left behind; the weasels had no use for her, which tells you everything about how the Coachman thought of her.
+
+As Kanga walks out through the theatre's main doors and the daylight reaches her properly for the first time in weeks, she is going home. Home to Roo.
+
+While you haven't found the boys Magiafucco's office has given you some leads.
+
+>[!info] Post Credits
+The theatre is quiet behind you. The eye's on the box office puppet go out and somewhere, in a stone room filled with mechanical parts and copper wires we see man in a white lab coat illuminated by the glow of a glass ball. "Igor, send a message to the boss. There's a hidden diamond in the goods from the Theatre." We hear a mechanical wiring from somewhere in the room. He rubs his hand together, "The coachman will be pleased"
 
 ---
 
