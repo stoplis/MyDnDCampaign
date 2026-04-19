@@ -11,13 +11,13 @@
       "category": "chapters"
     },
     {
-      "name": "Chapter 3 - The Puppet Theatre",
-      "path": "notes/chapters/Chapter 3 - The Puppet Theatre.md",
+      "name": "Chapter 2.5 - Interlude 1",
+      "path": "notes/chapters/Chapter 2.5 - Interlude 1.md",
       "category": "chapters"
     },
     {
-      "name": "Chapter 4 - The Circus",
-      "path": "notes/chapters/Chapter 4 - The Circus.md",
+      "name": "Chapter 3 - The Puppet Theatre",
+      "path": "notes/chapters/Chapter 3 - The Puppet Theatre.md",
       "category": "chapters"
     }
   ],
@@ -45,11 +45,29 @@
     "The Fox and the Cat.PNG": "images/chapter-2/The Fox and the Cat.PNG",
     "The Serpent.PNG": "images/chapter-2/The Serpent.PNG",
     "Weasel Note.PNG": "images/chapter-2/Weasel Note.PNG",
+    "Eeyores house.PNG": "images/chapter-2-5/Eeyores house.PNG",
+    "Kangas house.PNG": "images/chapter-2-5/Kangas house.PNG",
+    "Owls house.PNG": "images/chapter-2-5/Owls house.PNG",
+    "Piglets house.PNG": "images/chapter-2-5/Piglets house.PNG",
+    "Pooh\u2019s house.PNG": "images/chapter-2-5/Pooh\u2019s house.PNG",
+    "Rabbits house - front.PNG": "images/chapter-2-5/Rabbits house - front.PNG",
+    "Rabbits house - garden.PNG": "images/chapter-2-5/Rabbits house - garden.PNG",
+    "Rabbits house - inside.PNG": "images/chapter-2-5/Rabbits house - inside.PNG",
+    "Spider Mechant.PNG": "images/chapter-2-5/Spider Mechant.PNG",
+    "Tiggers house.PNG": "images/chapter-2-5/Tiggers house.PNG",
+    "Bar Tender Bad.PNG": "images/chapter-3/Bar Tender Bad.PNG",
+    "Bar Tender Good.PNG": "images/chapter-3/Bar Tender Good.PNG",
+    "Box Office.PNG": "images/chapter-3/Box Office.PNG",
     "Business Card circled.png": "images/chapter-3/Business Card circled.png",
     "Circus Poster circled.png": "images/chapter-3/Circus Poster circled.png",
+    "Cleaner.PNG": "images/chapter-3/Cleaner.PNG",
     "Consipircy Wall.png": "images/chapter-3/Consipircy Wall.png",
+    "Dinning Room.PNG": "images/chapter-3/Dinning Room.PNG",
     "Freight Poster.png": "images/chapter-3/Freight Poster.png",
+    "Magnifico.PNG": "images/chapter-3/Magnifico.PNG",
     "Missing Poster circled.png": "images/chapter-3/Missing Poster circled.png",
+    "Music Room.PNG": "images/chapter-3/Music Room.PNG",
+    "Singer.PNG": "images/chapter-3/Singer.PNG",
     "Theatre - Backstage.png": "images/chapter-3/Theatre - Backstage.png",
     "Theatre - Entrance.png": "images/chapter-3/Theatre - Entrance.png",
     "Theatre - Exterior.png": "images/chapter-3/Theatre - Exterior.png",
@@ -57,16 +75,6 @@
     "Theatre - Stage.png": "images/chapter-3/Theatre - Stage.png",
     "Theatre - The Bar.png": "images/chapter-3/Theatre - The Bar.png",
     "Theatre - Workshop.png": "images/chapter-3/Theatre - Workshop.png",
-    "Geppetto - End.png": "images/chapter-8/Geppetto - End.png",
-    "Eeyores house.PNG": "images/hundred-acre-wood/Eeyores house.PNG",
-    "Kangas house.PNG": "images/hundred-acre-wood/Kangas house.PNG",
-    "Owls house.PNG": "images/hundred-acre-wood/Owls house.PNG",
-    "Piglets house.PNG": "images/hundred-acre-wood/Piglets house.PNG",
-    "Pooh\u2019s house.PNG": "images/hundred-acre-wood/Pooh\u2019s house.PNG",
-    "Rabbits house - front.PNG": "images/hundred-acre-wood/Rabbits house - front.PNG",
-    "Rabbits house - garden.PNG": "images/hundred-acre-wood/Rabbits house - garden.PNG",
-    "Rabbits house - inside.PNG": "images/hundred-acre-wood/Rabbits house - inside.PNG",
-    "Spider Mechant.PNG": "images/hundred-acre-wood/Spider Mechant.PNG",
-    "Tiggers house.PNG": "images/hundred-acre-wood/Tiggers house.PNG"
+    "Theatre Map.png": "images/chapter-3/Theatre Map.png"
   }
 }
