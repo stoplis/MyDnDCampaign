@@ -1427,8 +1427,6 @@ function DocumentPanel({ characters, activeTab }) {
   const [toc, setToc]               = useState([]);
   const [hoverChar, setHoverChar]   = useState(null);
   const [hoverPos, setHoverPos]     = useState({ x: 0, y: 0 });
-  const [showBrowser, setShowBrowser] = useState(false);
-  const [notesList, setNotesList]   = useState(null);
   const contentRef = useRef(null);
 
   // Restore document state from persistence on mount
@@ -1486,42 +1484,7 @@ function DocumentPanel({ characters, activeTab }) {
     }
   }, [imageMap]);
 
-function loadImagesFromPicker() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.multiple = true;
-    input.onchange = async (e) => {
-      const map = { ...imageMap };
-      for (const f of Array.from(e.target.files)) {
-        map[f.name] = await fileToDataUrl(f);
-      }
-      setImageMap(map);
-    };
-    input.click();
-  }
-
-  async function openBrowseNotes() {
-    if (!serverManifest) await loadManifest();
-    if (serverManifest && serverManifest.notes) {
-      setNotesList(serverManifest.notes);
-      setShowBrowser(true);
-    }
-  }
-
-  async function fetchNote(note) {
-    try {
-      const resp = await fetch(note.path);
-      if (!resp.ok) return;
-      const raw = await resp.text();
-      setMdContent(raw);
-      setFileName(note.name + '.md');
-      setToc(extractToc(raw));
-      setShowBrowser(false);
-    } catch(_) {}
-  }
-
-  function jumpToHeading(idx) {
+function jumpToHeading(idx) {
     if (!contentRef.current) return;
     const headings = contentRef.current.querySelectorAll('h1, h2, h3, h4');
     if (headings[idx]) {
@@ -1567,14 +1530,6 @@ function loadImagesFromPicker() {
     <div className="flex flex-col h-full flex-1 min-w-0">
       {/* Toolbar */}
       <div className="bg-gray-800 border-b border-gray-700 p-2 flex-shrink-0 flex items-center gap-2 flex-wrap">
-        <button onClick={openBrowseNotes}
-          className="text-xs px-3 py-1 bg-purple-700 hover:bg-purple-600 text-white rounded">
-          📂 Browse Notes
-        </button>
-<button onClick={loadImagesFromPicker}
-          className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded">
-          🖼 Load Images
-        </button>
         {fileName && <span className="text-xs text-gray-400 truncate">{fileName}</span>}
         {toc.length > 0 && (
           <select onChange={e => jumpToHeading(parseInt(e.target.value, 10))}
@@ -1593,47 +1548,9 @@ function loadImagesFromPicker() {
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         onMouseMove={handleMouseMove}>
-        {showBrowser && notesList && (
-          <div style={{ position: 'absolute', inset: 0, zIndex: 40, background: 'rgba(0,0,0,0.85)', overflow: 'auto', padding: '1rem' }}>
-            <div style={{ maxWidth: 480, margin: '0 auto' }}>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-semibold text-white">Browse Notes</span>
-                <button onClick={() => setShowBrowser(false)}
-                  className="text-gray-400 hover:text-white text-lg px-2">&times;</button>
-              </div>
-              {(() => {
-                const groups = {};
-                notesList.forEach(n => {
-                  const cat = n.category || 'root';
-                  if (!groups[cat]) groups[cat] = [];
-                  groups[cat].push(n);
-                });
-                const order = ['chapters', 'characters', 'locations', 'root'];
-                const labels = { chapters: 'Chapters', characters: 'Characters', locations: 'Locations', root: 'Other Notes' };
-                // Add any categories not in the predefined order
-                Object.keys(groups).forEach(k => { if (!order.includes(k)) order.push(k); });
-                return order.filter(k => groups[k]).map(cat => (
-                  <div key={cat} className="mb-3">
-                    <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">{labels[cat] || cat}</div>
-                    {groups[cat].map((note, i) => (
-                      <button key={i} onClick={() => fetchNote(note)}
-                        className="block w-full text-left text-sm px-3 py-2 rounded hover:bg-gray-700 text-gray-300 hover:text-white transition-colors">
-                        {note.name}
-                      </button>
-                    ))}
-                  </div>
-                ));
-              })()}
-            </div>
-          </div>
-        )}
-        {!mdContent && !showBrowser ? (
+        {!mdContent ? (
           <div className="text-center mt-16">
-            <p className="text-gray-500 text-sm mb-3">No document loaded</p>
-            <button onClick={openBrowseNotes}
-              className="text-sm px-4 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded mb-2">
-              Browse Notes
-            </button>
+            <p className="text-gray-500 text-sm">Select a chapter tab to load a note.</p>
           </div>
         ) : (
           <div className="doc-body max-w-3xl mx-auto" dangerouslySetInnerHTML={{ __html: renderedHtml }} />
