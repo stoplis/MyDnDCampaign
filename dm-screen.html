@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DM Screen — Pinocchio</title>
+<title>DM Screen — Wish</title>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css" rel="stylesheet">
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -178,67 +178,6 @@ function resolveImageUrl(fname, userImageMap) {
   // Fall back to server-hosted image path
   if (serverImageMap[fname]) return serverImageMap[fname];
   return null;
-}
-
-/* ── Rules IndexedDB helpers (uses generic openIDB) ────────────── */
-
-const RULES_DB    = 'dmscreen_rules';
-const RULES_STORE = 'books';
-
-async function saveRulesBook(key, text) {
-  const db = await openIDB(RULES_DB, RULES_STORE);
-  return new Promise((res, rej) => {
-    const tx = db.transaction(RULES_STORE, 'readwrite');
-    tx.objectStore(RULES_STORE).put(text, key);
-    tx.oncomplete = () => res();
-    tx.onerror    = () => rej(tx.error);
-  });
-}
-
-async function loadRulesBook(key) {
-  const db = await openIDB(RULES_DB, RULES_STORE);
-  return new Promise((res, rej) => {
-    const tx  = db.transaction(RULES_STORE, 'readonly');
-    const req = tx.objectStore(RULES_STORE).get(key);
-    req.onsuccess = () => res(req.result || null);
-    req.onerror   = () => rej(req.error);
-  });
-}
-
-function splitIntoSections(markdown) {
-  const lines = markdown.split('\n');
-  const sections = [];
-  let current = null;
-  for (const line of lines) {
-    const h1 = line.match(/^# (.+)/);
-    const h2 = line.match(/^## (.+)/);
-    if (h1 || h2) {
-      if (current) sections.push(current);
-      const level   = h1 ? 1 : 2;
-      const heading = (h1 || h2)[1];
-      const id      = heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      current = { id, heading, level, content: line + '\n' };
-    } else if (current) {
-      current.content += line + '\n';
-    }
-  }
-  if (current) sections.push(current);
-  return sections;
-}
-
-function buildRulesToc(sections) {
-  const toc = [];
-  for (const sec of sections) {
-    toc.push({ id: sec.id, text: sec.heading, level: sec.level, sectionId: sec.id });
-    // Extract H3 headings from content
-    const h3matches = sec.content.matchAll(/^### (.+)/gm);
-    for (const m of h3matches) {
-      const heading = m[1];
-      const id = heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      toc.push({ id: sec.id + '--' + id, text: heading, level: 3, sectionId: sec.id });
-    }
-  }
-  return toc;
 }
 
 
@@ -1034,19 +973,15 @@ function CustomForm({ onAdd, onCancel }) {
 
 /* ── LEFT PANEL ────────────────────────────────────────────────── */
 
-function TopHeader({ chapters, activeTab, setActiveTab, search, setSearch, viewMode, setViewMode, diceOpen, setDiceOpen }) {
+function TopHeader({ chapters, activeTab, setActiveTab, search, setSearch, viewMode, setViewMode }) {
   return (
     <div className="bg-gray-800 border-b border-gray-700 px-3 py-2 flex-shrink-0 flex items-center gap-2 flex-wrap">
       <span className="text-sm font-bold text-purple-400 whitespace-nowrap mr-1">⚔ DM Screen</span>
-      <button onClick={() => setDiceOpen(d => !d)}
-        className="text-sm text-gray-400 hover:text-white transition-colors">🎲</button>
       <div className="flex bg-gray-900 rounded overflow-hidden mr-2">
         <button onClick={() => setViewMode("encounter")}
           className={`text-xs px-2 py-1 ${viewMode==="encounter"?"bg-purple-700 text-white":"text-gray-400 hover:text-white"}`}>⚔ Encounter</button>
         <button onClick={() => setViewMode("document")}
           className={`text-xs px-2 py-1 ${viewMode==="document"?"bg-purple-700 text-white":"text-gray-400 hover:text-white"}`}>📜 Document</button>
-        <button onClick={() => setViewMode("rules")}
-          className={`text-xs px-2 py-1 ${viewMode==="rules"?"bg-indigo-700 text-white":"text-gray-400 hover:text-white"}`}>📚 Rules</button>
       </div>
       <div className="flex gap-1 flex-wrap">
         {chapters.map(tab => (
@@ -1119,125 +1054,6 @@ function LeftPanel({ characters, activeTab, search, onAddToEncounter }) {
             </div>
           );
         })}
-      </div>
-    </div>
-  );
-}
-
-/* ── RIGHT PANEL ───────────────────────────────────────────────── */
-
-function RightPanel({ diceOpen }) {
-  if (!diceOpen) return null;
-  return <RightPanelInner />;
-}
-
-function RightPanelInner() {
-  const [count, setCount] = useState(1);
-  const [manual, setManual] = useState("");
-  const [history, setHistory] = useState([]);
-  const [rollMode, setRollMode] = useState("normal"); // "normal" | "adv" | "dis"
-
-  function addEntry(label, total, rawD20) {
-    const t = new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-    const crit = rawD20===20?"crit":rawD20===1?"fumble":null;
-    setHistory(h => [{id:uid(),label,total,time:t,crit},...h].slice(0,60));
-  }
-
-  function roll(sides) {
-    const n = Math.max(1, Math.min(10, count));
-    if (sides === 20 && n === 1 && rollMode !== "normal") {
-      const a = dN(20), b = dN(20);
-      const result = rollMode === "adv" ? Math.max(a,b) : Math.min(a,b);
-      const kept = rollMode === "adv" ? (a>=b?a:b) : (a<=b?a:b);
-      const dropped = rollMode === "adv" ? (a>=b?b:a) : (a<=b?b:a);
-      const modeLabel = rollMode === "adv" ? "ADV" : "DIS";
-      const crit = result===20?"crit":result===1?"fumble":null;
-      const t = new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-      setHistory(h => [{id:uid(),label:`d20 ${modeLabel} [${kept} / ~~${dropped}~~] = ${result}`,total:result,time:t,crit,mode:rollMode},...h].slice(0,60));
-      return;
-    }
-    const rolls = Array.from({length:n}, () => dN(sides));
-    const total = rolls.reduce((a,b)=>a+b,0);
-    const label = n>1 ? `${n}d${sides} [${rolls.join("+")}] = ${total}` : `d${sides} = ${total}`;
-    addEntry(label, total, n===1&&sides===20 ? rolls[0] : null);
-  }
-
-  function useManual() {
-    const v = parseInt(manual, 10);
-    if (!isNaN(v)) { addEntry(`Manual: ${v}`, v, null); setManual(""); }
-  }
-
-  const DICE = [4,6,8,10,12,20,100];
-
-  const MODE_BUTTONS = [
-    { key:"adv",    label:"Adv",    active:"bg-green-700 text-green-100",  inactive:"bg-gray-700 text-gray-400 hover:bg-gray-600" },
-    { key:"normal", label:"Normal", active:"bg-gray-600 text-white",       inactive:"bg-gray-700 text-gray-400 hover:bg-gray-600" },
-    { key:"dis",    label:"Dis",    active:"bg-orange-700 text-orange-100",inactive:"bg-gray-700 text-gray-400 hover:bg-gray-600" },
-  ];
-
-  return (
-    <div className="flex flex-col h-full w-52 flex-shrink-0">
-      <div className="p-2 border-b border-gray-700 flex-shrink-0">
-        <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Dice Roller</h2>
-        <div className="flex rounded overflow-hidden mb-2">
-          {MODE_BUTTONS.map(m => (
-            <button key={m.key} onClick={() => setRollMode(m.key)}
-              className={`flex-1 text-xs py-1.5 font-semibold transition-colors ${rollMode===m.key ? m.active : m.inactive}`}>
-              {m.label}
-            </button>
-          ))}
-        </div>
-        {rollMode !== "normal" && (
-          <p className="text-xs text-center mb-2 font-semibold" style={{color: rollMode==="adv"?"#86efac":"#fdba74"}}>
-            {rollMode==="adv" ? "⬆ Advantage — d20 takes highest" : "⬇ Disadvantage — d20 takes lowest"}
-          </p>
-        )}
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs text-gray-500">Count</span>
-          <input type="number" min="1" max="10"
-            className="bg-gray-900 border border-gray-600 rounded px-2 py-1 text-sm text-white w-14 text-center focus:outline-none focus:border-purple-500"
-            value={count} onChange={e => setCount(Math.max(1,Math.min(10,parseInt(e.target.value,10)||1)))} />
-        </div>
-        <div className="grid grid-cols-3 gap-1 mb-2">
-          {DICE.map(d => (
-            <button key={d} onClick={() => roll(d)}
-              className={`py-2 rounded text-sm font-bold transition-colors ${
-                d===20 && rollMode==="adv"  ? "bg-green-700 hover:bg-green-600 text-green-100" :
-                d===20 && rollMode==="dis"  ? "bg-orange-700 hover:bg-orange-600 text-orange-100" :
-                d===20                      ? "bg-purple-800 hover:bg-purple-700 text-purple-100" :
-                "bg-gray-700 hover:bg-gray-600 text-gray-200"
-              }`}>
-              d{d}
-            </button>
-          ))}
-        </div>
-        <div className="flex gap-1 min-w-0">
-          <input type="number" placeholder="Value"
-            className="flex-1 min-w-0 bg-gray-900 border border-gray-600 rounded px-2 py-1 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
-            value={manual} onChange={e=>setManual(e.target.value)}
-            onKeyDown={e=>e.key==="Enter"&&useManual()} />
-          <button onClick={useManual} className="bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm rounded px-2 py-1 flex-shrink-0">Use</button>
-        </div>
-      </div>
-      <div className="flex items-center justify-between px-2 pt-2 pb-1 flex-shrink-0">
-        <span className="text-xs text-gray-500">History</span>
-        <button onClick={()=>setHistory([])} className="text-xs text-gray-600 hover:text-gray-400">Clear</button>
-      </div>
-      <div className="flex-1 overflow-y-auto px-2 pb-2">
-        {history.length===0 && <p className="text-xs text-gray-600 text-center mt-3">No rolls yet</p>}
-        {history.map(e => (
-          <div key={e.id} className={`flex items-center justify-between px-2 py-1.5 rounded mb-1 text-xs ${
-            e.crit==="crit"?"bg-yellow-900 border border-yellow-700":
-            e.crit==="fumble"?"bg-red-950 border border-red-900":
-            "bg-gray-800"}`}>
-            <span className={`truncate mr-1 flex-1 ${e.mode==="adv"?"text-green-300":e.mode==="dis"?"text-orange-300":"text-gray-300"}`}>{e.label}</span>
-            <div className="flex items-center gap-1 flex-shrink-0">
-              {e.crit==="crit"   && <span className="text-yellow-400 font-bold text-xs">CRIT!</span>}
-              {e.crit==="fumble" && <span className="text-red-400 font-bold text-xs">FUMBLE</span>}
-              <span className="text-gray-600">{e.time}</span>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );
@@ -1670,26 +1486,7 @@ function DocumentPanel({ characters, activeTab }) {
     }
   }, [imageMap]);
 
-  function loadFile() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.md';
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      setFileName(file.name);
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const raw = ev.target.result;
-        setMdContent(raw);
-        setToc(extractToc(raw));
-      };
-      reader.readAsText(file);
-    };
-    input.click();
-  }
-
-  function loadImagesFromPicker() {
+function loadImagesFromPicker() {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
@@ -1774,11 +1571,7 @@ function DocumentPanel({ characters, activeTab }) {
           className="text-xs px-3 py-1 bg-purple-700 hover:bg-purple-600 text-white rounded">
           📂 Browse Notes
         </button>
-        <button onClick={loadFile}
-          className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded">
-          📄 Upload .md
-        </button>
-        <button onClick={loadImagesFromPicker}
+<button onClick={loadImagesFromPicker}
           className="text-xs px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded">
           🖼 Load Images
         </button>
@@ -1838,12 +1631,8 @@ function DocumentPanel({ characters, activeTab }) {
           <div className="text-center mt-16">
             <p className="text-gray-500 text-sm mb-3">No document loaded</p>
             <button onClick={openBrowseNotes}
-              className="text-sm px-4 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded mb-2 mr-2">
+              className="text-sm px-4 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded mb-2">
               Browse Notes
-            </button>
-            <button onClick={loadFile}
-              className="text-sm px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded mb-2">
-              Upload a File
             </button>
           </div>
         ) : (
@@ -1915,241 +1704,6 @@ function DocumentPanel({ characters, activeTab }) {
 
 
 
-/* ── RulesPanel ────────────────────────────────────────────────── */
-
-function RulesPanel() {
-  const [activeBook, setActiveBook]   = useState('phb');
-  const [phbSections, setPhbSections] = useState(null);
-  const [dmgSections, setDmgSections] = useState(null);
-  const [loadingBook, setLoadingBook] = useState(null);
-  const [phbSectionId, setPhbSectionId] = useState(null);
-  const [dmgSectionId, setDmgSectionId] = useState(null);
-  const [search, setSearch]           = useState('');
-  const [tocOpen, setTocOpen]         = useState(true);
-  const [scrollTarget, setScrollTarget] = useState(null);
-  const [collapsedH1, setCollapsedH1] = useState({});
-  const contentRef = useRef(null);
-
-  // Load both books: try IDB first, then fetch from server, then cache to IDB
-  useEffect(() => {
-    const SERVER_PATHS = {
-      phb: "notes/rules/Player's Handbook (2024).md",
-      dmg: "notes/rules/Dungeon Master's Guide (2024).md",
-    };
-    async function loadBook(key, setSections, setSectionId) {
-      let text = await loadRulesBook(key);
-      if (!text) {
-        try {
-          const resp = await fetch(SERVER_PATHS[key]);
-          if (resp.ok) {
-            text = await resp.text();
-            await saveRulesBook(key, text);
-          }
-        } catch(_) {}
-      }
-      if (text) {
-        const s = splitIntoSections(text);
-        setSections(s);
-        setSectionId(s[0]?.id || null);
-      }
-    }
-    loadBook('phb', setPhbSections, setPhbSectionId);
-    loadBook('dmg', setDmgSections, setDmgSectionId);
-  }, []);
-
-  const currentSections   = activeBook === 'phb' ? phbSections : dmgSections;
-  const activeSectionId   = activeBook === 'phb' ? phbSectionId : dmgSectionId;
-  const setActiveSectionId = id => activeBook === 'phb' ? setPhbSectionId(id) : setDmgSectionId(id);
-
-  async function pickAndLoadFile(bookKey) {
-    const input = document.createElement('input');
-    input.type = 'file'; input.accept = '.md';
-    input.onchange = async (e) => {
-      const file = e.target.files[0]; if (!file) return;
-      setLoadingBook(bookKey);
-      try {
-        const text = await file.text();
-        await saveRulesBook(bookKey, text);
-        const secs = splitIntoSections(text);
-        if (bookKey === 'phb') { setPhbSections(secs); setPhbSectionId(secs[0]?.id||null); }
-        else                   { setDmgSections(secs); setDmgSectionId(secs[0]?.id||null); }
-      } finally { setLoadingBook(null); }
-    };
-    input.click();
-  }
-
-  const toc = useMemo(() => currentSections ? buildRulesToc(currentSections) : [], [currentSections]);
-
-  const searchResults = useMemo(() => {
-    if (!search.trim() || !currentSections) return null;
-    const q = search.toLowerCase();
-    return currentSections
-      .filter(s => s.content.toLowerCase().includes(q))
-      .map(s => {
-        const lower = s.content.toLowerCase();
-        const pos   = lower.indexOf(q);
-        const start = Math.max(0, pos - 70);
-        const end   = Math.min(s.content.length, pos + q.length + 130);
-        const snip  = (start > 0 ? '…' : '') + s.content.slice(start, end) + (end < s.content.length ? '…' : '');
-        return { id: s.id, heading: s.heading, level: s.level, snip };
-      });
-  }, [search, currentSections]);
-
-  const activeSection = currentSections?.find(s => s.id === activeSectionId);
-  const renderedHtml  = useMemo(() => activeSection ? mdToHtml(activeSection.content, {}) : '', [activeSection]);
-
-  useEffect(() => { if (contentRef.current) contentRef.current.scrollTop = 0; }, [activeSectionId]);
-
-  // Scroll to H3 target after section content renders
-  useEffect(() => {
-    if (!scrollTarget || !contentRef.current) return;
-    const timer = setTimeout(() => {
-      const container = contentRef.current;
-      const headings = container.querySelectorAll('h3');
-      for (const h of headings) {
-        if (h.textContent.trim() === scrollTarget) {
-          const hRect = h.getBoundingClientRect();
-          const cRect = container.getBoundingClientRect();
-          container.scrollTop += hRect.top - cRect.top - 16;
-          break;
-        }
-      }
-      setScrollTarget(null);
-    }, 80);
-    return () => clearTimeout(timer);
-  }, [renderedHtml, scrollTarget]);
-
-  function selectSection(id, headingText) {
-    setActiveSectionId(id);
-    setSearch('');
-    setScrollTarget(headingText || null);
-  }
-
-  const BOOK_NAMES = { phb: "Player's Handbook (2024)", dmg: "Dungeon Master's Guide (2024)" };
-
-  return (
-    <div className="flex flex-1 overflow-hidden flex-col">
-      {/* Toolbar */}
-      <div className="bg-gray-800 border-b border-gray-700 px-3 py-2 flex-shrink-0 flex items-center gap-2 flex-wrap">
-        <div className="flex bg-gray-900 rounded overflow-hidden">
-          {['phb','dmg'].map(b => (
-            <button key={b} onClick={() => { setActiveBook(b); setSearch(''); }}
-              className={`text-xs px-3 py-1 font-semibold transition-colors ${activeBook===b ? 'bg-indigo-700 text-white' : 'text-gray-400 hover:text-white'}`}>
-              {b.toUpperCase()}
-            </button>
-          ))}
-        </div>
-        <span className={`text-xs px-2 py-0.5 rounded-full font-mono ${phbSections ? 'bg-green-900 text-green-300' : 'bg-gray-700 text-gray-500'}`}>
-          PHB {phbSections ? `✓ ${phbSections.length}` : '—'}
-        </span>
-        <span className={`text-xs px-2 py-0.5 rounded-full font-mono ${dmgSections ? 'bg-green-900 text-green-300' : 'bg-gray-700 text-gray-500'}`}>
-          DMG {dmgSections ? `✓ ${dmgSections.length}` : '—'}
-        </span>
-        <button onClick={() => pickAndLoadFile('phb')} disabled={!!loadingBook}
-          className="text-xs px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded disabled:opacity-50">
-          {loadingBook==='phb' ? '⏳…' : '📄 Load PHB'}
-        </button>
-        <button onClick={() => pickAndLoadFile('dmg')} disabled={!!loadingBook}
-          className="text-xs px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded disabled:opacity-50">
-          {loadingBook==='dmg' ? '⏳…' : '📄 Load DMG'}
-        </button>
-        <input type="text" placeholder={`Search ${activeBook.toUpperCase()}…`} value={search}
-          onChange={e => setSearch(e.target.value)}
-          className="ml-auto bg-gray-900 border border-gray-600 rounded px-3 py-1 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 w-56" />
-        {search && <button onClick={() => setSearch('')} className="text-xs text-gray-500 hover:text-white">✕</button>}
-        <button onClick={() => setTocOpen(o => !o)}
-          className="text-xs px-2 py-1 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded">
-          {tocOpen ? '◀' : '▶'} TOC
-        </button>
-      </div>
-
-      {/* Body */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* TOC sidebar */}
-        {tocOpen && (
-          <div className="rules-sidebar flex-shrink-0 overflow-y-auto border-r border-gray-700 flex flex-col">
-            <div className="px-3 py-2 border-b border-gray-700 sticky top-0 flex items-center gap-2" style={{background:'#161b27'}}>
-              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider">{activeBook.toUpperCase()}</span>
-              <span className="text-xs text-gray-600">{toc.filter(t=>t.level<=2).length} sections</span>
-            </div>
-            {!currentSections ? (
-              <div className="p-3 text-xs text-gray-600 italic">Load a book to see contents</div>
-            ) : (
-              <ul className="py-1">
-                {toc.map((item, idx) => {
-                  // Track which H1 this item belongs to
-                  const parentH1 = item.level === 1 ? item.id
-                    : toc.slice(0, idx).filter(t => t.level === 1).pop()?.id;
-                  const isCollapsed = item.level > 1 && collapsedH1[parentH1];
-                  if (isCollapsed) return null;
-                  return (
-                    <li key={item.id}>
-                      {item.level === 1 ? (
-                        <button title={item.text}
-                          onClick={() => {
-                            setCollapsedH1(prev => ({ ...prev, [item.id]: !prev[item.id] }));
-                            selectSection(item.sectionId, null);
-                          }}
-                          className={`w-full text-left text-xs py-0.5 hover:bg-gray-700 transition-colors truncate
-                            px-2 pt-2 mt-1 font-bold text-indigo-300 border-t border-gray-700
-                            ${item.sectionId === activeSectionId && !search ? 'bg-indigo-900 text-white' : ''}`}>
-                          <span className="mr-1 text-gray-600 inline-block" style={{width:'0.8em'}}>{collapsedH1[item.id] ? '▸' : '▾'}</span>
-                          {item.text}
-                        </button>
-                      ) : (
-                        <button onClick={() => selectSection(item.sectionId, item.level === 3 ? item.text : null)} title={item.text}
-                          className={`w-full text-left text-xs py-0.5 hover:bg-gray-700 transition-colors truncate
-                            ${item.level === 2 ? 'pl-4 pr-2 text-gray-300' : ''}
-                            ${item.level === 3 ? 'pl-6 pr-2 text-gray-500 text-xs' : ''}
-                            ${item.sectionId === activeSectionId && !search ? 'bg-indigo-900 text-white' : ''}`}>
-                          {item.text}
-                        </button>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
-        )}
-
-        {/* Main content */}
-        <div className="flex-1 overflow-y-auto p-5" ref={contentRef}>
-          {!currentSections ? (
-            <div className="text-center mt-20">
-              <div className="text-5xl mb-5">📚</div>
-              <p className="text-gray-300 font-semibold mb-1">{BOOK_NAMES[activeBook]}</p>
-              <p className="text-gray-600 text-sm mb-5">Load the file once — it will be cached automatically for all future sessions.</p>
-              <button onClick={() => pickAndLoadFile(activeBook)}
-                className="text-sm px-5 py-2 bg-indigo-700 hover:bg-indigo-600 text-white rounded">
-                Load {activeBook.toUpperCase()} File
-              </button>
-            </div>
-          ) : searchResults !== null ? (
-            <div className="max-w-3xl mx-auto">
-              <p className="text-xs text-gray-500 mb-4 font-mono">
-                {searchResults.length} section{searchResults.length !== 1 ? 's' : ''} match <em>"{search}"</em> in {activeBook.toUpperCase()}
-              </p>
-              {searchResults.length === 0
-                ? <p className="text-gray-600 text-sm">No results.</p>
-                : searchResults.map(r => (
-                    <div key={r.id} onClick={() => selectSection(r.id)}
-                      className="mb-3 p-3 bg-gray-800 rounded-lg border border-gray-700 hover:border-indigo-500 cursor-pointer transition-colors">
-                      <p className={`font-semibold mb-1 ${r.level===1 ? 'text-indigo-300 text-sm' : 'text-gray-200 text-xs'}`}>{r.heading}</p>
-                      <p className="text-xs text-gray-500 font-mono leading-relaxed whitespace-pre-wrap">{r.snip}</p>
-                    </div>
-                  ))
-              }
-            </div>
-          ) : (
-            <div className="doc-body max-w-3xl mx-auto" dangerouslySetInnerHTML={{ __html: renderedHtml }} />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function App() {
   const [characters, setCharacters] = useState([]);
   const [pcs,        setPcs]        = useState([]);
@@ -2158,7 +1712,6 @@ function App() {
   const [queue,      setQueue]      = useState([]);
   const [activeTab,  setActiveTab]  = useState("All");
   const [search,     setSearch]     = useState("");
-  const [diceOpen,   setDiceOpen]   = useState(false);
   const [viewMode,   setViewMode]   = useState("encounter"); // "encounter" | "document"
   const [pcState,    setPcState]    = useState([]);
 
@@ -2208,8 +1761,7 @@ function App() {
         </div>
       )}
       <TopHeader chapters={chapters} activeTab={activeTab} setActiveTab={setActiveTab}
-        search={search} setSearch={setSearch} viewMode={viewMode} setViewMode={setViewMode}
-        diceOpen={diceOpen} setDiceOpen={setDiceOpen} />
+        search={search} setSearch={setSearch} viewMode={viewMode} setViewMode={setViewMode} />
       <div className="flex flex-1 overflow-hidden">
         {/* All views stay mounted so state is preserved when switching */}
         <div className="flex flex-1 overflow-hidden" style={{display: viewMode === "encounter" ? "flex" : "none"}}>
@@ -2220,18 +1772,11 @@ function App() {
             activeTab={activeTab}
             encounterQueue={queue} onQueueConsumed={()=>setQueue([])}
             pcState={pcState} setPcState={setPcState} />
-          <div className="panel-sep" />
-          <RightPanel diceOpen={diceOpen} />
         </div>
         <div className="flex flex-1 overflow-hidden" style={{display: viewMode === "document" ? "flex" : "none"}}>
           <PCStripPanel pcState={pcState} onUpdatePc={updatePcFromApp} />
           <div className="panel-sep" />
           <DocumentPanel characters={characters} activeTab={activeTab} />
-          {diceOpen && <div className="panel-sep" />}
-          <RightPanel diceOpen={diceOpen} />
-        </div>
-        <div className="flex flex-1 overflow-hidden" style={{display: viewMode === "rules" ? "flex" : "none"}}>
-          <RulesPanel />
         </div>
       </div>
     </div>

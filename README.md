@@ -1,6 +1,6 @@
 # D&D Campaign Tools
 
-**Version 26.04.17.1**
+**Version 26.04.21.1**
 
 A collection of browser-based tools for running a D&D 5e campaign. No build step, no dependencies — just static HTML files served directly from Cloudflare.
 
@@ -12,7 +12,7 @@ A collection of browser-based tools for running a D&D 5e campaign. No build step
 - **Fast Crafting** — Item browser for a player with the fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions.
 - **Spell Book** — Searchable spell reference for the Sorcerer and Bard players. Cantrips and level 1 spells from the 2024 PHB, filterable by class, level, and school.
 - **Spider Merchant** — Password-gated magic item shop. Players browse 33 items (filterable by rarity) and choose 1 for free. Each item shows flavour text separately from mechanics, with key terms bolded.
-- **DM Screen** — Password-protected DM tool with encounter manager, dice roller, condition tracker, and document viewer. Chapter notes and images load from the repo automatically. PHB and DMG auto-load on the Rules tab.
+- **DM Screen** — Password-protected DM tool with encounter manager, condition tracker, and document viewer. Chapter notes and images load from the repo automatically via Browse Notes.
 
 ---
 
@@ -32,11 +32,10 @@ images/
   chapter-1/            ← 15 images
   chapter-2/            ← 7 images
   chapter-3/            ← 12 images
-  chapter-8/            ← 1 image
-  hundred-acre-wood/    ← 10 images
+  chapter-2-5/          ← 10 images
+  chapter-3/            ← 12 images
 notes/
-  chapters/             ← Chapter 1–4 markdown notes
-  rules/                ← Player's Handbook (2024).md, Dungeon Master's Guide (2024).md
+  chapters/             ← Chapter 1–3 + Chapter 2.5 markdown notes
 ```
 
 ---
@@ -57,7 +56,7 @@ python3 -c "
 import json, os
 manifest = {'notes': [], 'images': {}}
 for root, dirs, files in os.walk('notes'):
-    dirs[:] = [d for d in sorted(dirs) if d != 'rules']
+    dirs[:] = sorted(dirs)
     for f in sorted(files):
         if f.endswith('.md') and not f.startswith('.'):
             path = os.path.join(root, f).replace(os.sep, '/')
@@ -117,6 +116,7 @@ git push
 
 | Version | Date | Changes |
 |---|---|---|
+| 26.04.21.1 | 21 Apr 2026 | DM Screen: removed dice roller, manual upload, and Rules section; renamed campaign to "Wish"; added Ch.2.5; updated chapter notes |
 | 26.04.17.1 | 17 Apr 2026 | Removed Character Creator; added Spider Merchant shop (33 items, rarity filter, flavour/mechanics split, bolded key terms) |
 | 26.04.10.3 | 10 Apr 2026 | Added version number to landing page |
 | 26.04.10.2 | 10 Apr 2026 | Added Spell Book (Sorcerer + Bard, cantrips + level 1, 2024 PHB) |
