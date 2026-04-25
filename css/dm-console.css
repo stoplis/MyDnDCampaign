@@ -144,6 +144,26 @@ input, textarea { font: inherit; color: inherit; }
   color: var(--ink-3);
   font-weight: 400;
 }
+.topbar .back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background 120ms, border-color 120ms, color 120ms;
+}
+.topbar .back-link:hover {
+  border-color: var(--ink-3);
+  background: var(--surface-2);
+}
 .topbar .sep { width: 1px; height: 20px; background: var(--rule); }
 .topbar .spacer { flex: 1; }
 
@@ -1270,6 +1290,12 @@ body[data-theme="light"] { color-scheme: light; }
 .mention { display: inline-flex; align-items: baseline; gap: 6px; border: 1px solid var(--rule); border-radius: 999px; background: var(--accent-weak); padding: 1px 8px 2px; margin: 0 1px; font-size: .9em; cursor: pointer; color: var(--ink); vertical-align: baseline; }
 .mention .prefix { font-family: var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--accent); font-size: 10px; }
 .mention:hover { border-color: var(--accent); }
+.mention-ally { background: var(--fac-ally-weak); border-color: color-mix(in oklch, var(--fac-ally) 32%, var(--rule)); }
+.mention-ally .prefix { color: var(--fac-ally); }
+.mention-npc { background: var(--fac-neutral-weak); border-color: color-mix(in oklch, var(--fac-neutral) 32%, var(--rule)); }
+.mention-npc .prefix { color: var(--fac-neutral); }
+.mention-enemy { background: var(--fac-enemy-weak); border-color: color-mix(in oklch, var(--fac-enemy) 32%, var(--rule)); }
+.mention-enemy .prefix { color: var(--fac-enemy); }
 .bestiary-group { border-bottom: 1px solid var(--rule); }
 .bestiary-group-title { padding: var(--s3) var(--s4) var(--s2); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: .14em; color: var(--ink-3); background: var(--surface-2); }
 .monster-row { cursor: pointer; }
