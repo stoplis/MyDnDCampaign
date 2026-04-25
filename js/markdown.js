@@ -14,9 +14,17 @@
     return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   }
 
+  function characterTag(key) {
+    const character = data().characters?.[key] || data().monsters?.[key] || data().npcs?.[key];
+    if (character?.role === "ally" || character?.faction === "ally") return "ally";
+    if (character?.role === "enemy" || character?.faction === "enemy") return "enemy";
+    return "npc";
+  }
+
   function mention(kind, key, label) {
-    const type = kind === "enc" ? "encounter" : kind === "creature" ? "character" : kind;
-    return `<button type="button" class="mention" data-open="${kind}" data-key="${escapeHtml(key)}"><span class="prefix">${type}</span>${escapeHtml(label)}</button>`;
+    const type = kind === "enc" ? "encounter" : kind === "creature" ? characterTag(key) : kind;
+    const className = kind === "creature" ? ` mention-${type}` : kind === "enc" ? " mention-encounter" : "";
+    return `<button type="button" class="mention${className}" data-open="${kind}" data-key="${escapeHtml(key)}"><span class="prefix">${type}</span>${escapeHtml(label)}</button>`;
   }
 
   function resolveWiki(label) {

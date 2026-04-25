@@ -17,16 +17,51 @@
     return {};
   }
 
+  function reconcileParty(savedParty) {
+    const savedById = new Map((savedParty || []).map((pc) => [pc.id, pc]));
+    return d.party.map((pc) => {
+      const saved = savedById.get(pc.id);
+      const next = structuredClone(pc);
+      if (saved && Number.isFinite(Number(saved.hp))) next.hp = Number(saved.hp);
+      return next;
+    });
+  }
+
+  function reconcileCombat(combat, party) {
+    if (!combat) return null;
+    const partyById = new Map(party.map((pc) => [pc.id, pc]));
+    return {
+      ...combat,
+      combatants: (combat.combatants || []).map((combatant) => {
+        if (combatant.refKind !== "pc") return combatant;
+        const pc = partyById.get(combatant.refId);
+        if (!pc) return combatant;
+        return {
+          ...combatant,
+          name: pc.name,
+          subtitle: `${pc.race || "Adventurer"} ${pc.class}`,
+          ac: Number(pc.ac) || combatant.ac,
+          hpMax: Number(pc.hpMax) || combatant.hpMax
+        };
+      })
+    };
+  }
+
+  const savedState = loadState();
+  const savedParty = reconcileParty(savedState.party);
+
   const state = {
     chapterId: "ch1",
-    party: structuredClone(d.party),
+    party: savedParty,
     scratch: {},
     drawerOpen: false,
     rightTab: "encounters",
     popover: null,
     combat: null,
     dragId: null,
-    ...loadState()
+    ...savedState,
+    party: savedParty,
+    combat: reconcileCombat(savedState.combat, savedParty)
   };
   d.party = state.party;
   let renderedChapterId = state.chapterId;
@@ -120,7 +155,8 @@
   function renderShell(chapter) {
     return `<div class="app" data-rail="true">
       <header class="topbar">
-        <span class="brand" style="white-space:nowrap">Wish <em>— DM Console</em></span>
+        <a class="back-link" href="index.html">Back</a>
+        <span class="brand" style="white-space:nowrap">Wish <em>DM Console</em></span>
         <div class="sep"></div>
         <button class="chapter-switcher" data-action="toggle-drawer"><span class="num">Ch ${String(chapter.n).padStart(2, "0")}</span><span class="name">${esc(chapter.title)}</span><span class="chev">▾</span></button>
         <div class="spacer"></div>
