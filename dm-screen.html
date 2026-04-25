@@ -4,91 +4,195 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DM Screen — Wish</title>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
+  :root {
+    --bg:            #faf8f4;
+    --surface:       #ffffff;
+    --surface-2:     #f3f0ea;
+    --ink:           #141414;
+    --ink-2:         #404040;
+    --ink-3:         #6b6b6b;
+    --ink-4:         #9a9a9a;
+    --rule:          #e6e1d6;
+    --accent:        oklch(0.52 0.15 80);
+    --accent-2:      oklch(0.62 0.15 80);
+    --accent-bg:     oklch(0.94 0.05 80);
+    --accent-border: oklch(0.75 0.1 80);
+    --fac-pc:        oklch(0.42 0.14 245);
+    --fac-pc-bg:     oklch(0.93 0.04 245);
+    --fac-ally:      oklch(0.40 0.12 155);
+    --fac-ally-bg:   oklch(0.93 0.04 155);
+    --fac-neutral:   oklch(0.45 0.05 80);
+    --fac-neutral-bg: oklch(0.94 0.03 80);
+    --fac-enemy:     oklch(0.42 0.18 28);
+    --fac-enemy-bg:  oklch(0.94 0.04 28);
+    --serif: "Source Serif 4", Georgia, serif;
+  }
   html, body, #root { height: 100%; margin: 0; padding: 0; overflow: hidden; }
   * { box-sizing: border-box; }
-  .dnd-card  { background: rgb(31, 36, 47); }
-  .dnd-text  { color: rgb(195, 195, 195); }
-  .encounter-card { width: 272px; flex-shrink: 0; }
-  .rules-sidebar  { width: 220px; background: #161b27; }
+  body { font-family: var(--serif); background: var(--bg); color: var(--ink); }
+
+  /* ── Layout grid ── */
+  .app-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr 320px;
+    grid-template-rows: 56px 1fr;
+    height: 100vh; overflow: hidden; position: relative;
+  }
+  .topbar {
+    grid-column: 1 / -1;
+    background: var(--surface); border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; gap: 8px; padding: 0 16px;
+    position: relative; z-index: 41;
+  }
+  .party-rail {
+    grid-column: 1; border-right: 1px solid var(--rule);
+    overflow-y: auto; background: var(--surface);
+  }
+  .notes-pane {
+    grid-column: 2; background: var(--bg);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .right-rail {
+    grid-column: 3; border-left: 1px solid var(--rule);
+    background: var(--surface); display: flex; flex-direction: column; overflow: hidden;
+  }
+
+  /* ── Chapter drawer ── */
+  .chapter-drawer {
+    position: absolute; top: 56px; left: 0; right: 0;
+    background: var(--surface); border-bottom: 1px solid var(--rule);
+    z-index: 40; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 2px; padding: 8px;
+  }
+  .chapter-btn {
+    padding: 8px 12px; border-radius: 6px; text-align: left;
+    border: none; background: transparent; color: var(--ink-2);
+    cursor: pointer; font-size: 0.85rem; font-family: var(--serif);
+  }
+  .chapter-btn:hover  { background: var(--surface-2); color: var(--ink); }
+  .chapter-btn.active { background: var(--accent-bg); color: var(--ink); }
+
+  /* ── Combat overlay ── */
+  .combat-overlay {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--bg); display: flex; flex-direction: column;
+  }
+
+  /* ── Scrollbars ── */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: #1f2937; }
-  ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
-  .panel-sep { width: 1px; background: #374151; flex-shrink: 0; }
+  ::-webkit-scrollbar-track { background: var(--surface-2); }
+  ::-webkit-scrollbar-thumb { background: #b0a898; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #8c8070; }
+
+  /* ── Condition badge colours ── */
+  .cond-neutral { background: var(--surface-2); color: var(--ink-3); border: 1px solid var(--rule); }
+  .cond-pink    { background: #fce7f3; color: #9d174d; border: 1px solid #f9a8d4; }
+  .cond-yellow  { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+  .cond-orange  { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
+  .cond-red     { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+  .cond-blue    { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+  .cond-green   { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+  .cond-purple  { background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe; }
+
+  /* ── Encounter chip (@encounter: syntax) ── */
+  .encounter-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 4px;
+    background: var(--fac-enemy-bg); color: var(--fac-enemy);
+    border: 1px solid oklch(0.75 0.12 28);
+    font-size: 0.8em; cursor: pointer; font-family: var(--serif);
+  }
+  .encounter-chip:hover { background: oklch(0.90 0.06 28); }
+
+  /* ── Faction chip ── */
+  .faction-chip {
+    display: inline-block; padding: 1px 6px; border-radius: 3px;
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .fac-pc      { background: var(--fac-pc-bg);       color: var(--fac-pc); }
+  .fac-ally    { background: var(--fac-ally-bg);     color: var(--fac-ally); }
+  .fac-neutral { background: var(--fac-neutral-bg);  color: var(--fac-neutral); }
+  .fac-enemy   { background: var(--fac-enemy-bg);    color: var(--fac-enemy); }
+
+  /* ── Shared inputs & pips ── */
+  .pip { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin: 1px; cursor: pointer; border: 1.5px solid var(--rule); vertical-align: middle; }
+  .pip-on  { background: var(--accent); border-color: var(--accent); }
+  .pip-off { background: transparent; border-color: var(--rule); }
+  .pip-la-on  { background: oklch(0.65 0.15 75); border-color: oklch(0.55 0.15 75); }
+  .pip-la-off { background: transparent; border-color: var(--rule); }
+  .hp-input { background: var(--surface); border: 1px solid var(--rule); color: var(--ink); border-radius: 4px; padding: 1px 3px; width: 48px; text-align: center; font-size: 13px; font-weight: 700; font-family: var(--serif); }
+  .hp-input:focus { outline: none; border-color: var(--accent); }
+  .init-input { background: var(--surface); border: 1px solid var(--rule); color: var(--ink); border-radius: 4px; padding: 1px 3px; width: 34px; text-align: center; font-size: 11px; font-family: var(--serif); }
+  .init-input:focus { outline: none; border-color: var(--accent); }
+  .expand-body { border-top: 1px solid var(--rule); margin-top: 7px; padding-top: 7px; }
+  input[type=number]::-webkit-inner-spin-button { opacity: 1; }
+  input[type=number] { color-scheme: light; }
+
+  /* ── Condition tooltip & picker ── */
   .condition-tooltip {
     position: fixed; z-index: 9999;
-    background: #111827; color: #e5e7eb;
-    border: 1px solid #374151; border-radius: 6px;
+    background: var(--ink); color: var(--surface);
+    border: 1px solid var(--ink-2); border-radius: 6px;
     padding: 5px 9px; font-size: 11px; max-width: 240px;
     pointer-events: none; white-space: normal; line-height: 1.4;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   }
   .cond-picker {
     position: fixed; z-index: 9998;
-    background: #1f2937; border: 1px solid #374151;
+    background: var(--surface); border: 1px solid var(--rule);
     border-radius: 8px; padding: 3px;
     min-width: 170px; max-height: 200px; overflow-y: auto;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
   .cond-picker button {
     display: block; width: 100%; text-align: left;
-    padding: 4px 10px; font-size: 12px; color: #d1d5db;
+    padding: 4px 10px; font-size: 12px; color: var(--ink-2);
     border-radius: 4px; background: transparent; border: none; cursor: pointer;
+    font-family: var(--serif);
   }
-  .cond-picker button:hover { background: #374151; color: #f9fafb; }
-  .pip { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin: 1px; cursor: pointer; border: 1.5px solid #6b7280; vertical-align: middle; }
-  .pip-on  { background: #8b5cf6; border-color: #7c3aed; }
-  .pip-off { background: transparent; border-color: #6b7280; }
-  .pip-la-on  { background: #fbbf24; border-color: #d97706; }
-  .pip-la-off { background: transparent; border-color: #6b7280; }
-  .hp-input { background: #111827; border: 1px solid #4b5563; color: #f9fafb; border-radius: 4px; padding: 1px 3px; width: 48px; text-align: center; font-size: 13px; font-weight: 700; }
-  .hp-input:focus { outline: none; border-color: #8b5cf6; }
-  .init-input { background: #111827; border: 1px solid #374151; color: #f9fafb; border-radius: 4px; padding: 1px 3px; width: 34px; text-align: center; font-size: 11px; }
-  .init-input:focus { outline: none; border-color: #8b5cf6; }
-  .expand-body { border-top: 1px solid #374151; margin-top: 7px; padding-top: 7px; }
-  input[type=number]::-webkit-inner-spin-button { opacity: 1; }
-  input[type=number] { color-scheme: dark; }
-  /* Document viewer styles */
-  .doc-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #e5e7eb; line-height: 1.7; }
-  .doc-body h1 { font-size: 1.6em; font-weight: 700; margin: 1.2em 0 0.5em; color: #f9fafb; border-bottom: 1px solid #374151; padding-bottom: 0.3em; }
-  .doc-body h2 { font-size: 1.3em; font-weight: 600; margin: 1em 0 0.4em; color: #f3f4f6; }
-  .doc-body h3 { font-size: 1.1em; font-weight: 600; margin: 0.8em 0 0.3em; color: #d1d5db; }
+  .cond-picker button:hover { background: var(--surface-2); color: var(--ink); }
+
+  /* ── Document body ── */
+  .doc-body { font-family: var(--serif); color: var(--ink); line-height: 1.75; }
+  .doc-body h1 { font-size: 1.6em; font-weight: 700; margin: 1.2em 0 0.5em; color: var(--ink); border-bottom: 1px solid var(--rule); padding-bottom: 0.3em; }
+  .doc-body h2 { font-size: 1.3em; font-weight: 600; margin: 1em 0 0.4em; color: var(--ink); }
+  .doc-body h3 { font-size: 1.1em; font-weight: 600; margin: 0.8em 0 0.3em; color: var(--ink-2); }
   .doc-body p { margin: 0.5em 0; }
   .doc-body ul, .doc-body ol { padding-left: 1.5em; margin: 0.5em 0; }
   .doc-body li { margin: 0.25em 0; }
-  .doc-body blockquote { border-left: 3px solid #6b7280; padding: 0.5em 1em; margin: 0.5em 0; background: #1f2937; border-radius: 4px; }
-  .doc-body strong { color: #f9fafb; }
-  .doc-body em { color: #d1d5db; }
-  .doc-body code { background: #1f2937; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.9em; color: #a78bfa; }
-  .doc-body pre { background: #111827; padding: 1em; border-radius: 6px; overflow-x: auto; margin: 0.5em 0; }
+  .doc-body blockquote { border-left: 3px solid var(--rule); padding: 0.5em 1em; margin: 0.5em 0; background: var(--surface-2); border-radius: 4px; }
+  .doc-body strong { font-weight: 700; color: var(--ink); }
+  .doc-body em { color: var(--ink-2); }
+  .doc-body code { background: var(--surface-2); padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.9em; color: var(--fac-enemy); }
+  .doc-body pre { background: var(--surface-2); padding: 1em; border-radius: 6px; overflow-x: auto; margin: 0.5em 0; }
   .doc-body pre code { background: none; padding: 0; }
   .doc-body img { max-width: 100%; border-radius: 6px; margin: 0.5em 0; }
-  .doc-body hr { border: none; border-top: 1px solid #374151; margin: 1.5em 0; }
+  .doc-body hr { border: none; border-top: 1px solid var(--rule); margin: 1.5em 0; }
   .doc-body table { border-collapse: collapse; width: 100%; margin: 0.5em 0; }
-  .doc-body th, .doc-body td { border: 1px solid #374151; padding: 0.4em 0.8em; text-align: left; }
-  .doc-body th { background: #1f2937; font-weight: 600; }
-  .callout { border-left: 3px solid #6b7280; background: #1f2937; border-radius: 4px; padding: 0.6em 1em; margin: 0.5em 0; }
-  .callout-title { font-weight: 600; margin-bottom: 0.3em; display: flex; align-items: center; gap: 0.4em; }
-  .callout-info { border-color: #3b82f6; } .callout-info .callout-title { color: #60a5fa; }
-  .callout-warning { border-color: #f59e0b; } .callout-warning .callout-title { color: #fbbf24; }
-  .callout-danger, .callout-important { border-color: #ef4444; } .callout-danger .callout-title, .callout-important .callout-title { color: #f87171; }
-  .callout-tip { border-color: #10b981; } .callout-tip .callout-title { color: #34d399; }
-  .callout-note { border-color: #8b5cf6; } .callout-note .callout-title { color: #a78bfa; }
-  .callout-example { border-color: #a78bfa; } .callout-example .callout-title { color: #c4b5fd; }
-  .char-ref { color: #a78bfa; cursor: pointer; border-bottom: 1px dotted #a78bfa; }
-  .char-ref:hover { color: #c4b5fd; }
-  .char-hover-card { position: fixed; z-index: 9999; background: #1f2937; border: 1px solid #374151; border-radius: 8px; padding: 10px 14px; max-width: 300px; font-size: 12px; color: #e5e7eb; box-shadow: 0 8px 24px rgba(0,0,0,0.6); pointer-events: none; }
-  .wikilink { color: #60a5fa; cursor: pointer; text-decoration: none; border-bottom: 1px dotted #60a5fa; }
-  .wikilink:hover { color: #93c5fd; }
+  .doc-body th, .doc-body td { border: 1px solid var(--rule); padding: 0.4em 0.8em; text-align: left; }
+  .doc-body th { background: var(--surface-2); font-weight: 600; }
+  .callout { border-left: 3px solid var(--rule); background: var(--surface-2); border-radius: 4px; padding: 0.6em 1em; margin: 0.5em 0; }
+  .callout-title { font-weight: 700; margin-bottom: 0.3em; display: flex; align-items: center; gap: 0.4em; }
+  .callout-info { border-color: var(--fac-pc); } .callout-info .callout-title { color: var(--fac-pc); }
+  .callout-warning { border-color: var(--accent); } .callout-warning .callout-title { color: var(--accent); }
+  .callout-danger, .callout-important { border-color: var(--fac-enemy); } .callout-danger .callout-title, .callout-important .callout-title { color: var(--fac-enemy); }
+  .callout-tip { border-color: var(--fac-ally); } .callout-tip .callout-title { color: var(--fac-ally); }
+  .callout-note { border-color: var(--fac-neutral); } .callout-note .callout-title { color: var(--fac-neutral); }
+  .callout-example { border-color: var(--fac-neutral); } .callout-example .callout-title { color: var(--fac-neutral); }
+  .char-ref { color: var(--fac-pc); cursor: pointer; border-bottom: 1px dotted var(--fac-pc); }
+  .char-ref:hover { color: var(--accent); }
+  .char-hover-card { position: fixed; z-index: 9999; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 14px; max-width: 300px; font-size: 12px; color: var(--ink); box-shadow: 0 8px 24px rgba(0,0,0,0.15); pointer-events: none; }
+  .wikilink { color: var(--fac-pc); cursor: pointer; text-decoration: none; border-bottom: 1px dotted var(--fac-pc); }
+  .wikilink:hover { color: var(--accent); }
 </style>
 </head>
-<body class="bg-gray-900 text-gray-100">
+<body>
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
@@ -202,68 +306,39 @@ const CONDITIONS = {
 };
 
 const COND_COLORS = {
-  Blinded:"bg-gray-600", Charmed:"bg-pink-700", Deafened:"bg-gray-500",
-  Frightened:"bg-yellow-700", Grappled:"bg-orange-700", Incapacitated:"bg-red-800",
-  Invisible:"bg-indigo-700", Paralyzed:"bg-red-700", Petrified:"bg-gray-700",
-  Poisoned:"bg-green-800", Prone:"bg-yellow-800", Restrained:"bg-orange-800",
-  Stunned:"bg-red-600", Unconscious:"bg-gray-800", Exhaustion:"bg-purple-800"
+  Blinded:"cond-neutral",    Charmed:"cond-pink",    Deafened:"cond-neutral",
+  Frightened:"cond-yellow",  Grappled:"cond-orange", Incapacitated:"cond-red",
+  Invisible:"cond-blue",     Paralyzed:"cond-red",   Petrified:"cond-neutral",
+  Poisoned:"cond-green",     Prone:"cond-yellow",    Restrained:"cond-orange",
+  Stunned:"cond-red",        Unconscious:"cond-neutral", Exhaustion:"cond-purple"
 };
 
 const PRESETS = [
-  {
-    name: "Chapter 1 — The Inn Fight",
-    chapter: 1,
-    wave1: ["The Innkeeper"],
-    wave2: ["The Chef", "The Waitress"]
-  },
-  {
-    name: "Chapter 2 — The Great Serpent",
-    chapter: 2,
-    wave1: ["The Great Serpent", "Rabbit"],
-    wave2: null
-  },
-  {
-    name: "Chapter 2 — Fox and Cat",
-    chapter: 2,
-    wave1: ["The Fox", "The Cat"],
-    wave2: null
-  },
-  {
-    name: "Chapter 3 — Dining Room",
-    chapter: 3,
-    wave1: ["Singer", "Piano Player"],
-    wave2: ["Cleaner", "Waiter"]
-  },
-  {
-    name: "Chapter 3 — Mangiafuoco",
-    chapter: 3,
-    wave1: ["Mangiafuoco", "Chorus Puppet", "Chorus Puppet"],
-    wave2: null
-  },
-  {
-    name: "Chapter 4 — Wave 1: Fox and Cat",
-    chapter: 4,
-    wave1: ["Circus Fox", "Circus Cat"],
-    wave2: null
-  },
-  {
-    name: "Chapter 4 — Wave 3: Old Enemies",
-    chapter: 4,
-    wave1: ["Circus Innkeeper", "Circus Mangiafuoco", "Circus Serpent"],
-    wave2: null
-  },
-  {
-    name: "Chapter 4 — Tigger (Hypnotised)",
-    chapter: 4,
-    wave1: ["Tigger (Hypnotised)"],
-    wave2: null
-  },
-  {
-    name: "Chapter 4 — The Ringmasters",
-    chapter: 4,
-    wave1: ["Fenwick", "Celestine"],
-    wave2: null
-  }
+  { key:"inn-fight",      name:"Chapter 1 — The Inn Fight",          chapter:1, wave1:["The Innkeeper"],                                       wave2:["The Chef","The Waitress"] },
+  { key:"great-serpent",  name:"Chapter 2 — The Great Serpent",      chapter:2, wave1:["The Great Serpent","Rabbit"],                          wave2:null },
+  { key:"fox-and-cat",    name:"Chapter 2 — Fox and Cat",            chapter:2, wave1:["The Fox","The Cat"],                                   wave2:null },
+  { key:"dining-room",    name:"Chapter 3 — Dining Room",            chapter:3, wave1:["Singer","Piano Player"],                              wave2:["Cleaner","Waiter"] },
+  { key:"mangiafuoco",    name:"Chapter 3 — Mangiafuoco",            chapter:3, wave1:["Mangiafuoco","Chorus Puppet","Chorus Puppet"],         wave2:null },
+  { key:"circus-fox-cat", name:"Chapter 4 — Wave 1: Fox and Cat",   chapter:4, wave1:["Circus Fox","Circus Cat"],                             wave2:null },
+  { key:"old-enemies",    name:"Chapter 4 — Wave 3: Old Enemies",   chapter:4, wave1:["Circus Innkeeper","Circus Mangiafuoco","Circus Serpent"],wave2:null },
+  { key:"tigger",         name:"Chapter 4 — Tigger (Hypnotised)",   chapter:4, wave1:["Tigger (Hypnotised)"],                                wave2:null },
+  { key:"ringmasters",    name:"Chapter 4 — The Ringmasters",       chapter:4, wave1:["Fenwick","Celestine"],                                wave2:null },
+];
+
+const CHAPTERS = [
+  { id:"1",   title:"Chapter 1",   subtitle:"Around Town",           notePath:"notes/chapters/Chapter 1 - Around Town.md" },
+  { id:"2",   title:"Chapter 2",   subtitle:"The Field of Miracles", notePath:"notes/chapters/Chapter 2 - The Field of Miracles.md" },
+  { id:"2.5", title:"Interlude 1", subtitle:"",                       notePath:"notes/chapters/Chapter 2.5 - Interlude 1.md" },
+  { id:"3",   title:"Chapter 3",   subtitle:"The Puppet Theatre",    notePath:"notes/chapters/Chapter 3 - The Puppet Theatre.md" },
+  { id:"3.5", title:"Interlude 2", subtitle:"",                       notePath:null },
+  { id:"4",   title:"Chapter 4",   subtitle:"",                       notePath:null },
+  { id:"4.5", title:"Interlude 3", subtitle:"",                       notePath:null },
+  { id:"5",   title:"Chapter 5",   subtitle:"",                       notePath:null },
+  { id:"5.5", title:"Interlude 4", subtitle:"",                       notePath:null },
+  { id:"6",   title:"Chapter 6",   subtitle:"",                       notePath:null },
+  { id:"6.5", title:"Interlude 5", subtitle:"",                       notePath:null },
+  { id:"7",   title:"Chapter 7",   subtitle:"",                       notePath:null },
+  { id:"8",   title:"Chapter 8",   subtitle:"",                       notePath:null },
 ];
 
 const CR_XP = {"0":10,"1/8":25,"1/4":50,"1/2":100,"1":200,"2":450,"3":700,"4":1100,"5":1800,"6":2300,"7":2900,"8":3900,"9":5000,"10":5900,"11":7200,"12":8400,"13":10000,"14":11500,"15":13000,"16":15000,"17":18000,"18":20000,"19":22000,"20":25000};
@@ -348,17 +423,19 @@ function isScaled(cr, partyLevel, difficulty) {
 }
 
 const ROLE_STYLES = {
-  ally:       { border:"border-green-500", badge:"bg-green-900 text-green-300", name:"text-green-300", header:"text-green-400", line:"bg-green-900" },
-  antagonist: { border:"border-red-500",   badge:"bg-red-900 text-red-300",     name:"text-red-300",   header:"text-red-400",   line:"bg-red-900"   },
-  enemy:      { border:"border-red-500",   badge:"bg-red-900 text-red-300",     name:"text-red-300",   header:"text-red-400",   line:"bg-red-900"   },
-  boss:       { border:"border-red-500",   badge:"bg-red-900 text-red-300",     name:"text-red-300",   header:"text-red-400",   line:"bg-red-900"   },
-  npc:        { border:"border-blue-400",  badge:"bg-blue-900 text-blue-300",   name:"text-blue-300",  header:"text-blue-400",  line:"bg-blue-900"  },
-  pc:         { border:"border-purple-500", badge:"bg-purple-900 text-purple-300", name:"text-purple-300", header:"text-purple-400", line:"bg-purple-900" },
-  _default:   { border:"border-yellow-500", badge:"bg-yellow-900 text-yellow-300", name:"text-yellow-300", header:"text-yellow-400", line:"bg-yellow-900" },
-  _none:      { border:"border-gray-500",  badge:"bg-gray-700 text-gray-300",   name:"text-gray-200",  header:"text-gray-400",  line:"bg-gray-700"  }
+  ally:       { borderColor:"var(--fac-ally)",    badgeBg:"var(--fac-ally-bg)",    badgeColor:"var(--fac-ally)",    nameColor:"var(--fac-ally)",    headerColor:"var(--fac-ally)",    lineColor:"var(--fac-ally-bg)" },
+  antagonist: { borderColor:"var(--fac-enemy)",   badgeBg:"var(--fac-enemy-bg)",   badgeColor:"var(--fac-enemy)",   nameColor:"var(--fac-enemy)",   headerColor:"var(--fac-enemy)",   lineColor:"var(--fac-enemy-bg)" },
+  enemy:      { borderColor:"var(--fac-enemy)",   badgeBg:"var(--fac-enemy-bg)",   badgeColor:"var(--fac-enemy)",   nameColor:"var(--fac-enemy)",   headerColor:"var(--fac-enemy)",   lineColor:"var(--fac-enemy-bg)" },
+  boss:       { borderColor:"var(--fac-enemy)",   badgeBg:"var(--fac-enemy-bg)",   badgeColor:"var(--fac-enemy)",   nameColor:"var(--fac-enemy)",   headerColor:"var(--fac-enemy)",   lineColor:"var(--fac-enemy-bg)" },
+  npc:        { borderColor:"var(--fac-neutral)", badgeBg:"var(--fac-neutral-bg)", badgeColor:"var(--fac-neutral)", nameColor:"var(--fac-neutral)", headerColor:"var(--fac-neutral)", lineColor:"var(--fac-neutral-bg)" },
+  pc:         { borderColor:"var(--fac-pc)",      badgeBg:"var(--fac-pc-bg)",      badgeColor:"var(--fac-pc)",      nameColor:"var(--fac-pc)",      headerColor:"var(--fac-pc)",      lineColor:"var(--fac-pc-bg)" },
+  _default:   { borderColor:"var(--accent)",      badgeBg:"var(--accent-bg)",      badgeColor:"var(--accent)",      nameColor:"var(--accent)",      headerColor:"var(--accent)",      lineColor:"var(--accent-bg)" },
+  _none:      { borderColor:"var(--rule)",        badgeBg:"var(--surface-2)",      badgeColor:"var(--ink-3)",       nameColor:"var(--ink-2)",       headerColor:"var(--ink-3)",       lineColor:"var(--surface-2)" },
 };
 function roleStyle(role) { return ROLE_STYLES[(role||"").toLowerCase()] || ROLE_STYLES._default; }
-
+function roleBorderColor(role) { return role ? roleStyle(role).borderColor : ROLE_STYLES._none.borderColor; }
+function roleBadgeStyle(role)  { const s = role ? roleStyle(role) : ROLE_STYLES._none; return { background: s.badgeBg, color: s.badgeColor }; }
+function roleNameStyle(role)   { return { color: role ? roleStyle(role).nameColor : ROLE_STYLES._none.nameColor }; }
 
 function prepareCreature(char, partyLevel, difficulty) {
   const sh = scaledHp(char.hp_max, char.cr, partyLevel, difficulty) || char.hp_max || 0;
@@ -370,26 +447,23 @@ function prepareCreature(char, partyLevel, difficulty) {
   };
 }
 
-function roleBorder(role)    { return role ? roleStyle(role).border : ROLE_STYLES._none.border; }
-function roleBadge(role)     { return role ? roleStyle(role).badge  : ROLE_STYLES._none.badge; }
-function roleNameColor(role) { return role ? roleStyle(role).name   : ROLE_STYLES._none.name; }
 
 function SectionHeader({ title, role }) {
   const s = roleStyle(role);
   return (
-    <div className="flex items-center gap-2 mt-2 mb-1">
-      <span className={`text-xs font-bold uppercase tracking-wider ${s.header}`}>{title}</span>
-      <div className={`flex-1 h-px ${s.line}`} />
+    <div style={{display:"flex",alignItems:"center",gap:6,marginTop:8,marginBottom:4}}>
+      <span style={{fontSize:"0.62rem",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em",color:s.headerColor,whiteSpace:"nowrap"}}>{title}</span>
+      <div style={{flex:1,height:1,background:s.lineColor}} />
     </div>
   );
 }
 
 function hpColor(cur, max) {
-  if (!max) return "bg-green-600";
+  if (!max) return "var(--fac-ally)";
   const p = cur / max;
-  if (p > 0.5) return "bg-green-600";
-  if (p > 0.25) return "bg-yellow-500";
-  return "bg-red-600";
+  if (p > 0.5) return "var(--fac-ally)";
+  if (p > 0.25) return "oklch(0.65 0.15 75)";
+  return "var(--fac-enemy)";
 }
 
 /* ── HpBar ─────────────────────────────────────────────────────── */
@@ -398,8 +472,8 @@ function HpBar({ cur, max }) {
   if (!max) return null;
   const pct = Math.max(0, Math.min(1, cur / max)) * 100;
   return (
-    <div className="w-full bg-gray-700 rounded-full h-1.5 mt-1">
-      <div className={`h-1.5 rounded-full transition-all ${hpColor(cur, max)}`} style={{width:`${pct}%`}} />
+    <div style={{width:"100%",background:"var(--surface-2)",borderRadius:4,height:4,marginTop:4}}>
+      <div style={{height:4,borderRadius:4,transition:"width 0.2s",width:`${pct}%`,background:hpColor(cur,max)}} />
     </div>
   );
 }
@@ -408,40 +482,31 @@ function HpBar({ cur, max }) {
 
 function AbilityRow({ stats, savingThrows }) {
   if (!stats) return null;
-
-  // Parse ['STR +6', 'CON +5'] → { STR: '+6', CON: '+5' }
   const saveMap = {};
   (savingThrows || []).forEach(sv => {
     const m = sv.match(/^([A-Za-z]+)\s+([+-]\d+)/);
     if (m) saveMap[m[1].toUpperCase()] = m[2];
   });
-
-  const groups = [
-    { keys: ['str','dex','con'], labels: ['STR','DEX','CON'], bg: 'rgb(77,64,64)'  },
-    { keys: ['int','wis','cha'], labels: ['INT','WIS','CHA'], bg: 'rgb(65,63,80)'  },
+  const all = [
+    {k:'str',l:'STR'},{k:'dex',l:'DEX'},{k:'con',l:'CON'},
+    {k:'int',l:'INT'},{k:'wis',l:'WIS'},{k:'cha',l:'CHA'},
   ];
-
   return (
-    <div className="flex mt-2 rounded overflow-hidden gap-px" style={{background:'rgb(31,36,47)'}}>
-      {groups.map(({ keys, labels, bg }, gi) => (
-        <div key={gi} className="flex-1 grid grid-cols-3 gap-px">
-          {keys.map((k, i) => {
-            const score = stats[k] ?? 10;
-            const mod   = modStr(score);
-            const label = labels[i];
-            const save  = saveMap[label] || mod;
-            const prof  = !!saveMap[label];
-            return (
-              <div key={k} className="flex flex-col items-center py-1.5 px-0.5" style={{background: bg}}>
-                <span className="font-semibold leading-none text-gray-400" style={{fontSize:'0.58rem'}}>{label}</span>
-                <span className="leading-none text-gray-500" style={{fontSize:'0.58rem'}}>{score}</span>
-                <span className="font-bold text-white leading-snug" style={{fontSize:'0.85rem'}}>{mod}</span>
-                <span className={`leading-none font-medium ${prof ? 'text-green-400' : 'text-gray-500'}`} style={{fontSize:'0.58rem'}}>{save}</span>
-              </div>
-            );
-          })}
-        </div>
-      ))}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(6,1fr)",gap:1,marginTop:6,borderRadius:4,overflow:"hidden",border:"1px solid var(--rule)"}}>
+      {all.map(({k,l}) => {
+        const score = stats[k] ?? 10;
+        const mv    = modStr(score);
+        const save  = saveMap[l] || mv;
+        const prof  = !!saveMap[l];
+        return (
+          <div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center",padding:"4px 2px",background:"var(--surface-2)"}}>
+            <span style={{fontSize:"0.55rem",fontWeight:700,color:"var(--ink-3)",textTransform:"uppercase"}}>{l}</span>
+            <span style={{fontSize:"0.55rem",color:"var(--ink-4)"}}>{score}</span>
+            <span style={{fontSize:"0.82rem",fontWeight:700,color:"var(--ink)",lineHeight:1.2}}>{mv}</span>
+            <span style={{fontSize:"0.55rem",fontWeight:600,color: prof ? "var(--fac-ally)" : "var(--ink-4)"}}>{save}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -461,13 +526,14 @@ function CondTag({ name, onRemove }) {
   return (
     <>
       <span
-        className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium cursor-default ${COND_COLORS[name]||"bg-gray-700"} text-white`}
+        className={`${COND_COLORS[name]||"cond-neutral"}`}
+        style={{display:"inline-flex",alignItems:"center",gap:2,padding:"1px 6px",borderRadius:10,fontSize:"0.72rem",fontWeight:600,cursor:"default"}}
         onMouseEnter={e => { setTip(CONDITIONS[name]); setPos({x:e.clientX,y:e.clientY}); }}
         onMouseMove={e => setPos({x:e.clientX,y:e.clientY})}
         onMouseLeave={() => setTip(null)}
       >
         {name}
-        <button onClick={onRemove} className="ml-0.5 opacity-60 hover:opacity-100 leading-none text-xs">×</button>
+        <button onClick={onRemove} style={{marginLeft:1,opacity:0.6,lineHeight:1,fontSize:"0.75rem",background:"none",border:"none",cursor:"pointer",padding:0,color:"inherit"}}>×</button>
       </span>
       {tip && <CondTooltip text={tip} x={pos.x} y={pos.y} />}
     </>
@@ -495,7 +561,7 @@ function CondPicker({ active, onAdd, onClose, rect }) {
   return (
     <div ref={ref} className="cond-picker" style={{top, left}}>
       {available.length === 0
-        ? <div className="px-3 py-2 text-xs text-gray-500">All conditions active</div>
+        ? <div style={{padding:"6px 12px",fontSize:"0.75rem",color:"var(--ink-3)"}}>All conditions active</div>
         : available.map(c => <button key={c} onClick={() => { onAdd(c); onClose(); }}>{c}</button>)
       }
     </div>
@@ -514,10 +580,10 @@ function CondRow({ conditions, onAdd, onRemove }) {
   }
 
   return (
-    <div className="flex flex-wrap gap-1 mt-2 items-center min-h-5">
+    <div style={{display:"flex",flexWrap:"wrap",gap:4,marginTop:6,alignItems:"center",minHeight:20}}>
       {conditions.map(c => <CondTag key={c} name={c} onRemove={() => onRemove(c)} />)}
       <button ref={btnRef} onClick={openPicker}
-        className="text-xs px-1.5 py-0.5 rounded bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white">+</button>
+        style={{fontSize:"0.72rem",padding:"1px 6px",borderRadius:10,background:"var(--surface-2)",color:"var(--ink-3)",border:"1px solid var(--rule)",cursor:"pointer"}}>+</button>
       {open && <CondPicker active={conditions} onAdd={onAdd} onClose={() => setOpen(false)} rect={rect} />}
     </div>
   );
@@ -528,14 +594,14 @@ function CondRow({ conditions, onAdd, onRemove }) {
 function PowerTokenRow({ tokens, onToggle }) {
   if (!tokens || !tokens.length) return null;
   return (
-    <div className="mt-2 flex flex-col gap-1">
+    <div style={{marginTop:6,display:"flex",flexDirection:"column",gap:4}}>
       {tokens.map((tk, ti) => {
         if (!tk.total) return null;
         const avail = tk.total - tk.used;
         return (
-          <div key={ti} className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-xs text-gray-500">{tk.label}</span>
-            <div className="flex gap-0.5">
+          <div key={ti} style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}>
+            <span style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>{tk.label}</span>
+            <div style={{display:"flex",gap:1}}>
               {Array.from({length: tk.total}).map((_,i) => (
                 <span key={i} className={`pip ${i < avail ? "pip-on" : "pip-off"}`}
                   onClick={() => onToggle(ti, i, avail)}
@@ -554,15 +620,15 @@ function PowerTokenRow({ tokens, onToggle }) {
 function DeathSaves({ ds, onChange }) {
   const {successes:s, failures:f} = ds;
   return (
-    <div className="mt-2 flex items-center gap-3 text-xs">
-      <span className="text-green-400 font-medium">Successes</span>
+    <div style={{marginTop:6,display:"flex",alignItems:"center",gap:8,fontSize:"0.72rem"}}>
+      <span style={{color:"var(--fac-ally)",fontWeight:600}}>Successes</span>
       {[0,1,2].map(i => (
-        <input key={i} type="checkbox" className="w-3.5 h-3.5 cursor-pointer accent-green-500"
+        <input key={i} type="checkbox" style={{width:13,height:13,cursor:"pointer",accentColor:"var(--fac-ally)"}}
           checked={i < s} onChange={e => onChange("successes", e.target.checked ? s+1 : s-1)} />
       ))}
-      <span className="text-red-400 font-medium ml-2">Failures</span>
+      <span style={{color:"var(--fac-enemy)",fontWeight:600,marginLeft:4}}>Failures</span>
       {[0,1,2].map(i => (
-        <input key={i} type="checkbox" className="w-3.5 h-3.5 cursor-pointer accent-red-500"
+        <input key={i} type="checkbox" style={{width:13,height:13,cursor:"pointer",accentColor:"var(--fac-enemy)"}}
           checked={i < f} onChange={e => onChange("failures", e.target.checked ? f+1 : f-1)} />
       ))}
     </div>
@@ -584,18 +650,18 @@ function HpEditor({ cur, max, onSet, onDelta }) {
   }
 
   return (
-    <div className="flex items-center gap-0.5">
-      <button onClick={() => onDelta(-1)} className="w-5 h-5 text-xs bg-gray-700 hover:bg-gray-600 rounded text-gray-300 flex items-center justify-center leading-none">−</button>
+    <div style={{display:"flex",alignItems:"center",gap:2}}>
+      <button onClick={() => onDelta(-1)} style={{width:20,height:20,fontSize:"0.75rem",background:"var(--surface-2)",border:"1px solid var(--rule)",borderRadius:4,color:"var(--ink-2)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1}}>−</button>
       {editing
         ? <input ref={ref} type="number" className="hp-input" value={val}
             onChange={e => setVal(e.target.value)}
             onBlur={commit}
             onKeyDown={e => { if (e.key==="Enter") commit(); if (e.key==="Escape") setEditing(false); }} />
-        : <span className="font-bold text-white text-sm cursor-pointer hover:text-purple-300 w-12 text-center" onClick={start}>
+        : <span style={{fontWeight:700,color:"var(--ink)",fontSize:"0.85rem",cursor:"pointer",minWidth:44,textAlign:"center"}} onClick={start}>
             {cur}/{max||"?"}
           </span>
       }
-      <button onClick={() => onDelta(1)} className="w-5 h-5 text-xs bg-gray-700 hover:bg-gray-600 rounded text-gray-300 flex items-center justify-center leading-none">+</button>
+      <button onClick={() => onDelta(1)} style={{width:20,height:20,fontSize:"0.75rem",background:"var(--surface-2)",border:"1px solid var(--rule)",borderRadius:4,color:"var(--ink-2)",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1}}>+</button>
     </div>
   );
 }
@@ -633,33 +699,34 @@ function PCCard({ pc, onUpdate }) {
   const displayName = pc.name || pc.player || "—";
   const showPlayer = pc.player && pc.name;
 
+  const cardStyle = {background:"var(--surface)",border:"1px solid var(--rule)",borderLeft:`4px solid var(--fac-pc)`,borderRadius:8,padding:12,marginBottom:8};
   return (
-    <div className="dnd-card rounded-lg p-3 mb-2 border border-gray-700 border-l-4 border-purple-500">
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-bold text-white">{displayName}</span>
-            <span className="text-xs text-gray-400">{pc.class} {pc.level}</span>
+    <div style={cardStyle}>
+      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8}}>
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}>
+            <span style={{fontWeight:700,color:"var(--ink)"}}>{displayName}</span>
+            <span style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>{pc.class} {pc.level}</span>
           </div>
-          {showPlayer && <div className="text-xs text-gray-500 leading-tight">{pc.player}</div>}
-          {!pc.name && pc.player && <div className="text-xs text-purple-400 leading-tight">{pc.player}</div>}
-          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-            <div className="flex items-center gap-1">
-              <span className="text-xs text-gray-500">Init</span>
+          {showPlayer && <div style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>{pc.player}</div>}
+          {!pc.name && pc.player && <div style={{fontSize:"0.72rem",color:"var(--fac-pc)"}}>{pc.player}</div>}
+          <div style={{display:"flex",alignItems:"center",gap:8,marginTop:4,flexWrap:"wrap"}}>
+            <div style={{display:"flex",alignItems:"center",gap:4}}>
+              <span style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>Init</span>
               <input type="number" className="init-input" placeholder="—"
                 value={pc.initiative ?? ""}
                 onChange={e => onUpdate({initiative: e.target.value==="" ? null : parseInt(e.target.value,10)})} />
             </div>
             {pc.spell_atk && (
-              <span className="text-xs text-purple-400 font-mono">Spell {pc.spell_atk} / DC {pc.spell_dc}</span>
+              <span style={{fontSize:"0.72rem",color:"var(--fac-pc)",fontFamily:"monospace"}}>Spell {pc.spell_atk} / DC {pc.spell_dc}</span>
             )}
           </div>
         </div>
-        <div className="flex flex-col items-end gap-1 flex-shrink-0">
-          <div className="flex items-center gap-1 flex-wrap justify-end">
-            <span className="text-xs px-2 py-0.5 rounded-full bg-gray-700 text-gray-300 font-mono">AC {pc.ac}</span>
+        <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,flexShrink:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:4,flexWrap:"wrap",justifyContent:"flex-end"}}>
+            <span style={{fontSize:"0.72rem",padding:"1px 6px",borderRadius:10,background:"var(--surface-2)",color:"var(--ink-2)",border:"1px solid var(--rule)",fontFamily:"monospace"}}>AC {pc.ac}</span>
             {pc.ac_armoured && pc.ac_armoured !== pc.ac && (
-              <span className="text-xs px-2 py-0.5 rounded-full bg-gray-600 text-gray-400 font-mono" title="AC with armour">{pc.ac_armoured}⚔</span>
+              <span style={{fontSize:"0.72rem",padding:"1px 6px",borderRadius:10,background:"var(--surface-2)",color:"var(--ink-3)",border:"1px solid var(--rule)",fontFamily:"monospace"}} title="AC with armour">{pc.ac_armoured}⚔</span>
             )}
           </div>
           <HpEditor cur={hp.current} max={hp.max} onSet={setHp} onDelta={deltaHp} />
@@ -672,24 +739,22 @@ function PCCard({ pc, onUpdate }) {
         onAdd={c => onUpdate({conditions:[...(pc.conditions||[]),c]})}
         onRemove={c => onUpdate({conditions:(pc.conditions||[]).filter(x=>x!==c)})}
       />
-      <div className="mt-2 flex">
+      <div style={{marginTop:6,display:"flex"}}>
         <AdvDisToggle value={pc.adv_dis} onChange={v => onUpdate({adv_dis: v})} />
       </div>
-      {pc.power_tokens && (
-        <PowerTokenRow tokens={pc.power_tokens} onToggle={toggleToken} />
-      )}
+      {pc.power_tokens && <PowerTokenRow tokens={pc.power_tokens} onToggle={toggleToken} />}
       {pc.crafting_items && (
-        <div className="mt-2">
+        <div style={{marginTop:6}}>
           <button onClick={() => setCraftOpen(o => !o)}
-            className="text-xs px-2 py-0.5 rounded bg-amber-900 text-amber-300 hover:bg-amber-800 flex items-center gap-1">
+            style={{fontSize:"0.72rem",padding:"2px 8px",borderRadius:4,background:"var(--accent-bg)",color:"var(--accent)",border:"1px solid var(--accent-border)",cursor:"pointer",display:"flex",alignItems:"center",gap:4}}>
             ⚒ Fast Crafting {craftOpen ? "▲" : "▼"}
           </button>
-          {craftMsg && <div className="text-xs text-amber-400 mt-1">{craftMsg}</div>}
+          {craftMsg && <div style={{fontSize:"0.72rem",color:"var(--accent)",marginTop:4}}>{craftMsg}</div>}
           {craftOpen && (
-            <div className="mt-1 p-2 bg-gray-800 rounded border border-gray-700 grid grid-cols-2 gap-0.5">
+            <div style={{marginTop:4,padding:6,background:"var(--surface-2)",borderRadius:6,border:"1px solid var(--rule)",display:"grid",gridTemplateColumns:"1fr 1fr",gap:2}}>
               {pc.crafting_items.map(item => (
                 <button key={item} onClick={() => craftItem(item)}
-                  className="text-left text-xs text-gray-300 hover:text-amber-300 hover:bg-gray-700 px-1 py-0.5 rounded truncate">
+                  style={{textAlign:"left",fontSize:"0.72rem",color:"var(--ink-2)",padding:"2px 4px",borderRadius:3,background:"none",border:"none",cursor:"pointer",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
                   {item}
                 </button>
               ))}
@@ -697,9 +762,7 @@ function PCCard({ pc, onUpdate }) {
           )}
         </div>
       )}
-      {dead && pc.death_saves && (
-        <DeathSaves ds={pc.death_saves} onChange={updateDs} />
-      )}
+      {dead && pc.death_saves && <DeathSaves ds={pc.death_saves} onChange={updateDs} />}
     </div>
   );
 }
@@ -707,15 +770,15 @@ function PCCard({ pc, onUpdate }) {
 /* ── NPC Card ──────────────────────────────────────────────────── */
 
 function AdvDisToggle({ value, onChange }) {
-  // value: null/"normal" = none, "adv" = advantage, "dis" = disadvantage
   const cur = value || "normal";
+  const btnBase = {fontSize:"0.72rem",padding:"2px 6px",fontWeight:700,cursor:"pointer",border:"none",lineHeight:1};
   return (
-    <div className="flex rounded" title="Advantage / Disadvantage">
+    <div style={{display:"flex",borderRadius:4,overflow:"hidden",border:"1px solid var(--rule)"}} title="Advantage / Disadvantage">
       <button onClick={() => onChange(cur==="adv" ? "normal" : "adv")}
-        className={`text-xs px-1.5 py-0.5 font-semibold transition-colors leading-tight ${cur==="adv" ? "bg-green-700 text-green-100" : "bg-gray-700 text-gray-500 hover:text-green-400"}`}
+        style={{...btnBase, background: cur==="adv" ? "var(--fac-ally)" : "var(--surface-2)", color: cur==="adv" ? "#fff" : "var(--ink-3)"}}
         title="Advantage">ADV</button>
       <button onClick={() => onChange(cur==="dis" ? "normal" : "dis")}
-        className={`text-xs px-1.5 py-0.5 font-semibold transition-colors leading-tight ${cur==="dis" ? "bg-red-700 text-red-100" : "bg-gray-700 text-gray-500 hover:text-red-400"}`}
+        style={{...btnBase, background: cur==="dis" ? "var(--fac-enemy)" : "var(--surface-2)", color: cur==="dis" ? "#fff" : "var(--ink-3)"}}
         title="Disadvantage">DIS</button>
     </div>
   );
@@ -742,33 +805,36 @@ function NPCCard({ creature, partyLevel, difficulty, onUpdate, onRemove }) {
     onUpdate({role: roles[nextIdx]});
   }
 
+  const bs = roleBadgeStyle(creature.role);
+  const cardStyle = {background:"var(--surface)",border:"1px solid var(--rule)",borderLeft:`4px solid ${roleBorderColor(creature.role)}`,borderRadius:8,padding:12,marginBottom:8};
+
   return (
-    <div className={`dnd-card rounded-lg p-3 mb-2 border border-gray-700 border-l-4 ${roleBorder(creature.role)}`}>
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className={`font-bold truncate ${roleNameColor(creature.role)}`}>{creature.nickname||creature.name}</span>
-            <button onClick={cycleRole} className={`text-xs px-1.5 py-0.5 rounded-full font-medium cursor-pointer hover:opacity-80 transition-opacity ${roleBadge(creature.role)}`}>{creature.role}</button>
+    <div style={cardStyle}>
+      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8}}>
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,flexWrap:"wrap"}}>
+            <span style={{fontWeight:700,...roleNameStyle(creature.role),overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{creature.nickname||creature.name}</span>
+            <button onClick={cycleRole} style={{fontSize:"0.65rem",padding:"1px 6px",borderRadius:10,fontWeight:700,cursor:"pointer",border:"none",...bs}}>{creature.role}</button>
           </div>
-          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-            <div className="flex items-center gap-1">
-              <span className="text-xs text-gray-500">Init</span>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginTop:4,flexWrap:"wrap"}}>
+            <div style={{display:"flex",alignItems:"center",gap:4}}>
+              <span style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>Init</span>
               <input type="number" className="init-input" placeholder="—"
                 value={creature.initiative ?? ""}
                 onChange={e => onUpdate({initiative: e.target.value==="" ? null : parseInt(e.target.value,10)})} />
             </div>
-            {creature.speed && <span className="text-xs text-gray-500">{creature.speed}ft</span>}
+            {creature.speed && <span style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>{creature.speed}ft</span>}
           </div>
         </div>
-        <div className="flex flex-col items-end gap-1 flex-shrink-0">
-          <div className="flex items-center gap-1">
-            <span className="text-xs px-1.5 py-0.5 rounded bg-gray-700 text-gray-300 font-mono">CR {fmtCR(creature.cr)}</span>
-            <span className="text-xs px-1.5 py-0.5 rounded-full bg-gray-700 text-gray-300 font-mono">AC {creature.ac||"—"}</span>
-            <button onClick={onRemove} className="text-gray-600 hover:text-red-400 text-sm ml-0.5 leading-none">×</button>
+        <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4,flexShrink:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:4}}>
+            <span style={{fontSize:"0.65rem",padding:"1px 5px",borderRadius:3,background:"var(--surface-2)",color:"var(--ink-3)",border:"1px solid var(--rule)",fontFamily:"monospace"}}>CR {fmtCR(creature.cr)}</span>
+            <span style={{fontSize:"0.65rem",padding:"1px 5px",borderRadius:10,background:"var(--surface-2)",color:"var(--ink-3)",border:"1px solid var(--rule)",fontFamily:"monospace"}}>AC {creature.ac||"—"}</span>
+            <button onClick={onRemove} style={{color:"var(--ink-4)",fontSize:"1rem",lineHeight:1,background:"none",border:"none",cursor:"pointer",padding:"0 2px"}}>×</button>
           </div>
-          <div className="flex items-center gap-0.5">
+          <div style={{display:"flex",alignItems:"center",gap:4}}>
             <HpEditor cur={curHp} max={displayMax} onSet={setHp} onDelta={deltaHp} />
-            {showScaled && <span className="text-xs text-gray-500 ml-1">(s)</span>}
+            {showScaled && <span style={{fontSize:"0.65rem",color:"var(--ink-4)"}}>(s)</span>}
           </div>
         </div>
       </div>
@@ -779,16 +845,16 @@ function NPCCard({ creature, partyLevel, difficulty, onUpdate, onRemove }) {
         onAdd={c => onUpdate({conditions:[...(creature.conditions||[]),c]})}
         onRemove={c => onUpdate({conditions:(creature.conditions||[]).filter(x=>x!==c)})}
       />
-      <div className="flex items-center gap-3 mt-2 flex-wrap">
+      <div style={{display:"flex",alignItems:"center",gap:8,marginTop:6,flexWrap:"wrap"}}>
         <AdvDisToggle value={creature.adv_dis} onChange={v => onUpdate({adv_dis: v})} />
         <button
           onClick={() => onUpdate({reactionSpent: !creature.reactionSpent})}
-          className={`text-xs flex items-center gap-1 px-2 py-0.5 rounded bg-gray-700 hover:bg-gray-600 ${creature.reactionSpent ? "text-gray-500" : "text-yellow-400"}`}
+          style={{fontSize:"0.72rem",display:"flex",alignItems:"center",gap:4,padding:"2px 6px",borderRadius:4,background:"var(--surface-2)",border:"1px solid var(--rule)",cursor:"pointer",color: creature.reactionSpent ? "var(--ink-4)" : "oklch(0.65 0.15 75)"}}
           title={creature.reactionSpent ? "Reaction spent" : "Reaction available"}
         >⚡ Reaction</button>
         {laCount > 0 && (
-          <div className="flex items-center gap-0.5">
-            <span className="text-xs text-gray-500 mr-0.5">LA</span>
+          <div style={{display:"flex",alignItems:"center",gap:2}}>
+            <span style={{fontSize:"0.65rem",color:"var(--ink-3)",marginRight:2}}>LA</span>
             {Array.from({length:laCount}).map((_,i) => (
               <span key={i}
                 className={`pip ${i < (laCount - laUsed) ? "pip-la-on" : "pip-la-off"}`}
@@ -799,45 +865,45 @@ function NPCCard({ creature, partyLevel, difficulty, onUpdate, onRemove }) {
         )}
       </div>
       <button onClick={() => setExpanded(x=>!x)}
-        className="mt-2 text-xs text-gray-500 hover:text-gray-300 flex items-center gap-1">
+        style={{marginTop:6,fontSize:"0.72rem",color:"var(--ink-3)",background:"none",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:4,padding:0}}>
         {expanded ? "▴" : "▾"} Full Stats
       </button>
       {expanded && (
-        <div className="expand-body text-xs dnd-text space-y-1">
-          {creature.speed              && <p><span className="text-gray-500">Speed:</span> {creature.speed} ft.</p>}
-          {creature.alignment          && <p><span className="text-gray-500">Alignment:</span> {creature.alignment}{creature.type ? ` · ${creature.type}` : ''}{creature.size ? ` · ${creature.size}` : ''}</p>}
-          {creature.passive_perception && <p><span className="text-gray-500">Passive Perc:</span> <span className="text-purple-400">{creature.passive_perception}</span></p>}
-          {creature.skills?.length>0   && <p><span className="text-gray-500">Skills:</span> <span className="text-green-400">{creature.skills.join(", ")}</span></p>}
-          {creature.saving_throws?.length>0 && <p><span className="text-gray-500">Saves:</span> <span className="text-green-400">{creature.saving_throws.join(", ")}</span></p>}
-          {creature.damage_resistances && <p><span className="text-gray-500">Resistances:</span> <span className="text-blue-300">{creature.damage_resistances}</span></p>}
-          {creature.damage_immunities  && <p><span className="text-gray-500">Immunities:</span> <span className="text-yellow-300">{creature.damage_immunities}</span></p>}
-          {creature.languages?.length>0 && <p><span className="text-gray-500">Languages:</span> {creature.languages.join(", ")}</p>}
+        <div className="expand-body" style={{fontSize:"0.75rem",color:"var(--ink-2)"}}>
+          {creature.speed              && <p style={{margin:"2px 0"}}><span style={{color:"var(--ink-3)"}}>Speed:</span> {creature.speed} ft.</p>}
+          {creature.alignment          && <p style={{margin:"2px 0"}}><span style={{color:"var(--ink-3)"}}>Alignment:</span> {creature.alignment}{creature.type ? ` · ${creature.type}` : ''}{creature.size ? ` · ${creature.size}` : ''}</p>}
+          {creature.passive_perception && <p style={{margin:"2px 0"}}><span style={{color:"var(--ink-3)"}}>Passive Perc:</span> <span style={{color:"var(--accent)"}}>{creature.passive_perception}</span></p>}
+          {creature.skills?.length>0   && <p style={{margin:"2px 0"}}><span style={{color:"var(--ink-3)"}}>Skills:</span> <span style={{color:"var(--fac-ally)"}}>{creature.skills.join(", ")}</span></p>}
+          {creature.saving_throws?.length>0 && <p style={{margin:"2px 0"}}><span style={{color:"var(--ink-3)"}}>Saves:</span> <span style={{color:"var(--fac-ally)"}}>{creature.saving_throws.join(", ")}</span></p>}
+          {creature.damage_resistances && <p style={{margin:"2px 0"}}><span style={{color:"var(--ink-3)"}}>Resistances:</span> <span style={{color:"var(--fac-pc)"}}>{creature.damage_resistances}</span></p>}
+          {creature.damage_immunities  && <p style={{margin:"2px 0"}}><span style={{color:"var(--ink-3)"}}>Immunities:</span> <span style={{color:"var(--accent)"}}>{creature.damage_immunities}</span></p>}
+          {creature.languages?.length>0 && <p style={{margin:"2px 0"}}><span style={{color:"var(--ink-3)"}}>Languages:</span> {creature.languages.join(", ")}</p>}
           {creature.traits?.length>0 && (
             <div>
               <SectionHeader title="Traits" role={creature.role} />
-              {creature.traits.map((t,i) => <p key={i} className="mb-1"><em className="text-gray-200 not-italic font-semibold">{t.name}.</em> {t.desc}</p>)}
+              {creature.traits.map((t,i) => <p key={i} style={{margin:"2px 0"}}><em style={{fontStyle:"normal",fontWeight:700}}>{t.name}.</em> {t.desc}</p>)}
             </div>
           )}
           {(creature.actions?.length>0 || creature.bonus_actions?.filter(a=>a.name).length>0) && (
             <div>
               <SectionHeader title="Actions" role={creature.role} />
-              {creature.actions?.map((a,i) => <p key={i} className="mb-1"><em className="text-gray-200 not-italic font-semibold">{a.name}.</em> {a.desc}</p>)}
+              {creature.actions?.map((a,i) => <p key={i} style={{margin:"2px 0"}}><em style={{fontStyle:"normal",fontWeight:700}}>{a.name}.</em> {a.desc}</p>)}
               {creature.bonus_actions?.filter(a=>a.desc).map((a,i) =>
-                <p key={i} className="mb-1"><em className="text-gray-200 not-italic font-semibold">Bonus – {a.name}.</em> {a.desc}</p>)}
+                <p key={i} style={{margin:"2px 0"}}><em style={{fontStyle:"normal",fontWeight:700}}>Bonus – {a.name}.</em> {a.desc}</p>)}
             </div>
           )}
           {creature.reactions?.filter(r=>r.desc).length>0 && (
             <div>
               <SectionHeader title="Reactions" role={creature.role} />
               {creature.reactions.filter(r=>r.desc).map((r,i) =>
-                <p key={i} className="mb-1"><em className="text-gray-200 not-italic font-semibold">{r.name}.</em> {r.desc}</p>)}
+                <p key={i} style={{margin:"2px 0"}}><em style={{fontStyle:"normal",fontWeight:700}}>{r.name}.</em> {r.desc}</p>)}
             </div>
           )}
           {creature.legendary_actions?.actions?.length>0 && (
             <div>
               <SectionHeader title={`Legendary Actions (${laCount}/turn)`} role={creature.role} />
               {creature.legendary_actions.actions.map((a,i) =>
-                <p key={i} className="mb-1"><em className="text-gray-200 not-italic font-semibold">{a.name}.</em> {a.desc}</p>)}
+                <p key={i} style={{margin:"2px 0"}}><em style={{fontStyle:"normal",fontWeight:700}}>{a.name}.</em> {a.desc}</p>)}
             </div>
           )}
         </div>
@@ -850,57 +916,50 @@ function NPCCard({ creature, partyLevel, difficulty, onUpdate, onRemove }) {
 
 function RosterCard({ character, onAddToEncounter }) {
   const [expanded, setExpanded] = useState(false);
-  const isPC = character.role && character.role.toLowerCase() === "pc";
-  const borderColor = roleBorder(character.role);
-
-  const crOrLevel = isPC
-    ? character.level ? `L${character.level}` : "—"
-    : character.cr ? `CR ${fmtCR(character.cr)}` : "—";
+  const crOrLevel = character.role?.toLowerCase() === "pc"
+    ? (character.level ? `L${character.level}` : "—")
+    : (character.cr ? `CR ${fmtCR(character.cr)}` : "—");
+  const bs = roleBadgeStyle(character.role);
+  const cardStyle = {background:"var(--surface)",border:"1px solid var(--rule)",borderLeft:`4px solid ${roleBorderColor(character.role)}`,borderRadius:8,padding:12,marginBottom:8};
 
   return (
-    <div className={`dnd-card rounded-lg p-3 mb-2 border border-gray-700 border-l-4 ${borderColor}`}>
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className={`font-bold truncate ${roleNameColor(character.role)}`}>{character.nickname || character.name}</span>
-            <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${roleBadge(character.role)}`}>
-              {crOrLevel}
-            </span>
+    <div style={cardStyle}>
+      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8,marginBottom:6}}>
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}>
+            <span style={{fontWeight:700,...roleNameStyle(character.role),overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{character.nickname || character.name}</span>
+            <span style={{fontSize:"0.65rem",padding:"1px 6px",borderRadius:10,fontWeight:700,...bs}}>{crOrLevel}</span>
           </div>
-          <span className="text-xs text-gray-400">{character.fullname || character.type || character.class || "—"}</span>
+          <span style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>{character.fullname || character.type || character.class || "—"}</span>
         </div>
       </div>
 
       {character.stats && <AbilityRow stats={character.stats} savingThrows={character.saving_throws} />}
 
-      <div className="flex items-center gap-2 text-xs mt-2 mb-2">
+      <div style={{display:"flex",alignItems:"center",gap:6,marginTop:6,marginBottom:4}}>
         {character.ac !== undefined && character.ac !== null && (
-          <span className="px-2 py-0.5 rounded bg-gray-700 text-gray-300 font-mono">AC {character.ac}</span>
+          <span style={{fontSize:"0.72rem",padding:"1px 6px",borderRadius:4,background:"var(--surface-2)",color:"var(--ink-2)",border:"1px solid var(--rule)",fontFamily:"monospace"}}>AC {character.ac}</span>
         )}
         {(character.hp?.max || character.hp_max) && (
-          <span className="px-2 py-0.5 rounded bg-gray-700 text-gray-300 font-mono">
+          <span style={{fontSize:"0.72rem",padding:"1px 6px",borderRadius:4,background:"var(--surface-2)",color:"var(--ink-2)",border:"1px solid var(--rule)",fontFamily:"monospace"}}>
             {character.hp?.current ?? character.currentHp ?? (character.hp_max || 0)}/{character.hp?.max || character.hp_max || "?"}
           </span>
         )}
       </div>
 
       {(character.traits?.length > 0 || character.actions?.length > 0) && (
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="text-xs text-gray-500 hover:text-gray-300 flex items-center gap-1"
-        >
+        <button onClick={() => setExpanded(!expanded)}
+          style={{fontSize:"0.72rem",color:"var(--ink-3)",background:"none",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:4,padding:0}}>
           {expanded ? "▴" : "▾"} Details
         </button>
       )}
       {expanded && (
-        <div className="expand-body text-xs dnd-text space-y-1">
+        <div className="expand-body" style={{fontSize:"0.75rem",color:"var(--ink-2)"}}>
           {character.traits?.length > 0 && (
             <div>
               <SectionHeader title="Traits" role={character.role} />
               {character.traits.map((t, i) => (
-                <p key={i} className="mb-0.5">
-                  <em className="text-gray-200 not-italic font-semibold">{t.name}.</em> {t.desc}
-                </p>
+                <p key={i} style={{margin:"2px 0"}}><em style={{fontStyle:"normal",fontWeight:700}}>{t.name}.</em> {t.desc}</p>
               ))}
             </div>
           )}
@@ -908,9 +967,7 @@ function RosterCard({ character, onAddToEncounter }) {
             <div>
               <SectionHeader title="Actions" role={character.role} />
               {character.actions.map((a, i) => (
-                <p key={i} className="mb-0.5">
-                  <em className="text-gray-200 not-italic font-semibold">{a.name}.</em> {a.desc}
-                </p>
+                <p key={i} style={{margin:"2px 0"}}><em style={{fontStyle:"normal",fontWeight:700}}>{a.name}.</em> {a.desc}</p>
               ))}
             </div>
           )}
@@ -918,8 +975,8 @@ function RosterCard({ character, onAddToEncounter }) {
       )}
       {onAddToEncounter && (
         <button onClick={() => onAddToEncounter(character)}
-          className="w-full mt-3 text-xs px-2 py-1 bg-green-900 hover:bg-green-800 text-green-300 hover:text-green-100 rounded transition-colors flex items-center justify-end gap-1">
-          + Add
+          style={{width:"100%",marginTop:8,fontSize:"0.75rem",padding:"4px 8px",background:"var(--fac-ally-bg)",color:"var(--fac-ally)",border:"1px solid var(--fac-ally)",borderRadius:4,cursor:"pointer",textAlign:"right"}}>
+          + Add to Encounter
         </button>
       )}
     </div>
@@ -931,8 +988,8 @@ function RosterCard({ character, onAddToEncounter }) {
 function CustomForm({ onAdd, onCancel }) {
   const [f, setF] = useState({name:"",hp:10,ac:12,cr:"0",str:10,dex:10,con:10,int:10,wis:10,cha:10});
   const set = (k,v) => setF(x=>({...x,[k]:v}));
-  const inp = "bg-gray-900 border border-gray-600 rounded px-2 py-1 text-sm text-white w-full focus:outline-none focus:border-purple-500";
-  const num = "bg-gray-900 border border-gray-600 rounded px-1 py-1 text-xs text-white w-10 text-center focus:outline-none focus:border-purple-500";
+  const inp = {background:"var(--surface)",border:"1px solid var(--rule)",borderRadius:4,padding:"4px 8px",fontSize:"0.8rem",color:"var(--ink)",width:"100%",fontFamily:"var(--serif)"};
+  const num = {background:"var(--surface)",border:"1px solid var(--rule)",borderRadius:4,padding:"3px 4px",fontSize:"0.75rem",color:"var(--ink)",width:38,textAlign:"center",fontFamily:"var(--serif)"};
   function submit(e) {
     e.preventDefault();
     const stats = {str:+f.str,dex:+f.dex,con:+f.con,int:+f.int,wis:+f.wis,cha:+f.cha};
@@ -944,117 +1001,175 @@ function CustomForm({ onAdd, onCancel }) {
       conditions:[], initiative:null, reactionSpent:false, legendaryUsed:0
     });
   }
+  const btnBase = {flex:1,borderRadius:4,padding:"5px 10px",fontSize:"0.8rem",cursor:"pointer",border:"1px solid var(--rule)"};
   return (
-    <form onSubmit={submit} className="bg-gray-800 border border-gray-600 rounded-lg p-3 mt-2">
-      <p className="text-sm font-semibold text-gray-300 mb-2">New Custom Creature</p>
-      <div className="space-y-2">
-        <input className={inp} placeholder="Name" value={f.name} onChange={e=>set("name",e.target.value)} />
-        <div className="grid grid-cols-3 gap-2">
-          <div><label className="text-xs text-gray-500">HP</label><input type="number" className={inp} value={f.hp} onChange={e=>set("hp",e.target.value)} /></div>
-          <div><label className="text-xs text-gray-500">AC</label><input type="number" className={inp} value={f.ac} onChange={e=>set("ac",e.target.value)} /></div>
-          <div><label className="text-xs text-gray-500">CR</label><input className={inp} value={f.cr} onChange={e=>set("cr",e.target.value)} /></div>
+    <form onSubmit={submit} style={{background:"var(--surface-2)",border:"1px solid var(--rule)",borderRadius:8,padding:12,marginTop:8}}>
+      <p style={{fontWeight:600,color:"var(--ink)",fontSize:"0.85rem",marginBottom:8}}>New Custom Creature</p>
+      <div style={{display:"flex",flexDirection:"column",gap:8}}>
+        <input style={inp} placeholder="Name" value={f.name} onChange={e=>set("name",e.target.value)} />
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6}}>
+          <div><label style={{fontSize:"0.65rem",color:"var(--ink-3)"}}>HP</label><input type="number" style={inp} value={f.hp} onChange={e=>set("hp",e.target.value)} /></div>
+          <div><label style={{fontSize:"0.65rem",color:"var(--ink-3)"}}>AC</label><input type="number" style={inp} value={f.ac} onChange={e=>set("ac",e.target.value)} /></div>
+          <div><label style={{fontSize:"0.65rem",color:"var(--ink-3)"}}>CR</label><input style={inp} value={f.cr} onChange={e=>set("cr",e.target.value)} /></div>
         </div>
-        <div className="grid grid-cols-6 gap-1">
+        <div style={{display:"grid",gridTemplateColumns:"repeat(6,1fr)",gap:3}}>
           {STAT_KEYS.map(k => (
-            <div key={k} className="flex flex-col items-center">
-              <span className="text-xs text-gray-500 uppercase">{k}</span>
-              <input type="number" className={num} value={f[k]} onChange={e=>set(k,e.target.value)} />
+            <div key={k} style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+              <span style={{fontSize:"0.6rem",color:"var(--ink-3)",textTransform:"uppercase"}}>{k}</span>
+              <input type="number" style={num} value={f[k]} onChange={e=>set(k,e.target.value)} />
             </div>
           ))}
         </div>
-        <div className="flex gap-2">
-          <button type="submit" className="flex-1 bg-purple-700 hover:bg-purple-600 text-white text-sm rounded px-3 py-1">Add</button>
-          <button type="button" onClick={onCancel} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded px-3 py-1">Cancel</button>
+        <div style={{display:"flex",gap:6}}>
+          <button type="submit" style={{...btnBase,background:"var(--accent)",color:"#fff",borderColor:"var(--accent)"}}>Add</button>
+          <button type="button" onClick={onCancel} style={{...btnBase,background:"var(--surface)",color:"var(--ink-2)"}}>Cancel</button>
         </div>
       </div>
     </form>
   );
 }
 
-/* ── LEFT PANEL ────────────────────────────────────────────────── */
+/* ── FactionChip ───────────────────────────────────────────────── */
 
-function TopHeader({ chapters, activeTab, setActiveTab, search, setSearch, viewMode, setViewMode }) {
+function FactionChip({ role }) {
+  const r = (role||"").toLowerCase();
+  const cls = r==="pc" ? "fac-pc" : r==="ally" ? "fac-ally" : ["enemy","boss","antagonist"].includes(r) ? "fac-enemy" : "fac-neutral";
+  const label = r==="boss" ? "Enemy" : r ? r.charAt(0).toUpperCase()+r.slice(1) : "NPC";
+  return <span className={`faction-chip ${cls}`}>{label}</span>;
+}
+
+/* ── TopBar ────────────────────────────────────────────────────── */
+
+function TopBar({ activeChapter, drawerOpen, onToggleDrawer, onOpenCombat }) {
+  const ch = CHAPTERS.find(c => c.id === activeChapter);
+  const chLabel = ch ? `${ch.title}${ch.subtitle ? ` — ${ch.subtitle}` : ""}` : "Select Chapter";
   return (
-    <div className="bg-gray-800 border-b border-gray-700 px-3 py-2 flex-shrink-0 flex items-center gap-2 flex-wrap">
-      <span className="text-sm font-bold text-purple-400 whitespace-nowrap mr-1">⚔ DM Screen</span>
-      <div className="flex bg-gray-900 rounded overflow-hidden mr-2">
-        <button onClick={() => setViewMode("encounter")}
-          className={`text-xs px-2 py-1 ${viewMode==="encounter"?"bg-purple-700 text-white":"text-gray-400 hover:text-white"}`}>⚔ Encounter</button>
-        <button onClick={() => setViewMode("document")}
-          className={`text-xs px-2 py-1 ${viewMode==="document"?"bg-purple-700 text-white":"text-gray-400 hover:text-white"}`}>📜 Document</button>
-      </div>
-      <div className="flex gap-1 flex-wrap">
-        {chapters.map(tab => (
-          <button key={tab} onClick={() => { setActiveTab(tab); setSearch(""); }}
-            className={`text-xs px-3 py-1 rounded transition-colors ${activeTab===tab && !search ? "bg-purple-700 text-white" : "bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white"}`}>
-            {tab === "All" ? "All" : `Ch.${tab}`}
-          </button>
-        ))}
-      </div>
-      <input type="text" placeholder="Search all characters…" value={search}
-        onChange={e => setSearch(e.target.value)}
-        className="ml-auto bg-gray-900 border border-gray-600 rounded px-3 py-1 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 w-52" />
+    <div className="topbar">
+      <span style={{fontWeight:700,fontSize:"0.9rem",color:"var(--ink)",letterSpacing:"0.04em",whiteSpace:"nowrap"}}>⚔ Wish — DM Screen</span>
+      <button onClick={onToggleDrawer}
+        style={{marginLeft:12,padding:"4px 12px",borderRadius:6,border:"1px solid var(--rule)",
+          background: drawerOpen ? "var(--surface-2)" : "transparent",
+          color:"var(--ink-2)",cursor:"pointer",fontSize:"0.82rem",fontFamily:"var(--serif)"}}>
+        {chLabel} ▾
+      </button>
+      <button onClick={onOpenCombat}
+        style={{marginLeft:"auto",padding:"4px 14px",borderRadius:6,
+          background:"var(--fac-enemy-bg)",color:"var(--fac-enemy)",
+          border:"1px solid oklch(0.75 0.12 28)",
+          cursor:"pointer",fontSize:"0.82rem",fontWeight:600,fontFamily:"var(--serif)"}}>
+        ⚔ Combat
+      </button>
     </div>
   );
 }
 
-function LeftPanel({ characters, activeTab, search, onAddToEncounter }) {
-  const [rosterFilter, setRosterFilter] = useState("All");
+/* ── ChapterDrawer ─────────────────────────────────────────────── */
 
-  const ROSTER_FILTERS = [
-    { label: "All",     match: () => true },
-    { label: "Allies",  match: c => c.role?.toLowerCase() === "ally" },
-    { label: "Enemies", match: c => ["antagonist","enemy","boss"].includes(c.role?.toLowerCase()) },
-    { label: "NPCs",    match: c => ["npc","neutral"].includes(c.role?.toLowerCase()) || (!c.role || !["ally","antagonist","enemy","boss","pc"].includes(c.role?.toLowerCase())) },
-  ];
+function ChapterDrawer({ activeChapter, onSelect }) {
+  return (
+    <div className="chapter-drawer">
+      {CHAPTERS.map(ch => (
+        <button key={ch.id} className={`chapter-btn${ch.id===activeChapter?" active":""}`}
+          onClick={() => onSelect(ch.id)}>
+          <div style={{fontWeight:600,fontSize:"0.85rem"}}>{ch.title}</div>
+          {ch.subtitle && <div style={{fontSize:"0.7rem",color:"var(--ink-3)",marginTop:1}}>{ch.subtitle}</div>}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ── RightRail ─────────────────────────────────────────────────── */
+
+function RightRail({ characters, activeChapter, onAddToEncounter, onLaunchEncounter }) {
+  const [tab, setTab]       = useState("bestiary");
+  const [factionFilter, setFactionFilter] = useState("All");
+  const [search, setSearch] = useState("");
+
+  const factionMatches = {
+    "All":     () => true,
+    "Allies":  c => c.role?.toLowerCase() === "ally",
+    "Enemies": c => ["antagonist","enemy","boss"].includes(c.role?.toLowerCase()),
+    "NPCs":    c => ["npc","neutral"].includes(c.role?.toLowerCase()) || !["ally","antagonist","enemy","boss","pc"].includes((c.role||"").toLowerCase()),
+  };
 
   const filtered = characters.filter(c => {
-    const q = search.toLowerCase();
-    const matchSearch = !search || [c.nickname,c.fullname,c.name,c.role]
-      .some(s => s && s.toLowerCase().includes(q));
-    const matchTab = search ? true
-      : activeTab === "All" ? true
-      : String(c.chapter_playable) === activeTab;
-    const matchRole = ROSTER_FILTERS.find(f => f.label === rosterFilter)?.match(c) ?? true;
-    return matchSearch && matchTab && matchRole;
+    const matchFaction = factionMatches[factionFilter]?.(c) ?? true;
+    const matchSearch  = !search || [c.nickname,c.fullname,c.name].some(s => s && s.toLowerCase().includes(search.toLowerCase()));
+    const matchChapter = activeChapter === "All" ? true : String(c.chapter_playable) === activeChapter;
+    return matchFaction && matchSearch && matchChapter;
+  });
+
+  const chapterPresets = PRESETS.filter(p => activeChapter === "All" ? true : String(p.chapter) === activeChapter);
+
+  const tabBtn = (id, label) => (
+    <button onClick={() => setTab(id)} style={{
+      flex:1, padding:"6px 8px", fontSize:"0.78rem", fontWeight: tab===id ? 700 : 400,
+      background: tab===id ? "var(--surface)" : "transparent",
+      color: tab===id ? "var(--ink)" : "var(--ink-3)",
+      border:"none", borderBottom: tab===id ? "2px solid var(--accent)" : "2px solid transparent",
+      cursor:"pointer", fontFamily:"var(--serif)"
+    }}>{label}</button>
+  );
+
+  const facBtnStyle = (label) => ({
+    fontSize:"0.7rem", padding:"2px 7px", borderRadius:10, cursor:"pointer", border:"1px solid",
+    background: factionFilter===label ? "var(--accent-bg)" : "var(--surface-2)",
+    color:      factionFilter===label ? "var(--accent)"    : "var(--ink-3)",
+    borderColor: factionFilter===label ? "var(--accent-border)" : "var(--rule)",
+    fontFamily:"var(--serif)"
   });
 
   return (
-    <div className="flex flex-col h-full w-80 flex-shrink-0">
-      <div className="p-2 border-b border-gray-700 flex-shrink-0">
-        <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Roster</h2>
-        <div className="flex gap-1 flex-wrap">
-          {ROSTER_FILTERS.map(f => (
-            <button key={f.label} onClick={() => setRosterFilter(f.label)}
-              className={`text-xs px-2 py-0.5 rounded transition-colors ${rosterFilter === f.label
-                ? f.label === "Allies"  ? "bg-green-800 text-green-200"
-                : f.label === "Enemies" ? "bg-red-900 text-red-200"
-                : f.label === "NPCs"    ? "bg-blue-900 text-blue-200"
-                : "bg-purple-800 text-purple-200"
-                : "bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white"}`}>
-              {f.label}
-            </button>
+    <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
+      {/* Tab bar */}
+      <div style={{display:"flex",borderBottom:"1px solid var(--rule)",flexShrink:0}}>
+        {tabBtn("bestiary","Bestiary")}
+        {tabBtn("encounters","Encounters")}
+      </div>
+
+      {tab === "bestiary" && (
+        <>
+          <div style={{padding:"6px 8px",borderBottom:"1px solid var(--rule)",flexShrink:0}}>
+            <input type="text" placeholder="Search…" value={search} onChange={e => setSearch(e.target.value)}
+              style={{width:"100%",background:"var(--surface-2)",border:"1px solid var(--rule)",borderRadius:6,padding:"4px 8px",fontSize:"0.78rem",color:"var(--ink)",fontFamily:"var(--serif)",marginBottom:5}} />
+            <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
+              {["All","Allies","Enemies","NPCs"].map(l => (
+                <button key={l} onClick={() => setFactionFilter(l)} style={facBtnStyle(l)}>{l}</button>
+              ))}
+            </div>
+          </div>
+          <div style={{flex:1,overflowY:"auto",padding:8}}>
+            {filtered.length === 0 && <p style={{fontSize:"0.75rem",color:"var(--ink-4)",textAlign:"center",marginTop:16}}>No matches</p>}
+            {filtered.map((c, i) => (
+              <div key={c.name+i} draggable
+                onDragStart={e => e.dataTransfer.setData("application/dnd-character", JSON.stringify(c))}>
+                <RosterCard character={c} onAddToEncounter={onAddToEncounter} />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {tab === "encounters" && (
+        <div style={{flex:1,overflowY:"auto",padding:8}}>
+          {chapterPresets.length === 0 && (
+            <p style={{fontSize:"0.75rem",color:"var(--ink-4)",textAlign:"center",marginTop:16}}>No presets for this chapter.</p>
+          )}
+          {chapterPresets.map(p => (
+            <div key={p.key} style={{background:"var(--surface-2)",border:"1px solid var(--rule)",borderRadius:6,padding:"8px 10px",marginBottom:6,display:"flex",alignItems:"center",justifyContent:"space-between",gap:8}}>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontWeight:600,fontSize:"0.82rem",color:"var(--ink)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{p.name}</div>
+                <div style={{fontSize:"0.68rem",color:"var(--ink-3)",marginTop:1}}>{p.wave1.join(", ")}{p.wave2 ? ` + Wave 2` : ""}</div>
+              </div>
+              <button onClick={() => onLaunchEncounter(p)}
+                style={{fontSize:"0.72rem",padding:"3px 8px",borderRadius:4,background:"var(--fac-enemy-bg)",color:"var(--fac-enemy)",border:"1px solid oklch(0.75 0.12 28)",cursor:"pointer",flexShrink:0,fontFamily:"var(--serif)"}}>
+                Launch
+              </button>
+            </div>
           ))}
         </div>
-      </div>
-      <div className="flex-1 overflow-y-auto p-2">
-        {filtered.length === 0 && <p className="text-xs text-gray-600 text-center mt-4">No matches</p>}
-        {filtered.map((c, i) => {
-          const showCh = search && c.chapter_playable && String(c.chapter_playable) !== activeTab;
-          return (
-            <div key={c.name+i} className="relative mb-2"
-              draggable
-              onDragStart={e => e.dataTransfer.setData("application/dnd-character", JSON.stringify(c))}>
-              <RosterCard character={c} onAddToEncounter={onAddToEncounter} />
-              {showCh && (
-                <span className="text-xs px-1.5 py-0.5 rounded bg-blue-900 text-blue-300 absolute top-3 right-3">
-                  Ch.{c.chapter_playable}
-                </span>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      )}
     </div>
   );
 }
@@ -1087,74 +1202,83 @@ function DifficultyCalc({ encounter, partyLevel, partySize }) {
   const partyMed  = thresholds[1] * sz;
   const partyHard = thresholds[2] * sz;
   const partyDead = thresholds[3] * sz;
-  let rating, color;
-  if (adjusted >= partyDead)      { rating = "Deadly";  color = "text-red-400"; }
-  else if (adjusted >= partyHard) { rating = "Hard";    color = "text-orange-400"; }
-  else if (adjusted >= partyMed)  { rating = "Medium";  color = "text-yellow-400"; }
-  else if (adjusted >= partyEasy) { rating = "Easy";    color = "text-green-400"; }
-  else                            { rating = "Trivial"; color = "text-gray-400"; }
+  let rating, ratingColor;
+  if (adjusted >= partyDead)      { rating = "Deadly";  ratingColor = "var(--fac-enemy)"; }
+  else if (adjusted >= partyHard) { rating = "Hard";    ratingColor = "oklch(0.52 0.15 40)"; }
+  else if (adjusted >= partyMed)  { rating = "Medium";  ratingColor = "oklch(0.55 0.15 75)"; }
+  else if (adjusted >= partyEasy) { rating = "Easy";    ratingColor = "var(--fac-ally)"; }
+  else                            { rating = "Trivial"; ratingColor = "var(--ink-4)"; }
   return (
-    <div className="flex items-center gap-3 text-xs bg-gray-800 rounded px-3 py-1.5 mb-2 border border-gray-700">
-      <span className="text-gray-500">XP: {rawXP} raw / {adjusted} adj</span>
-      <span className="text-gray-600">|</span>
-      <span className="text-gray-500">Easy {partyEasy} · Med {partyMed} · Hard {partyHard} · Deadly {partyDead}</span>
-      <span className="text-gray-600">|</span>
-      <span className={`font-bold ${color}`}>{rating}</span>
+    <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",fontSize:"0.72rem",background:"var(--surface-2)",borderRadius:6,padding:"5px 10px",marginBottom:8,border:"1px solid var(--rule)"}}>
+      <span style={{color:"var(--ink-3)"}}>XP: {rawXP} raw / {adjusted} adj</span>
+      <span style={{color:"var(--rule)"}}>|</span>
+      <span style={{color:"var(--ink-3)"}}>Easy {partyEasy} · Med {partyMed} · Hard {partyHard} · Deadly {partyDead}</span>
+      <span style={{color:"var(--rule)"}}>|</span>
+      <span style={{fontWeight:700,color:ratingColor}}>{rating}</span>
     </div>
   );
 }
 
-/* ── CENTRE PANEL ──────────────────────────────────────────────── */
+/* ── COMBAT OVERLAY ────────────────────────────────────────────── */
 
-function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsumed, pcState, setPcState }) {
-  const [partyLevel,    setPartyLevel]    = useState(() => loadState('partyLevel', 1));
-  const [difficulty,    setDifficulty]    = useState(() => loadState('difficulty', "Standard"));
-  const [round,         setRound]         = useState(() => loadState('round', 1));
-  const [encounter,     setEncounter]     = useState(() => loadState('encounter', []));
-  const [pendingWave2,  setPendingWave2]  = useState(null);
-  const [preset,        setPreset]        = useState("");
-  const [showForm,      setShowForm]      = useState(false);
-  const [dropOver,      setDropOver]      = useState(false);
+function CombatOverlay({ characters, pcs, pcState, setPcState, encounterQueue, onQueueConsumed, launchPresetKey, onPresetConsumed, onClose }) {
+  const [partyLevel,   setPartyLevel]   = useState(() => loadState('partyLevel', 1));
+  const [difficulty,   setDifficulty]   = useState(() => loadState('difficulty', "Standard"));
+  const [round,        setRound]        = useState(() => loadState('round', 1));
+  const [encounter,    setEncounter]    = useState(() => loadState('encounter', []));
+  const [pendingWave2, setPendingWave2] = useState(null);
+  const [preset,       setPreset]       = useState("");
+  const [showForm,     setShowForm]     = useState(false);
+  const [dropOver,     setDropOver]     = useState(false);
 
-  // Persist encounter state
   useEffect(() => { saveState('partyLevel', partyLevel); }, [partyLevel]);
   useEffect(() => { saveState('difficulty', difficulty); }, [difficulty]);
   useEffect(() => { saveState('round', round); }, [round]);
   useEffect(() => { saveState('encounter', encounter); }, [encounter]);
 
-  /* Consume encounter queue from left panel */
+  /* Consume encounter queue */
   useEffect(() => {
     if (!encounterQueue?.length) return;
     encounterQueue.forEach(char => {
       setEncounter(e => [...e, prepareCreature(char, partyLevel, difficulty)]);
     });
-    onQueueConsumed();
+    onQueueConsumed?.();
   }, [encounterQueue]);
+
+  /* Handle @encounter:key launch from notes */
+  useEffect(() => {
+    if (!launchPresetKey) return;
+    const p = PRESETS.find(x => x.key === launchPresetKey);
+    if (p) {
+      const wave1 = p.wave1.map(nick =>
+        characters.find(c => (c.nickname||c.name||"").toLowerCase()===nick.toLowerCase())
+      ).filter(Boolean);
+      setEncounter(wave1.map(c => prepareCreature(c, partyLevel, difficulty)));
+      setPendingWave2(p.wave2?.length ? p.wave2 : null);
+      setPreset(p.name);
+    }
+    onPresetConsumed?.();
+  }, [launchPresetKey]);
 
   function updatePc(id, patch) {
     setPcState(ps => ps.map(p => p.id===id ? {...p,...patch} : p));
   }
-
   function updateCreature(id, patch) {
     setEncounter(e => e.map(c => c.id===id ? {...c,...patch} : c));
   }
-
   function removeCreature(id) {
     setEncounter(e => e.filter(c => c.id!==id));
   }
-
   function advanceRound() {
     setRound(r => r+1);
     setEncounter(e => e.map(c => ({...c, reactionSpent:false, legendaryUsed:0})));
   }
-
   function rollInitiatives() {
     setEncounter(e => e.map(c => ({
       ...c,
       initiative: d20() + mod(c.stats?.dex || 10)
     })));
   }
-
   function loadPreset(name) {
     setPreset(name);
     const p = PRESETS.find(x => x.name===name);
@@ -1165,7 +1289,6 @@ function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsum
     setEncounter(wave1.map(c => prepareCreature(c, partyLevel, difficulty)));
     setPendingWave2(p.wave2?.length ? p.wave2 : null);
   }
-
   function spawnWave2() {
     if (!pendingWave2) return;
     const wave2 = pendingWave2.map(nick =>
@@ -1174,7 +1297,6 @@ function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsum
     setEncounter(e => [...e, ...wave2.map(c => prepareCreature(c, partyLevel, difficulty))]);
     setPendingWave2(null);
   }
-
   function dropCharacter(e) {
     e.preventDefault();
     setDropOver(false);
@@ -1192,7 +1314,6 @@ function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsum
     if (b.initiative===null) return -1;
     return b.initiative - a.initiative;
   });
-
   const sortedPcs = [...pcState].sort((a,b) => {
     if (a.initiative===null && b.initiative===null) return 0;
     if (a.initiative===null) return 1;
@@ -1203,56 +1324,72 @@ function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsum
   const DIFFS = ["Easy","Standard","Hard","Deadly"];
 
   return (
-    <div className="flex flex-col h-full flex-1 min-w-0">
+    <div className="combat-overlay">
+      {/* Header */}
+      <div style={{height:56,display:"flex",alignItems:"center",padding:"0 16px",borderBottom:"1px solid var(--rule)",flexShrink:0,background:"var(--surface)"}}>
+        <span style={{fontWeight:700,fontSize:"1rem",color:"var(--ink)"}}>⚔ Combat</span>
+        <button onClick={onClose}
+          style={{marginLeft:"auto",padding:"4px 14px",borderRadius:6,border:"1px solid var(--rule)",
+            background:"transparent",color:"var(--ink-2)",cursor:"pointer",fontSize:"0.85rem"}}>
+          ✕ Close
+        </button>
+      </div>
 
       {/* Settings bar */}
-      <div className="bg-gray-800 border-b border-gray-700 p-2 flex-shrink-0">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 whitespace-nowrap">Party Lv</span>
+      <div style={{background:"var(--surface-2)",borderBottom:"1px solid var(--rule)",padding:"8px 12px",flexShrink:0}}>
+        <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",gap:8}}>
+          <div style={{display:"flex",alignItems:"center",gap:4}}>
+            <span style={{fontSize:"0.72rem",color:"var(--ink-3)",whiteSpace:"nowrap"}}>Party Lv</span>
             <input type="number" min="1" max="20"
-              className="bg-gray-900 border border-gray-600 rounded px-2 py-1 text-sm text-white w-14 text-center focus:outline-none focus:border-purple-500"
+              style={{background:"var(--surface)",border:"1px solid var(--rule)",borderRadius:4,padding:"2px 6px",
+                fontSize:"0.85rem",color:"var(--ink)",width:48,textAlign:"center",outline:"none"}}
               value={partyLevel}
               onChange={e => setPartyLevel(Math.max(1,Math.min(20,parseInt(e.target.value,10)||1)))} />
           </div>
-          <div className="flex gap-0.5 flex-wrap">
+          <div style={{display:"flex",gap:2,flexWrap:"wrap"}}>
             {DIFFS.map(d => (
               <button key={d} onClick={() => setDifficulty(d)}
-                className={`text-xs px-2 py-1 rounded ${difficulty===d?"bg-purple-700 text-white":"bg-gray-700 text-gray-400 hover:bg-gray-600"}`}>
+                style={{fontSize:"0.72rem",padding:"2px 8px",borderRadius:4,border:"none",cursor:"pointer",
+                  background: difficulty===d ? "var(--accent)" : "var(--surface)",
+                  color: difficulty===d ? "#fff" : "var(--ink-2)"}}>
                 {d}
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-1 ml-auto">
-            <span className="text-xs text-gray-500">Round</span>
-            <button onClick={() => setRound(r=>Math.max(1,r-1))} className="w-6 h-6 bg-gray-700 hover:bg-gray-600 rounded text-gray-300 text-sm flex items-center justify-center">−</button>
-            <span className="text-sm font-bold text-white w-6 text-center">{round}</span>
-            <button onClick={advanceRound} className="w-6 h-6 bg-gray-700 hover:bg-purple-700 rounded text-gray-300 hover:text-white text-sm flex items-center justify-center">+</button>
+          <div style={{display:"flex",alignItems:"center",gap:4,marginLeft:"auto"}}>
+            <span style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>Round</span>
+            <button onClick={() => setRound(r=>Math.max(1,r-1))}
+              style={{width:24,height:24,background:"var(--surface)",border:"1px solid var(--rule)",borderRadius:4,
+                color:"var(--ink-2)",fontSize:"0.85rem",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>−</button>
+            <span style={{fontSize:"0.85rem",fontWeight:700,color:"var(--ink)",width:24,textAlign:"center"}}>{round}</span>
+            <button onClick={advanceRound}
+              style={{width:24,height:24,background:"var(--surface)",border:"1px solid var(--rule)",borderRadius:4,
+                color:"var(--ink-2)",fontSize:"0.85rem",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button>
           </div>
           <select value={preset} onChange={e => loadPreset(e.target.value)}
-            className="bg-gray-900 border border-gray-600 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-purple-500 max-w-xs">
+            style={{background:"var(--surface)",border:"1px solid var(--rule)",borderRadius:4,
+              padding:"2px 8px",fontSize:"0.72rem",color:"var(--ink-2)",outline:"none",maxWidth:240}}>
             <option value="">— Select Preset —</option>
-            {PRESETS
-              .filter(p => activeTab === "All" || String(p.chapter) === activeTab)
-              .map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
+            {PRESETS.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
           </select>
         </div>
       </div>
 
       {/* Scrollable body */}
-      <div className="flex-1 overflow-y-auto p-3">
+      <div style={{flex:1,overflowY:"auto",padding:12}}>
 
         {/* Party */}
-        <div className="mb-4">
-          <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Party</h3>
-          <div className="flex flex-wrap gap-2">
+        <div style={{marginBottom:16}}>
+          <h3 style={{fontSize:"0.7rem",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.1em",
+            color:"var(--ink-3)",marginBottom:8}}>Party</h3>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
             {sortedPcs.map(pc => (
               <div key={pc.id} className="encounter-card">
                 <PCCard pc={pc} onUpdate={patch => updatePc(pc.id,patch)} />
               </div>
             ))}
           </div>
-          {sortedPcs.length===0 && <p className="text-xs text-gray-600">No player characters loaded.</p>}
+          {sortedPcs.length===0 && <p style={{fontSize:"0.72rem",color:"var(--ink-4)"}}>No player characters loaded.</p>}
         </div>
 
         {/* Encounter */}
@@ -1260,24 +1397,32 @@ function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsum
           onDragOver={e => { e.preventDefault(); setDropOver(true); }}
           onDragLeave={() => setDropOver(false)}
           onDrop={dropCharacter}
-          className={`rounded-lg transition-colors ${dropOver ? "ring-2 ring-purple-500 bg-purple-900 bg-opacity-10" : ""}`}>
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide flex items-center gap-2">
+          style={{borderRadius:8,transition:"background 0.15s",
+            background: dropOver ? "color-mix(in oklch, var(--accent) 8%, var(--bg))" : "transparent",
+            outline: dropOver ? "2px solid var(--accent)" : "none"}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+            <h3 style={{fontSize:"0.7rem",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.1em",
+              color:"var(--ink-3)",display:"flex",alignItems:"center",gap:6}}>
               Encounter
               {encounter.length>0 && (
-                <span className="bg-gray-700 text-gray-300 text-xs px-1.5 py-0.5 rounded-full">{encounter.length}</span>
+                <span style={{background:"var(--surface-2)",color:"var(--ink-2)",fontSize:"0.7rem",
+                  padding:"1px 6px",borderRadius:99}}>{encounter.length}</span>
               )}
             </h3>
-            <div className="flex items-center gap-2">
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
               {pendingWave2 && (
                 <button onClick={spawnWave2}
-                  className="text-xs px-2 py-1 bg-orange-800 hover:bg-orange-700 text-orange-200 rounded font-medium">
+                  style={{fontSize:"0.72rem",padding:"2px 8px",borderRadius:4,border:"none",cursor:"pointer",
+                    background:"color-mix(in oklch, var(--fac-enemy) 20%, var(--surface-2))",
+                    color:"var(--fac-enemy)",fontWeight:600}}>
                   Spawn Wave 2 →
                 </button>
               )}
               {encounter.length>0 && (
                 <button onClick={rollInitiatives}
-                  className="text-xs px-2 py-1 bg-blue-800 hover:bg-blue-700 text-blue-200 rounded">
+                  style={{fontSize:"0.72rem",padding:"2px 8px",borderRadius:4,border:"none",cursor:"pointer",
+                    background:"color-mix(in oklch, var(--fac-pc) 20%, var(--surface-2))",
+                    color:"var(--fac-pc)"}}>
                   🎲 Roll Initiative
                 </button>
               )}
@@ -1286,7 +1431,7 @@ function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsum
 
           <DifficultyCalc encounter={encounter} partyLevel={partyLevel} partySize={pcState.length || 4} />
 
-          <div className="flex flex-wrap gap-2">
+          <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
             {sortedEncounter.map(c => (
               <div key={c.id} className="encounter-card">
                 <NPCCard creature={c}
@@ -1298,10 +1443,10 @@ function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsum
           </div>
 
           {encounter.length===0 && !dropOver && (
-            <p className="text-xs text-gray-600 mb-3">Drag a card from the roster, or use a preset above.</p>
+            <p style={{fontSize:"0.72rem",color:"var(--ink-4)",marginBottom:8}}>Drag a card from the roster, or use a preset above.</p>
           )}
           {encounter.length===0 && dropOver && (
-            <p className="text-xs text-purple-400 mb-3 text-center font-medium">Drop to add to encounter ✦</p>
+            <p style={{fontSize:"0.72rem",color:"var(--accent)",marginBottom:8,textAlign:"center",fontWeight:600}}>Drop to add to encounter ✦</p>
           )}
 
           {showForm
@@ -1309,7 +1454,9 @@ function CentrePanel({ characters, pcs, activeTab, encounterQueue, onQueueConsum
                 onAdd={c => { setEncounter(e=>[...e,c]); setShowForm(false); }}
                 onCancel={() => setShowForm(false)} />
             : <button onClick={() => setShowForm(true)}
-                className="w-full mt-1 text-xs px-3 py-2 bg-gray-800 hover:bg-gray-700 border border-dashed border-gray-600 text-gray-400 hover:text-gray-200 rounded-lg transition-colors">
+                style={{width:"100%",marginTop:4,fontSize:"0.72rem",padding:"6px 12px",
+                  background:"var(--surface)",border:"1px dashed var(--rule)",
+                  color:"var(--ink-3)",borderRadius:8,cursor:"pointer",transition:"color 0.15s"}}>
                 + Custom Creature
               </button>
           }
@@ -1369,6 +1516,14 @@ function mdToHtml(md, imageMap, depth) {
     html = html.replace(`WWIKI${i}PH`, `<span class="wikilink" data-target="${wl.target}">${wl.display}</span>`);
   });
 
+  // Replace @encounter:key with clickable chips
+  const presetMap = {};
+  PRESETS.forEach(p => { if (p.key) presetMap[p.key] = p.name; });
+  html = html.replace(/@encounter:([\w-]+)/g, (_, key) => {
+    const label = presetMap[key] || key;
+    return `<button class="encounter-chip" data-encounter="${key}">⚔ ${label}</button>`;
+  });
+
   return html;
 }
 
@@ -1402,122 +1557,78 @@ function extractToc(rawMd) {
 
 /* ── PCStripPanel (Document Mode) ─────────────────────────────── */
 
-function PCStripPanel({ pcState, onUpdatePc }) {
+function PartyRail({ pcState, onUpdatePc }) {
   return (
-    <div className="flex flex-col h-full w-80 flex-shrink-0 border-r border-gray-700 overflow-y-auto">
-      <div className="p-2 border-b border-gray-700">
-        <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Party</h2>
+    <div className="party-rail">
+      <div style={{padding:"8px 12px",borderBottom:"1px solid var(--rule)",flexShrink:0}}>
+        <span style={{fontSize:"0.7rem",fontWeight:700,textTransform:"uppercase",
+          letterSpacing:"0.1em",color:"var(--ink-3)"}}>Party</span>
       </div>
-      <div className="p-2 space-y-2">
+      <div style={{flex:1,overflowY:"auto",padding:8,display:"flex",flexDirection:"column",gap:8}}>
         {pcState.map(pc => (
-          <PCCard key={pc.id} pc={pc} onUpdate={(patch) => onUpdatePc(pc.id, patch)} />
+          <PCCard key={pc.id} pc={pc} onUpdate={patch => onUpdatePc(pc.id, patch)} />
         ))}
-        {pcState.length === 0 && <p className="text-xs text-gray-600">No PCs loaded.</p>}
+        {pcState.length === 0 && <p style={{fontSize:"0.72rem",color:"var(--ink-4)"}}>No PCs loaded.</p>}
       </div>
     </div>
   );
 }
 
-/* ── DocumentPanel (Document Mode) ────────────────────────────── */
+/* ── NotesPane ─────────────────────────────────────────────────── */
 
-function DocumentPanel({ characters, activeTab }) {
-  const [mdContent, setMdContent]   = useState(null);
-  const [fileName, setFileName]     = useState("");
-  const [imageMap, setImageMap]     = useState({});
-  const [toc, setToc]               = useState([]);
-  const [hoverChar, setHoverChar]   = useState(null);
-  const [hoverPos, setHoverPos]     = useState({ x: 0, y: 0 });
+function NotesPane({ characters, activeChapter, onLaunchEncounter }) {
+  const [mdContent, setMdContent] = useState(null);
+  const [fileName,  setFileName]  = useState("");
+  const [imageMap,  setImageMap]  = useState({});
+  const [toc,       setToc]       = useState([]);
+  const [hoverChar, setHoverChar] = useState(null);
+  const [hoverPos,  setHoverPos]  = useState({ x: 0, y: 0 });
   const contentRef = useRef(null);
 
-  // Restore document state from persistence on mount
+  // Restore images from IndexedDB on mount
   useEffect(() => {
-    const savedMd = loadState('docContent', null);
-    const savedName = loadState('docFileName', '');
-    if (savedMd) {
-      setMdContent(savedMd);
-      setFileName(savedName);
-      setToc(extractToc(savedMd));
-    }
-    // Restore images from IndexedDB
-    loadImages().then(map => {
-      if (Object.keys(map).length > 0) setImageMap(map);
-    });
+    loadImages().then(map => { if (Object.keys(map).length > 0) setImageMap(map); });
   }, []);
 
-  // Auto-load chapter note when the chapter tab changes
-  const prevTab = useRef(null);
+  // Auto-load chapter note when activeChapter changes
   useEffect(() => {
-    if (!activeTab || activeTab === "All" || activeTab === prevTab.current) return;
-    prevTab.current = activeTab;
-    // Map chapter number to note path
-    const chapterMap = {
-      '1':   'notes/chapters/Chapter 1 - Around Town.md',
-      '2':   'notes/chapters/Chapter 2 - The Field of Miracles.md',
-      '2.5': 'notes/chapters/Chapter 2.5 - Interlude 1.md',
-      '3':   'notes/chapters/Chapter 3 - The Puppet Theatre.md',
-    };
-    const path = chapterMap[activeTab];
-    if (path) {
-      fetch(path).then(r => { if (r.ok) return r.text(); }).then(raw => {
-        if (raw) {
-          setMdContent(raw);
-          setFileName(path.split('/').pop());
-          setToc(extractToc(raw));
-        }
-      }).catch(() => {});
-    }
-  }, [activeTab]);
+    const ch = CHAPTERS.find(c => c.id === activeChapter);
+    if (!ch || !ch.notePath) { setMdContent(null); setFileName(""); setToc([]); return; }
+    fetch(ch.notePath).then(r => r.ok ? r.text() : null).then(raw => {
+      if (raw) { setMdContent(raw); setFileName(ch.notePath.split('/').pop()); setToc(extractToc(raw)); }
+      else { setMdContent(null); setFileName(""); setToc([]); }
+    }).catch(() => { setMdContent(null); setFileName(""); setToc([]); });
+  }, [activeChapter]);
 
-  // Persist document content + filename
-  useEffect(() => {
-    if (mdContent !== null) {
-      saveState('docContent', mdContent);
-      saveState('docFileName', fileName);
-    }
-  }, [mdContent, fileName]);
-
-  // Persist images to IndexedDB when imageMap changes
+  // Persist images to IndexedDB
   useEffect(() => {
     const entries = Object.entries(imageMap);
-    if (entries.length > 0) {
-      saveImages(entries.map(([name, dataUrl]) => ({ name, dataUrl })));
-    }
+    if (entries.length > 0) saveImages(entries.map(([name, dataUrl]) => ({ name, dataUrl })));
   }, [imageMap]);
 
-function jumpToHeading(idx) {
+  function jumpToHeading(idx) {
     if (!contentRef.current) return;
     const headings = contentRef.current.querySelectorAll('h1, h2, h3, h4');
     if (headings[idx]) {
-      // Calculate offset relative to the scroll container, not the page
       const container = contentRef.current;
-      const headingTop = headings[idx].offsetTop - container.offsetTop;
-      container.scrollTo({ top: headingTop - 12, behavior: 'smooth' });
+      container.scrollTo({ top: headings[idx].offsetTop - container.offsetTop - 12, behavior: 'smooth' });
     }
+  }
+
+  function handleClick(e) {
+    const chip = e.target.closest('.encounter-chip');
+    if (chip) onLaunchEncounter?.(chip.dataset.encounter);
   }
 
   function handleMouseOver(e) {
     const target = e.target.closest('.char-ref');
     if (target) {
-      const charName = target.getAttribute('data-char');
-      const char = characters.find(c => (c.nickname || c.name) === charName);
-      if (char) {
-        setHoverChar(char);
-        setHoverPos({ x: e.clientX, y: e.clientY });
-      }
+      const char = characters.find(c => (c.nickname || c.name) === target.getAttribute('data-char'));
+      if (char) { setHoverChar(char); setHoverPos({ x: e.clientX, y: e.clientY }); }
     }
   }
-
-  function handleMouseOut(e) {
-    if (e.target.closest('.char-ref')) {
-      setHoverChar(null);
-    }
-  }
-
-  function handleMouseMove(e) {
-    if (e.target.closest('.char-ref')) {
-      setHoverPos({ x: e.clientX, y: e.clientY });
-    }
-  }
+  function handleMouseOut(e)  { if (e.target.closest('.char-ref')) setHoverChar(null); }
+  function handleMouseMove(e) { if (e.target.closest('.char-ref')) setHoverPos({ x: e.clientX, y: e.clientY }); }
 
   const renderedHtml = React.useMemo(() => {
     if (!mdContent) return '';
@@ -1526,14 +1637,19 @@ function jumpToHeading(idx) {
     return html;
   }, [mdContent, imageMap, characters]);
 
+  const chapterEntry = CHAPTERS.find(c => c.id === activeChapter);
+  const hasNotePath  = chapterEntry?.notePath;
+
   return (
-    <div className="flex flex-col h-full flex-1 min-w-0">
+    <div className="notes-pane" style={{display:"flex",flexDirection:"column"}}>
       {/* Toolbar */}
-      <div className="bg-gray-800 border-b border-gray-700 p-2 flex-shrink-0 flex items-center gap-2 flex-wrap">
-        {fileName && <span className="text-xs text-gray-400 truncate">{fileName}</span>}
+      <div style={{background:"var(--surface)",borderBottom:"1px solid var(--rule)",padding:"6px 12px",
+        flexShrink:0,display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
+        {fileName && <span style={{fontSize:"0.72rem",color:"var(--ink-3)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{fileName}</span>}
         {toc.length > 0 && (
           <select onChange={e => jumpToHeading(parseInt(e.target.value, 10))}
-            className="ml-auto bg-gray-900 border border-gray-600 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-purple-500 max-w-xs">
+            style={{marginLeft:"auto",background:"var(--surface)",border:"1px solid var(--rule)",borderRadius:4,
+              padding:"2px 8px",fontSize:"0.72rem",color:"var(--ink-2)",outline:"none",maxWidth:240}}>
             <option value="">— Jump to… —</option>
             {toc.map((h, i) => (
               <option key={i} value={h.idx}>{'  '.repeat(h.level - 1)}{h.text}</option>
@@ -1543,58 +1659,57 @@ function jumpToHeading(idx) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-6"
+      <div style={{flex:1,overflowY:"auto",padding:"24px 32px"}}
         ref={contentRef}
+        onClick={handleClick}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         onMouseMove={handleMouseMove}>
         {!mdContent ? (
-          <div className="text-center mt-16">
-            <p className="text-gray-500 text-sm">Select a chapter tab to load a note.</p>
+          <div style={{textAlign:"center",marginTop:64,color:"var(--ink-3)",fontSize:"0.9rem"}}>
+            {hasNotePath ? "Loading…" : "No notes yet for this chapter."}
           </div>
         ) : (
-          <div className="doc-body max-w-3xl mx-auto" dangerouslySetInnerHTML={{ __html: renderedHtml }} />
+          <div className="doc-body" style={{maxWidth:720,margin:"0 auto",fontFamily:"var(--serif)"}}
+            dangerouslySetInnerHTML={{ __html: renderedHtml }} />
         )}
       </div>
 
       {/* Hover card */}
       {hoverChar && (
-        <div style={{ position: "fixed", left: hoverPos.x + 12, top: hoverPos.y - 10, zIndex: 9999, pointerEvents: "none" }}>
-          <div className="bg-gray-800 rounded-lg p-3 border border-gray-700 border-l-4 border-blue-400 max-w-sm">
-            <div className="flex items-start justify-between gap-2 mb-2">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-bold text-white truncate">{hoverChar.nickname || hoverChar.name}</span>
-                  <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${roleBadge(hoverChar.role)}`}>
-                    {hoverChar.role || "—"}
+        <div style={{position:"fixed",left:hoverPos.x+12,top:hoverPos.y-10,zIndex:9999,pointerEvents:"none"}}>
+          <div style={{background:"var(--surface)",borderRadius:8,padding:12,
+            border:`1px solid var(--rule)`,borderLeft:`4px solid var(--fac-pc)`,maxWidth:320,
+            boxShadow:"0 4px 16px rgba(0,0,0,0.12)"}}>
+            <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8,marginBottom:8}}>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+                  <span style={{fontWeight:700,color:"var(--ink)",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+                    {hoverChar.nickname || hoverChar.name}
                   </span>
+                  <FactionChip role={hoverChar.role} />
                 </div>
-                <span className="text-xs text-gray-400">{hoverChar.fullname || hoverChar.type || hoverChar.class || "—"}</span>
+                <span style={{fontSize:"0.72rem",color:"var(--ink-3)"}}>{hoverChar.fullname || hoverChar.type || hoverChar.class || "—"}</span>
               </div>
             </div>
-
             {hoverChar.stats && <AbilityRow stats={hoverChar.stats} />}
-
-            <div className="flex items-center gap-2 text-xs mb-2">
-              {hoverChar.ac !== undefined && hoverChar.ac !== null && (
-                <span className="px-2 py-0.5 rounded bg-gray-700 text-gray-300 font-mono">AC {hoverChar.ac}</span>
+            <div style={{display:"flex",alignItems:"center",gap:8,fontSize:"0.72rem",marginBottom:8}}>
+              {hoverChar.ac != null && (
+                <span style={{padding:"1px 6px",borderRadius:4,background:"var(--surface-2)",color:"var(--ink-2)",fontFamily:"monospace"}}>AC {hoverChar.ac}</span>
               )}
               {(hoverChar.hp?.max || hoverChar.hp_max) && (
-                <span className="px-2 py-0.5 rounded bg-gray-700 text-gray-300 font-mono">
-                  {hoverChar.hp?.current ?? hoverChar.currentHp ?? (hoverChar.hp_max || 0)}/{hoverChar.hp?.max || hoverChar.hp_max || "?"}
+                <span style={{padding:"1px 6px",borderRadius:4,background:"var(--surface-2)",color:"var(--ink-2)",fontFamily:"monospace"}}>
+                  {hoverChar.hp?.current ?? hoverChar.currentHp ?? (hoverChar.hp_max||0)}/{hoverChar.hp?.max||hoverChar.hp_max||"?"}
                 </span>
               )}
             </div>
-
             {(hoverChar.traits?.length > 0 || hoverChar.actions?.length > 0) && (
-              <div className="text-xs text-gray-300 space-y-1">
+              <div style={{fontSize:"0.72rem",color:"var(--ink-2)"}}>
                 {hoverChar.traits?.length > 0 && (
-                  <div>
+                  <div style={{marginBottom:4}}>
                     <SectionHeader title="Traits" role={hoverChar.role} />
                     {hoverChar.traits.map((t, i) => (
-                      <p key={i} className="mb-0.5">
-                        <em className="text-gray-200 not-italic font-semibold">{t.name}.</em> {t.desc}
-                      </p>
+                      <p key={i} style={{marginBottom:2}}><strong>{t.name}.</strong> {t.desc}</p>
                     ))}
                   </div>
                 )}
@@ -1602,9 +1717,7 @@ function jumpToHeading(idx) {
                   <div>
                     <SectionHeader title="Actions" role={hoverChar.role} />
                     {hoverChar.actions.map((a, i) => (
-                      <p key={i} className="mb-0.5">
-                        <em className="text-gray-200 not-italic font-semibold">{a.name}.</em> {a.desc}
-                      </p>
+                      <p key={i} style={{marginBottom:2}}><strong>{a.name}.</strong> {a.desc}</p>
                     ))}
                   </div>
                 )}
@@ -1619,25 +1732,21 @@ function jumpToHeading(idx) {
 
 /* ── APP ───────────────────────────────────────────────────────── */
 
-
-
 function App() {
-  const [characters, setCharacters] = useState([]);
-  const [pcs,        setPcs]        = useState([]);
-  const [loading,    setLoading]    = useState(true);
-  const [error,      setError]      = useState(null);
-  const [queue,      setQueue]      = useState([]);
-  const [activeTab,  setActiveTab]  = useState("All");
-  const [search,     setSearch]     = useState("");
-  const [viewMode,   setViewMode]   = useState("encounter"); // "encounter" | "document"
-  const [pcState,    setPcState]    = useState([]);
+  const [characters,    setCharacters]    = useState([]);
+  const [pcs,           setPcs]           = useState([]);
+  const [loading,       setLoading]       = useState(true);
+  const [pcState,       setPcState]       = useState([]);
+  const [activeChapter, setActiveChapter] = useState(() => loadState('activeChapter', "1"));
+  const [drawerOpen,    setDrawerOpen]    = useState(false);
+  const [combatOpen,    setCombatOpen]    = useState(false);
+  const [encounterQueue,setEncounterQueue]= useState([]);
+  const [launchPresetKey,setLaunchPresetKey] = useState(null);
 
   useEffect(() => {
     setCharacters(Array.isArray(CHARACTERS_DATA) ? CHARACTERS_DATA : (CHARACTERS_DATA.characters||[]));
     const pcArr = Array.isArray(PC_DATA) ? PC_DATA : [];
     setPcs(pcArr);
-    // Restore pcState from localStorage, or initialise from PC_DATA
-    // Version check ensures stale saved state doesn't override new data structure
     const saved = loadState('pcState', null);
     const savedVersion = loadState('pcStateVersion', 0);
     if (saved && saved.length === pcArr.length && savedVersion === PC_DATA_VERSION) {
@@ -1649,53 +1758,55 @@ function App() {
     setLoading(false);
   }, []);
 
-  // Persist pcState on every change
-  useEffect(() => {
-    if (pcState.length > 0) saveState('pcState', pcState);
-  }, [pcState]);
+  useEffect(() => { if (pcState.length > 0) saveState('pcState', pcState); }, [pcState]);
+  useEffect(() => { saveState('activeChapter', activeChapter); }, [activeChapter]);
 
   function updatePcFromApp(id, patch) {
     setPcState(ps => ps.map(p => p.id === id ? {...p, ...patch} : p));
   }
 
-  const NOTE_CHAPTERS = [1, 2, 2.5, 3];
-  const chapters = ["All", ...Array.from(new Set([
-    ...characters.filter(c => c.chapter_playable != null).map(c => c.chapter_playable),
-    ...NOTE_CHAPTERS,
-  ])).sort((a,b) => a-b).map(String)];
+  function handleLaunchEncounter(key) {
+    setLaunchPresetKey(key);
+    setCombatOpen(true);
+  }
+
+  if (loading) return (
+    <div style={{position:"fixed",inset:0,background:"var(--bg)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:50}}>
+      <div style={{textAlign:"center"}}>
+        <div style={{fontSize:"2.5rem",marginBottom:12}}>⚔</div>
+        <p style={{color:"var(--ink-3)",fontSize:"0.9rem"}}>Loading campaign data…</p>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="flex flex-col h-full bg-gray-900 text-gray-100 overflow-hidden" style={{minWidth:"900px"}}>
-      {loading && (
-        <div className="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
-          <div className="text-center"><div className="text-4xl mb-3">⚔️</div>
-          <p className="text-gray-400 text-sm">Loading campaign data…</p></div>
-        </div>
+    <div className="app-grid">
+      <TopBar activeChapter={activeChapter} drawerOpen={drawerOpen}
+        onToggleDrawer={() => setDrawerOpen(d => !d)}
+        onOpenCombat={() => setCombatOpen(true)} />
+
+      {drawerOpen && (
+        <ChapterDrawer activeChapter={activeChapter}
+          onSelect={id => { setActiveChapter(id); setDrawerOpen(false); }} />
       )}
-      {error && (
-        <div className="fixed bottom-4 right-4 bg-red-900 border border-red-700 text-red-200 text-xs px-4 py-3 rounded-lg z-50 max-w-sm shadow-xl">
-          ⚠️ {error}
-        </div>
+
+      <PartyRail pcState={pcState} onUpdatePc={updatePcFromApp} />
+
+      <NotesPane characters={characters} activeChapter={activeChapter}
+        onLaunchEncounter={handleLaunchEncounter} />
+
+      <RightRail characters={characters} activeChapter={activeChapter}
+        onAddToEncounter={char => { setEncounterQueue(q=>[...q,{...char,_qid:uid()}]); setCombatOpen(true); }}
+        onLaunchEncounter={preset => { setLaunchPresetKey(preset.key||null); setEncounterQueue([]); setCombatOpen(true); }} />
+
+      {combatOpen && (
+        <CombatOverlay
+          characters={characters} pcs={pcs}
+          pcState={pcState} setPcState={setPcState}
+          encounterQueue={encounterQueue} onQueueConsumed={() => setEncounterQueue([])}
+          launchPresetKey={launchPresetKey} onPresetConsumed={() => setLaunchPresetKey(null)}
+          onClose={() => setCombatOpen(false)} />
       )}
-      <TopHeader chapters={chapters} activeTab={activeTab} setActiveTab={setActiveTab}
-        search={search} setSearch={setSearch} viewMode={viewMode} setViewMode={setViewMode} />
-      <div className="flex flex-1 overflow-hidden">
-        {/* All views stay mounted so state is preserved when switching */}
-        <div className="flex flex-1 overflow-hidden" style={{display: viewMode === "encounter" ? "flex" : "none"}}>
-          <LeftPanel characters={characters} activeTab={activeTab} search={search}
-            onAddToEncounter={char => setQueue(q=>[...q,{...char,_qid:uid()}])} />
-          <div className="panel-sep" />
-          <CentrePanel characters={characters} pcs={pcs}
-            activeTab={activeTab}
-            encounterQueue={queue} onQueueConsumed={()=>setQueue([])}
-            pcState={pcState} setPcState={setPcState} />
-        </div>
-        <div className="flex flex-1 overflow-hidden" style={{display: viewMode === "document" ? "flex" : "none"}}>
-          <PCStripPanel pcState={pcState} onUpdatePc={updatePcFromApp} />
-          <div className="panel-sep" />
-          <DocumentPanel characters={characters} activeTab={activeTab} />
-        </div>
-      </div>
     </div>
   );
 }

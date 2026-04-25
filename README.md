@@ -1,6 +1,6 @@
 # D&D Campaign Tools
 
-**Version 26.04.21.1**
+**Version 26.04.25.1**
 
 A collection of browser-based tools for running a D&D 5e campaign. No build step, no dependencies — just static HTML files served directly from Cloudflare.
 
@@ -116,6 +116,7 @@ git push
 
 | Version | Date | Changes |
 |---|---|---|
+| 26.04.25.1 | 25 Apr 2026 | DM Screen: full redesign — 3-column layout, combat overlay, chapter drawer, @encounter: syntax |
 | 26.04.21.1 | 21 Apr 2026 | DM Screen: removed dice roller, manual upload, and Rules section; renamed campaign to "Wish"; added Ch.2.5; updated chapter notes |
 | 26.04.17.1 | 17 Apr 2026 | Removed Character Creator; added Spider Merchant shop (33 items, rarity filter, flavour/mechanics split, bolded key terms) |
 | 26.04.10.3 | 10 Apr 2026 | Added version number to landing page |
