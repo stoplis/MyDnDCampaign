@@ -300,7 +300,7 @@ He moves to block the exit. He is not asking.
 
 **His account:** The Fox and Cat arrived mid-morning with the boy. They ordered lavishly. The Fox talked through the whole meal, low and close to the boy's ear. Just before midday, the Fox rose and announced — publicly, in a voice that carried — that everything was *"taken care of."* Then he and the Cat were gone through the front door. When it was clear they weren't returning, Lucone came to collect. *"The boy kept saying the Fox had settled it, he was clutching a coin purse full enough to pay twice over. When I raised my voice to demand payment, and people looked, and he ran. East."*
 
-**Mechanical stat block:** Use the **Mario Lucone** stat block (see [[The Innkeeper]]). He fights to grapple, block exits, and create noise. He has the weight of a man who has spent thirty years hauling barrels and the *Righteous Fury* trait while he feels unacknowledged.
+**Mechanical stat block:** Use the **Mario Lucone** stat block (@creature:innkeeper). He fights to grapple, block exits, and create noise. He has the weight of a man who has spent thirty years hauling barrels and the *Righteous Fury* trait while he feels unacknowledged.
 
 > [!info] The Innkeeper's Wife — Victoria Lucone
 >
@@ -312,7 +312,7 @@ He moves to block the exit. He is not asking.
 >
 > She does not end the negotiation. She ends the violence. Once she intervenes, the room settles — and the question of the bill remains, but the context has shifted. She either gives he husbands account or confirms it if already given.
 
-> [!warning] Combat Encounter — The Fight at the Red Crawfish
+> [!warning] Combat Encounter: @enc:red-crawfish · @creature:innkeeper · @creature:chef · @creature:waitress
 >
 > **This is the chapter's tutorial fight.** It should happen. The escalation is forced and clear — Lucone blocks the exit before asking nicely, and the situation narrows. This is not optional combat. It is a fight that arrives without the party having to choose it.
 >
@@ -322,9 +322,9 @@ He moves to block the exit. He is not asking.
 >
 > Two staff emerge from the kitchen on their turn:
 >
-> - **Taddeo Moretti, the chef** *(tah-DAY-oh moh-RET-tee)* (see [[The Chef]]) — Enormous, furious, and completely non-tactical. He comes out of the kitchen angry and stays angry. His CR is 1/2 and his STR is 17 — he hits hard. He has no loyalty to Lucone beyond the immediate situation. His *Kitchen Fury* reaction means the kitchen doorway becomes dangerous the moment he's on the field. He cannot be charmed or persuaded to stop while he's defending his kitchen.
+> - **Taddeo Moretti, the chef** *(tah-DAY-oh moh-RET-tee)* (@creature:chef) — Enormous, furious, and completely non-tactical. He comes out of the kitchen angry and stays angry. His CR is 1/2 and his STR is 17 — he hits hard. He has no loyalty to Lucone beyond the immediate situation. His *Kitchen Fury* reaction means the kitchen doorway becomes dangerous the moment he's on the field. He cannot be charmed or persuaded to stop while he's defending his kitchen.
 >
-> - **Rosa Ferrini, the waitress** *(ROH-zah feh-REE-nee)* (see [[The Waitress]]) — She fights because she has to, not because she wants to. CR 1/8, slightly above average DEX. Her attacks are halfhearted — a tray raised more as a shield than a weapon. A **DC 10 Persuasion** check mid-combat (used as an action) turns her from opponent to bystander. If any ally goes down, her *Reluctant Fighter* trait lets her Disengage for free. She is the encounter's soft exit and, if won over, a minor source of information about the morning.
+> - **Rosa Ferrini, the waitress** *(ROH-zah feh-REE-nee)* (@creature:waitress) — She fights because she has to, not because she wants to. CR 1/8, slightly above average DEX. Her attacks are halfhearted — a tray raised more as a shield than a weapon. A **DC 10 Persuasion** check mid-combat (used as an action) turns her from opponent to bystander. If any ally goes down, her *Reluctant Fighter* trait lets her Disengage for free. She is the encounter's soft exit and, if won over, a minor source of information about the morning.
 >
 > **The wife's intervention:** If the party is losing badly (two or more unconscious, or clearly overwhelmed), Victoria comes through the door and stops it. This should feel like rescue, not failure.
 

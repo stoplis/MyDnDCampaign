@@ -7,7 +7,7 @@ tags:
   - chapter
 related:
   - "[[Overview]]"
-  - "[[Chapter 1 - Around Town]]"
+  - "[[Chapters/Chapter 1 - Around Town]]"
   - "[[Chapter 2 - The Field of Miracles]]"
   - "[[Magnifico]]"
   - "[[Kanga]]"
@@ -238,8 +238,8 @@ She will not become hostile. She will not be offended. She will try, sincerely, 
 
 *Both activate the moment the players cross the threshold.*
 
-> [!warning] Combat Encounter: The Dining Room
-> **Opening initiative:** Singer and Piano Player.
+> [!warning] Combat Encounter: @enc:dining-room · @enemy:singer · @enemy:piano-player · @enemy:waiter · @enemy:cleaner
+> **Opening initiative:** @enemy:singer and @enemy:piano-player.
 >
 > **End of Round 1:** A south door opens and the **Cleaner** enters, mop in hand. Simultaneously, the kitchen door swings open and the **Waiter** steps through. Both join combat immediately.
 >
@@ -431,9 +431,9 @@ He is not performing. He is somewhere else entirely.
 
 **He will only turn and register the players when they mention:** the Coachman (or "him"), the children, Pinocchio, or Kanga. When one of these words is spoken, he stops. Sets down the puppet. Turns.
 
-> [!warning] Combat Encounter: Magnifinco
-> - Magnifinco (Enemy)
-> - Balerinas (Enemies)
+> [!warning] Combat Encounter: @enc:magnifico-boss
+> - @enemy:magnifico
+> - @enemy:ballerina-puppet (×n — summoned each round)
 
 >[!success] Password: swan
 >![[Magnifico.PNG]]

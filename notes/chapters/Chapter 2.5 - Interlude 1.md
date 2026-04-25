@@ -36,7 +36,7 @@ He gives the party his notes. He shakes each of their hands, briefly and firmly.
 
 | Rescued | Upgrade                 | Story                                                                                                                                                                                                                                                                      | Effect                                                                      |
 | ------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [[Roo]] | **Kanga's Medical Kit** | Roo knows where his mum keeps her First Aid kit. He gives you all a potion and a handful of plasters. "These helped when I fell over and hurt my knee, I wish I knew where momma keeps her magic sponge that fixes anything!" your fairly certain that isn't a real thing. | Each party member begins every chapter with **one free Potion of Healing**. |
+| @ally:roo | **Kanga's Medical Kit** | Roo knows where his mum keeps her First Aid kit. He gives you all a potion and a handful of plasters. "These helped when I fell over and hurt my knee, I wish I knew where momma keeps her magic sponge that fixes anything!" your fairly certain that isn't a real thing. | Each party member begins every chapter with **one free Potion of Healing**. |
 
 ---
 # The Spider Merchant

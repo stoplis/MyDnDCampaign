@@ -13,11 +13,14 @@ The campaign is set in a D&D 5e world inspired by Pinocchio — but the tools mu
 |---|---|
 | `~/DnD/DnD Steve Tools/` | The main project folder — all tool HTML files live here |
 | `~/DnD/5etools-src/` | Local 5etools database for looking up D&D rules and items |
-| Obsidian vault (iCloud) | Campaign notes — source of truth for notes/images |
+| `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD - Wish/` | Obsidian vault — source of truth for chapter notes, images, magic items, and player data |
+| `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD - Wish/Claude/` | My working notes: vault index, tool specs, chapter sync guide, kept up-to-date |
+| `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD - Wish/Players/` | Player character notes — source of truth for `js/data.js` party array; update at each level-up |
+| `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/DnD - Wish/Chapters/` | Campaign chapter notes — sync to `notes/chapters/` when updated (see Chapter Sync Guide in vault) |
 | `~/DnD/DnD Steve Tools/notes/` | Campaign notes copied into the repo for the DM Screen |
 | `~/DnD/DnD Steve Tools/images/` | Campaign images copied into the repo |
 
-After any session with file changes, remind Stephen to run `git push` from Mac Terminal.
+After any session with file changes, create a PR and remind Stephen to `git push` from Mac Terminal.
 
 ---
 

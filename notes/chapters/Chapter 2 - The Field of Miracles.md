@@ -124,9 +124,9 @@ It rears from the undergrowth in a single motion — enormous, slow, completely 
 
 The smoke was the only warning. They followed it right to it.
 
-> [!warning] Combat Encounter: The Great Serpent
-> - The Great Serpent (Enemy)
-> - Rabbit (Ally)
+> [!warning] Combat Encounter: @enc:great-serpent-enc
+> - @enemy:great-serpent
+> - @ally:rabbit
 > *Note: Rabbit starts this fight with the **Frightend** status*
 
 > [!info] Stat Block — The Great Serpent
@@ -209,7 +209,7 @@ Rabbit does not say this casually. He means: someone needs looking after here, a
 
 The Field of Miracles is at the eastern edge of the Wood — not far, a ten-minute walk along a track that gets gradually less tidy. The clearing announces itself. Beautiful, in an unsettling way: the light is too golden, the soil too dark, the silence more complete than even the empty Wood's. Nothing grows in the patches of earth in the centre of the clearing. Nothing has grown there for a long time.
 
-[[The Fox]] and [[The Cat]] are here — and they have not noticed the party.
+@enemy:fox and @enemy:cat are here — and they have not noticed the party.
 
 The Cat is digging with patient, methodical attention, turning up the dark earth one handful at a time. This is what they do: someone buries coins here on the Fox's instruction, convinced by a story about gold growing like seeds if you say the right words and believe hard enough. The Fox and Cat return later to collect what was left behind. The Cat digs. The Fox watches.
 
@@ -261,9 +261,9 @@ And then, with a sound like a whisper of metal on wood, the silver fox-head hand
 
 **Mechanically:** For this fight, the Fox uses the Veteran's Cane as a longsword (1d8 slashing, one-handed, Sap mastery — see loot below). His *Silver Cane* action in his stat block becomes a longsword attack at +1 to hit, 1d8-1 slashing. He still hates using it. He is still looking for the exit.
 
-> [!warning] Combat Encounter: The Fox and The Cat
-> - The Fox (Enemy)
-> - The Cat (Enemy)
+> [!warning] Combat Encounter: @enc:fox-cat-enc
+> - @enemy:fox
+> - @enemy:cat
 
 **The Escape — Smoke Bomb**
 When the Fox is ready to leave — whether he has taken damage, grown bored, or simply decided the conversation is over — there is no drama. A smoke bomb drops at his feet. Grey, thick, already blooming before anyone can react. He is moving before the smoke reaches knee height. The Cat is two steps behind him.
