@@ -1,174 +1,457 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" data-font="serif">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Spell Book</title>
+    <title>Wish — Spell Book</title>
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { height: 100%; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f1117;
-            color: #e5e7eb;
-            min-height: 100%;
-            padding: 1.25rem;
-            padding-bottom: 2rem;
+        :root {
+            --bg: #faf8f4;
+            --surface: #ffffff;
+            --surface-2: #f3f0ea;
+            --ink: #141414;
+            --ink-2: #404040;
+            --ink-3: #6b6b6b;
+            --ink-4: #9a9a9a;
+            --rule: #e6e1d6;
+            --rule-strong: #1a1a1a;
+            --accent: oklch(0.45 0.14 25);
+            --accent-weak: oklch(0.95 0.04 25);
+            --selected-bg: color-mix(in oklch, var(--ink) 7%, var(--surface));
+            --fac-pc: oklch(0.55 0.13 245);
+            --fac-pc-weak: color-mix(in oklch, oklch(0.55 0.13 245) 14%, var(--surface));
+            --fac-ally: oklch(0.52 0.12 155);
+            --fac-ally-weak: color-mix(in oklch, oklch(0.52 0.12 155) 14%, var(--surface));
+            --warn: oklch(0.65 0.14 75);
+            --warn-weak: color-mix(in oklch, oklch(0.65 0.14 75) 14%, var(--surface));
+            --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+            --sans: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+            --mono: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+            --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px;
+            --s6: 24px; --s7: 32px; --s8: 48px; --s9: 64px;
         }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; min-height: 100%; }
+        body {
+            font-family: var(--sans);
+            background:
+                linear-gradient(180deg, color-mix(in oklch, var(--surface) 46%, transparent), transparent 360px),
+                var(--bg);
+            color: var(--ink);
+            font-size: 14px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; padding: 0; }
+        input { font: inherit; color: inherit; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-thumb { background: color-mix(in oklch, var(--ink-4) 40%, transparent); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
 
         .header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
+            gap: var(--s5);
+            min-height: 56px;
+            padding: 0 var(--s6);
+            border-bottom: 1px solid var(--rule);
+            background: color-mix(in oklch, var(--surface) 94%, transparent);
+            backdrop-filter: blur(14px);
         }
-        .back-link { color: #9ca3af; text-decoration: none; font-size: 1.4rem; line-height: 1; padding: 0.25rem; }
-        .back-link:hover { color: #e5e7eb; }
-        h1 { font-size: 1.35rem; font-weight: 600; }
+        .brand {
+            display: flex;
+            align-items: baseline;
+            gap: var(--s2);
+            min-width: 0;
+        }
+        .brand-mark {
+            font-family: var(--serif);
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+        .brand-context {
+            font-family: var(--serif);
+            font-size: 18px;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--ink-3);
+            white-space: nowrap;
+        }
+        .sep {
+            width: 1px;
+            height: 20px;
+            background: var(--rule);
+        }
+        .header-title {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            white-space: nowrap;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 32px;
+            padding: 6px 10px;
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            background: var(--surface);
+            color: var(--ink);
+            font-size: 12.5px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            transition: background 120ms, border-color 120ms;
+        }
+        .back-link:hover {
+            border-color: var(--ink-3);
+            background: var(--surface-2);
+        }
+
+        .spell-intro {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: var(--s8) var(--s7) var(--s6);
+        }
+        .chapter-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            margin-bottom: var(--s2);
+        }
+        h1 {
+            margin: 0;
+            font-family: var(--serif);
+            font-size: clamp(34px, 5vw, 56px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+        }
+        .intro-copy {
+            max-width: 680px;
+            margin: var(--s4) 0 0;
+            color: var(--ink-2);
+            font-size: 16px;
+            line-height: 1.65;
+        }
 
         .controls {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            position: sticky;
+            top: 56px;
+            z-index: 15;
+            display: grid;
+            grid-template-columns: minmax(220px, 320px) 1fr;
+            gap: var(--s4);
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: var(--s4) var(--s7);
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            background: color-mix(in oklch, var(--bg) 94%, transparent);
+            backdrop-filter: blur(14px);
         }
         .search-bar {
             width: 100%;
-            padding: 0.6rem 0.9rem;
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 0.5rem;
-            color: #e5e7eb;
-            font-size: 0.95rem;
+            height: 40px;
+            padding: 0 var(--s3);
+            background: var(--surface);
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            color: var(--ink);
+            font-size: 15px;
             outline: none;
+            transition: border-color 120ms, background 120ms;
         }
-        .search-bar:focus { border-color: #6366f1; }
-        .search-bar::placeholder { color: #4b5563; }
+        .search-bar:focus { border-color: var(--accent); background: var(--surface); }
+        .search-bar::placeholder { color: var(--ink-4); font-style: italic; }
+
+        .filter-stack {
+            display: flex;
+            flex-direction: column;
+            gap: var(--s2);
+            min-width: 0;
+        }
 
         .filter-row {
             display: flex;
-            gap: 0.35rem;
+            gap: var(--s2);
             flex-wrap: wrap;
         }
         .filter-btn {
-            padding: 0.3rem 0.65rem;
-            border-radius: 0.4rem;
-            border: 1px solid #2a2d3a;
-            background: #1a1d27;
-            color: #9ca3af;
-            font-size: 0.78rem;
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--rule);
+            background: var(--surface);
+            color: var(--ink-3);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
             white-space: nowrap;
+            transition: background 120ms, border-color 120ms, color 120ms;
         }
-        .filter-btn:hover { border-color: #6366f1; color: #e5e7eb; }
-        .filter-btn.active { background: #6366f1; border-color: #6366f1; color: #fff; }
+        .filter-btn:hover {
+            border-color: var(--ink-3);
+            color: var(--ink);
+            background: var(--surface-2);
+        }
+        .filter-btn.active {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: var(--bg);
+        }
 
-        /* School colour dots */
         .school-dot {
             display: inline-block;
             width: 7px; height: 7px;
             border-radius: 50%;
-            margin-right: 4px;
+            margin-right: 5px;
             flex-shrink: 0;
         }
 
-        .spell-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .spell-list {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: var(--s5) var(--s7) var(--s8);
+            display: flex;
+            flex-direction: column;
+        }
 
         .spell-card {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 0.625rem;
+            background: var(--surface);
+            border-top: 1px solid var(--rule);
             cursor: pointer;
             overflow: hidden;
             -webkit-tap-highlight-color: transparent;
-            transition: border-color 0.15s;
+            transition: background 120ms, box-shadow 120ms;
         }
-        .spell-card:hover { border-color: #6366f1; }
+        .spell-card:last-child { border-bottom: 1px solid var(--rule); }
+        .spell-card:hover {
+            background: var(--surface-2);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
 
         .spell-summary {
-            display: flex;
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
             align-items: center;
-            padding: 0.7rem 0.9rem;
-            gap: 0.6rem;
+            padding: var(--s4) var(--s5);
+            gap: var(--s4);
         }
         .spell-level-badge {
-            flex-shrink: 0;
-            width: 1.8rem; height: 1.8rem;
-            border-radius: 50%;
-            background: #22253a;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #9ca3af;
-        }
-        .spell-level-badge.cantrip { color: #a78bfa; background: #1e1b3a; }
-        .spell-level-badge.lv1 { color: #6ee7b7; background: #0f2a1e; }
-
-        .spell-info { flex: 1; min-width: 0; }
-        .spell-name { font-size: 0.95rem; font-weight: 600; color: #f3f4f6; }
-        .spell-sub {
-            font-size: 0.73rem;
-            color: #6b7280;
-            margin-top: 0.1rem;
+            width: 42px;
+            height: 32px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            background: var(--bg);
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-3);
+            letter-spacing: 0.06em;
+        }
+        .spell-level-badge.cantrip {
+            color: var(--fac-pc);
+            border-color: color-mix(in oklch, var(--fac-pc) 38%, var(--rule));
+            background: var(--fac-pc-weak);
+        }
+        .spell-level-badge.lv1 {
+            color: var(--fac-ally);
+            border-color: color-mix(in oklch, var(--fac-ally) 42%, var(--rule));
+            background: var(--fac-ally-weak);
+        }
+
+        .spell-info { flex: 1; min-width: 0; }
+        .spell-name {
+            font-family: var(--serif);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            line-height: 1.15;
+        }
+        .spell-sub {
+            font-size: 12px;
+            color: var(--ink-3);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             flex-wrap: wrap;
         }
         .class-tag {
-            font-size: 0.68rem;
-            padding: 0.1rem 0.4rem;
-            border-radius: 0.25rem;
+            display: inline-flex;
+            align-items: center;
+            min-height: 20px;
+            padding: 2px 7px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            font-family: var(--mono);
+            font-size: 10px;
             font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
-        .class-tag.sorcerer { background: #3b1f5e; color: #c084fc; }
-        .class-tag.bard     { background: #1e3a1e; color: #86efac; }
-        .class-tag.both-s   { background: #3b1f5e; color: #c084fc; }
-        .class-tag.both-b   { background: #1e3a1e; color: #86efac; }
+        .class-tag.sorcerer,
+        .class-tag.both-s {
+            background: var(--fac-pc-weak);
+            border-color: color-mix(in oklch, var(--fac-pc) 38%, var(--rule));
+            color: var(--fac-pc);
+        }
+        .class-tag.bard,
+        .class-tag.both-b {
+            background: var(--fac-ally-weak);
+            border-color: color-mix(in oklch, var(--fac-ally) 42%, var(--rule));
+            color: var(--fac-ally);
+        }
+        .spell-pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 20px;
+            padding: 2px 7px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            color: var(--ink-3);
+            background: var(--bg);
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .spell-pill.conc {
+            color: var(--accent);
+            border-color: color-mix(in oklch, var(--accent) 38%, var(--rule));
+            background: var(--accent-weak);
+        }
+        .spell-pill.ritual {
+            color: var(--warn);
+            border-color: color-mix(in oklch, var(--warn) 42%, var(--rule));
+            background: var(--warn-weak);
+        }
 
-        .spell-chevron { color: #4b5563; font-size: 0.7rem; transition: transform 0.2s; flex-shrink: 0; }
+        .spell-chevron {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            color: var(--ink-3);
+            font-size: 12px;
+            line-height: 1;
+            transition: transform 160ms, border-color 120ms, color 120ms;
+            flex-shrink: 0;
+        }
+        .spell-card:hover .spell-chevron {
+            border-color: var(--ink-3);
+            color: var(--ink);
+        }
         .spell-chevron.open { transform: rotate(90deg); }
 
-        /* Expanded detail */
         .spell-detail {
             display: none;
-            padding: 0 0.9rem 0.9rem;
-            border-top: 1px solid #22253a;
+            padding: 0 var(--s5) var(--s5) 82px;
+            border-top: 1px solid var(--rule);
+            background: var(--surface);
         }
         .spell-detail.open { display: block; }
 
         .stat-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.35rem;
-            margin-top: 0.65rem;
-            margin-bottom: 0.75rem;
+            gap: 1px;
+            margin-top: var(--s4);
+            margin-bottom: var(--s5);
+            border: 1px solid var(--rule);
+            background: var(--rule);
         }
-        @media (min-width: 480px) { .stat-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 720px) { .stat-grid { grid-template-columns: repeat(4, 1fr); } }
 
-        .stat-cell { background: #22253a; border-radius: 0.35rem; padding: 0.35rem 0.5rem; }
-        .stat-label { font-size: 0.62rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; }
-        .stat-value { font-size: 0.8rem; color: #d1d5db; font-weight: 500; margin-top: 0.1rem; }
+        .stat-cell {
+            background: var(--bg);
+            padding: 10px 12px;
+            min-width: 0;
+        }
+        .stat-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--ink-4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .stat-value {
+            font-size: 14px;
+            color: var(--ink);
+            font-weight: 600;
+            margin-top: 2px;
+            overflow-wrap: anywhere;
+        }
 
-        .spell-desc { font-size: 0.85rem; line-height: 1.55; color: #d1d5db; }
+        .spell-desc {
+            max-width: 840px;
+            font-size: 15px;
+            line-height: 1.68;
+            color: var(--ink-2);
+        }
         .higher-level {
-            margin-top: 0.6rem;
-            padding: 0.5rem 0.65rem;
-            background: #12151f;
-            border-left: 3px solid #6366f1;
-            border-radius: 0 0.35rem 0.35rem 0;
-            font-size: 0.82rem;
-            color: #a5b4fc;
-            line-height: 1.45;
+            max-width: 840px;
+            margin-top: var(--s5);
+            padding: var(--s3) var(--s5);
+            background: var(--surface-2);
+            border-left: 2px solid var(--accent);
+            font-size: 14px;
+            color: var(--ink-2);
+            line-height: 1.55;
         }
-        .higher-label { font-weight: 700; font-size: 0.75rem; margin-bottom: 0.2rem; color: #818cf8; }
+        .higher-label {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: 10px;
+            margin-bottom: 4px;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .text-token {
+            display: inline;
+            color: color-mix(in oklch, var(--warn) 72%, var(--ink));
+            font-weight: 700;
+        }
 
-        .no-results { color: #4b5563; text-align: center; padding: 2rem; font-size: 0.9rem; }
+        .no-results {
+            color: var(--ink-3);
+            text-align: center;
+            padding: var(--s8);
+            font-size: 15px;
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            background: var(--surface);
+        }
 
-        /* School colours */
         .sc-Abjuration    { background: #3b82f6; }
         .sc-Conjuration   { background: #f59e0b; }
         .sc-Divination    { background: #8b5cf6; }
@@ -177,19 +460,85 @@
         .sc-Illusion      { background: #06b6d4; }
         .sc-Necromancy    { background: #22c55e; }
         .sc-Transmutation { background: #f97316; }
+
+        @media (max-width: 760px) {
+            .header {
+                gap: var(--s3);
+                padding: 0 var(--s4);
+            }
+            .brand {
+                flex-direction: column;
+                gap: 0;
+                line-height: 1.05;
+            }
+            .brand-mark,
+            .brand-context {
+                font-size: 16px;
+            }
+            .sep,
+            .header-title {
+                display: none;
+            }
+            .spell-intro {
+                padding: var(--s7) var(--s5) var(--s5);
+            }
+            h1 { font-size: 38px; }
+            .intro-copy { font-size: 15px; }
+            .controls {
+                position: static;
+                grid-template-columns: 1fr;
+                gap: var(--s3);
+                padding: var(--s4) var(--s5);
+            }
+            .filter-row {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 2px;
+            }
+            .spell-list {
+                padding: var(--s5) var(--s5) var(--s8);
+            }
+            .spell-summary {
+                grid-template-columns: auto minmax(0, 1fr) auto;
+                gap: var(--s3);
+                padding: var(--s4) 0;
+            }
+            .spell-name {
+                font-size: 18px;
+            }
+            .spell-detail {
+                padding: 0 0 var(--s5);
+            }
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <a href="index.html" class="back-link">&#8592;</a>
-        <h1>Spell Book</h1>
+        <a href="index.html" class="back-link">Back</a>
+        <div class="brand" aria-label="Wish Spell Book">
+            <span class="brand-mark">Wish</span>
+            <span class="brand-context">Spell Book</span>
+        </div>
+        <span class="sep" aria-hidden="true"></span>
+        <span class="header-title">Player Reference</span>
     </div>
+
+    <section class="spell-intro" aria-labelledby="spell-title">
+        <div class="chapter-label">Cantrips and Level 1</div>
+        <h1 id="spell-title">Spell Book</h1>
+        <p class="intro-copy">Search Hannah and Mum's current spell lists by class, level, and school.</p>
+    </section>
 
     <div class="controls">
         <input type="text" class="search-bar" id="search" placeholder="Search spells...">
-        <div class="filter-row" id="class-filters"></div>
-        <div class="filter-row" id="level-filters"></div>
-        <div class="filter-row" id="school-filters"></div>
+        <div class="filter-stack">
+            <div class="filter-row" id="class-filters"></div>
+            <div class="filter-row" id="level-filters"></div>
+            <div class="filter-row" id="school-filters"></div>
+        </div>
     </div>
 
     <div class="spell-list" id="list"></div>
@@ -253,6 +602,40 @@
         });
     }
 
+    const HIGHLIGHT_TERMS = [
+        'Temporary Hit Points', 'Opportunity Attacks', 'Difficult Terrain',
+        'Heavily Obscured', 'Bright Light', 'Dim Light', 'Total Cover',
+        'Bonus Action', 'Magic action', 'Study action', 'Dash action',
+        'saving throw', 'attack roll', 'spell attack', 'Hit Points',
+        'Concentration', 'Reaction', 'Advantage', 'Disadvantage',
+        'Charmed', 'Frightened', 'Grappled', 'Incapacitated', 'Invisible',
+        'Poisoned', 'Prone', 'Unconscious', 'Attunement', 'Truesight',
+        'AC', 'Speed'
+    ];
+    const HIGHLIGHT_RE = new RegExp(
+        '\\b(?:\\d+d\\d+(?:\\s*[+\\-]\\s*\\d+)?|[+\\-]\\d+|' +
+        HIGHLIGHT_TERMS
+            .sort((a, b) => b.length - a.length)
+            .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+'))
+            .join('|') +
+        ')\\b',
+        'gi'
+    );
+
+    function escapeHtml(text) {
+        return text.replace(/[&<>"']/g, ch => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[ch]));
+    }
+
+    function formatSpellText(text) {
+        return escapeHtml(text).replace(HIGHLIGHT_RE, '<span class="text-token">$&</span>');
+    }
+
     function renderList() {
         const list = document.getElementById('list');
         const spells = filtered();
@@ -280,8 +663,8 @@
 
             // Ritual / concentration badges
             let badges = '';
-            if (sp.concentration) badges += '<span style="font-size:0.65rem;color:#818cf8">Conc.</span> ';
-            if (sp.ritual)        badges += '<span style="font-size:0.65rem;color:#6b7280">Ritual</span>';
+            if (sp.concentration) badges += '<span class="spell-pill conc">Conc.</span> ';
+            if (sp.ritual)        badges += '<span class="spell-pill ritual">Ritual</span>';
 
             const card = document.createElement('div');
             card.className = 'spell-card';
@@ -304,8 +687,8 @@
                         <div class="stat-cell"><div class="stat-label">Components</div><div class="stat-value">${sp.components}</div></div>
                         <div class="stat-cell"><div class="stat-label">Duration</div><div class="stat-value">${sp.duration}</div></div>
                     </div>
-                    <div class="spell-desc">${sp.desc.replace(/\n/g, '<br><br>')}</div>
-                    ${sp.higherLevel ? `<div class="higher-level"><div class="higher-label">Using a Higher-Level Slot</div>${sp.higherLevel}</div>` : ''}
+                    <div class="spell-desc">${formatSpellText(sp.desc).replace(/\n/g, '<br><br>')}</div>
+                    ${sp.higherLevel ? `<div class="higher-level"><div class="higher-label">Using a Higher-Level Slot</div>${formatSpellText(sp.higherLevel)}</div>` : ''}
                 </div>
             `;
             card.querySelector('.spell-summary').addEventListener('click', () => {
