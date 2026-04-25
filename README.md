@@ -1,8 +1,8 @@
 # D&D Campaign Tools
 
-**Version 26.04.21.1**
+**Version 26.04.25.4**
 
-A collection of browser-based tools for running a D&D 5e campaign. No build step, no dependencies — just static HTML files served directly from Cloudflare.
+A collection of browser-based tools for running a D&D 5e campaign. No framework and no compile step — just static HTML/CSS/JS files served directly from Cloudflare.
 
 ---
 
@@ -28,6 +28,21 @@ dm-screen.html          ← DM Screen (password: "Coachman")
 manifest.json           ← Auto-generated index of notes & images (for DM Screen)
 wrangler.jsonc          ← Cloudflare Workers config
 CLAUDE.md               ← Project instructions for AI assistant context
+css/
+  landing.css           ← Landing page styles
+  campaign-journal.css  ← Campaign Journal styles
+  spell-book.css        ← Spell Book styles
+  dm-console.css        ← DM Screen styles
+js/
+  landing.js            ← Landing page password gates
+  journal-data.js       ← Campaign Journal chapter/entry config
+  campaign-journal.js   ← Campaign Journal unlock/render/viewer logic
+  spells-data.js        ← Spell data
+  spell-book.js         ← Spell Book search/filter/highlighting
+  app.js                ← DM Screen app controller
+  data.js               ← DM Screen campaign data
+  combat.js             ← DM Screen combat tracker
+  markdown.js           ← DM Screen markdown renderer
 images/
   chapter-1/            ← 15 images
   chapter-2/            ← 7 images
@@ -77,13 +92,13 @@ print('manifest.json updated')
 ```
 
 ### Campaign Journal entries
-Edit the `JOURNAL` array in `campaign-journal.html`. Entry flags:
+Edit the `window.JOURNAL` array in `js/journal-data.js`. Entry flags:
 - `autoUnlock: true` — reveals automatically when the chapter password is entered
 - `hidden: true` — shows as "???" until individually unlocked
 - Passwords are case-insensitive
 
 ### Spell Book
-All spell data is embedded in `spell-book.html`. To add level 2 spells when characters reach level 3, ask Claude to query the 5etools database and update the file.
+All spell data is embedded in `js/spells-data.js` as `window.SPELLS`. To add level 2 spells when characters reach level 3, ask Claude to query the 5etools database and update that data file.
 
 ---
 
@@ -120,6 +135,7 @@ git push
 
 | Version | Date | Changes |
 |---|---|---|
+| 26.04.25.4 | 25 Apr 2026 | Refreshed landing page visuals; split Campaign Journal, Spell Book, and landing page into HTML/CSS/JS files |
 | 26.04.21.1 | 21 Apr 2026 | DM Screen: removed dice roller, manual upload, and Rules section; renamed campaign to "Wish"; added Ch.2.5; updated chapter notes |
 | 26.04.17.1 | 17 Apr 2026 | Removed Character Creator; added Spider Merchant shop (33 items, rarity filter, flavour/mechanics split, bolded key terms) |
 | 26.04.10.3 | 10 Apr 2026 | Added version number to landing page |

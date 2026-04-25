@@ -1,201 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" data-font="serif">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>D&D Tools</title>
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f1117;
-            color: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 1.5rem;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            color: #f3f4f6;
-        }
-
-        .tools {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .tool-link {
-            display: block;
-            padding: 1rem 1.25rem;
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 0.625rem;
-            color: #e5e7eb;
-            text-decoration: none;
-            font-size: 1.05rem;
-            font-weight: 500;
-            transition: background 0.15s, border-color 0.15s;
-            cursor: pointer;
-            text-align: left;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .tool-link:hover, .tool-link:active {
-            background: #22253a;
-            border-color: #6366f1;
-        }
-
-        .tool-desc {
-            display: block;
-            margin-top: 0.25rem;
-            font-size: 0.8rem;
-            font-weight: 400;
-            color: #9ca3af;
-        }
-
-        /* Password modal overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            z-index: 100;
-        }
-        .overlay.active { display: flex; }
-
-        .modal {
-            background: #1a1d27;
-            border: 1px solid #2a2d3a;
-            border-radius: 0.75rem;
-            padding: 1.75rem;
-            width: 100%;
-            max-width: 340px;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .modal h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #f3f4f6;
-        }
-
-        .modal p {
-            font-size: 0.85rem;
-            color: #9ca3af;
-            line-height: 1.4;
-        }
-
-        .modal input {
-            width: 100%;
-            padding: 0.65rem 0.85rem;
-            background: #0f1117;
-            border: 1px solid #2a2d3a;
-            border-radius: 0.5rem;
-            color: #e5e7eb;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.15s;
-        }
-        .modal input:focus {
-            border-color: #6366f1;
-        }
-        .modal input.error {
-            border-color: #ef4444;
-            animation: shake 0.35s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-6px); }
-            40%, 80% { transform: translateX(6px); }
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: flex-end;
-        }
-
-        .btn {
-            padding: 0.5rem 1.1rem;
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-        .btn-cancel {
-            background: transparent;
-            color: #9ca3af;
-        }
-        .btn-cancel:hover { color: #e5e7eb; }
-        .btn-submit {
-            background: #6366f1;
-            color: #fff;
-        }
-        .btn-submit:hover { background: #5558e6; }
-
-        .version {
-            position: fixed;
-            bottom: 0.75rem;
-            right: 1rem;
-            font-size: 0.7rem;
-            color: #374151;
-            letter-spacing: 0.03em;
-        }
-    </style>
+    <title>Wish — Campaign Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&display=swap">
+    <link rel="stylesheet" href="css/landing.css">
 </head>
-<body>
-    <div class="container">
-        <h1>D&D Tools</h1>
-        <div class="tools">
+<body data-theme="light">
+    <main class="landing-shell">
+        <header class="topbar">
+            <div class="brand" aria-label="Wish Campaign Tools">
+                <span class="brand-mark">Wish</span>
+                <span class="brand-context">Campaign Tools</span>
+            </div>
+            <span class="sep" aria-hidden="true"></span>
+            <span class="header-title">Tool Index</span>
+        </header>
+
+        <section class="hero" aria-labelledby="page-title">
+            <div class="chapter-label">Campaign Toolkit</div>
+            <h1 id="page-title">Campaign Tools</h1>
+            <p class="intro-copy">Quick references, reveal tools, and DM utilities for play at the table.</p>
+        </section>
+
+        <section class="tools" aria-label="Tools">
             <a href="campaign-journal.html" class="tool-link">
-                Campaign Journal
+                <span class="tool-meta">Players</span>
+                <span class="tool-name">Campaign Journal</span>
                 <span class="tool-desc">Unlock entries as you progress</span>
             </a>
+            <a href="spell-book.html" class="tool-link">
+                <span class="tool-meta">Players</span>
+                <span class="tool-name">Spell Book</span>
+                <span class="tool-desc">Sorcerer and Bard spell reference</span>
+            </a>
             <a href="fast-crafting.html" class="tool-link">
-                Fast Crafting
+                <span class="tool-meta">Players</span>
+                <span class="tool-name">Fast Crafting</span>
                 <span class="tool-desc">Browse items you can craft</span>
             </a>
-            <a href="spell-book.html" class="tool-link">
-                Spell Book
-                <span class="tool-desc">Sorcerer &amp; Bard spells</span>
-            </a>
             <button class="tool-link" id="merchant-btn" type="button">
-                Merchant
-                <span class="tool-desc">Browse the merchant's wares — choose 1</span>
+                <span class="tool-meta locked">Password</span>
+                <span class="tool-name">Merchant</span>
+                <span class="tool-desc">Browse the merchant's wares</span>
             </button>
             <button class="tool-link" id="dm-screen-btn" type="button">
-                DM Screen
+                <span class="tool-meta dm">DM</span>
+                <span class="tool-name">DM Screen</span>
                 <span class="tool-desc">Dungeon Master only</span>
             </button>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <div class="version">v26.04.25.3</div>
+    <div class="version">v26.04.25.4</div>
 
     <div class="overlay" id="overlay">
         <div class="modal">
@@ -220,71 +81,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const overlay = document.getElementById('overlay');
-        const pw = document.getElementById('pw');
-
-        document.getElementById('dm-screen-btn').addEventListener('click', () => {
-            overlay.classList.add('active');
-            pw.value = '';
-            pw.classList.remove('error');
-            setTimeout(() => pw.focus(), 50);
-        });
-
-        document.getElementById('cancel-btn').addEventListener('click', () => {
-            overlay.classList.remove('active');
-        });
-
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) overlay.classList.remove('active');
-        });
-
-        function tryPassword() {
-            if (pw.value.trim().toLowerCase() === 'coachman') {
-                window.location.href = 'dm-screen.html';
-            } else {
-                pw.classList.add('error');
-                setTimeout(() => pw.classList.remove('error'), 400);
-            }
-        }
-
-        document.getElementById('submit-btn').addEventListener('click', tryPassword);
-        pw.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') tryPassword();
-        });
-
-        const merchantOverlay = document.getElementById('merchant-overlay');
-        const merchantPw = document.getElementById('merchant-pw');
-
-        document.getElementById('merchant-btn').addEventListener('click', () => {
-            merchantOverlay.classList.add('active');
-            merchantPw.value = '';
-            merchantPw.classList.remove('error');
-            setTimeout(() => merchantPw.focus(), 50);
-        });
-
-        document.getElementById('merchant-cancel-btn').addEventListener('click', () => {
-            merchantOverlay.classList.remove('active');
-        });
-
-        merchantOverlay.addEventListener('click', (e) => {
-            if (e.target === merchantOverlay) merchantOverlay.classList.remove('active');
-        });
-
-        function tryMerchantPassword() {
-            if (merchantPw.value.trim().toLowerCase() === 'spider') {
-                window.location.href = 'spider-merchant.html';
-            } else {
-                merchantPw.classList.add('error');
-                setTimeout(() => merchantPw.classList.remove('error'), 400);
-            }
-        }
-
-        document.getElementById('merchant-submit-btn').addEventListener('click', tryMerchantPassword);
-        merchantPw.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') tryMerchantPassword();
-        });
-    </script>
+    <script src="js/landing.js"></script>
 </body>
 </html>
