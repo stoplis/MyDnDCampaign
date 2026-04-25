@@ -93,7 +93,7 @@ All spell data is embedded in `spell-book.html`. To add level 2 spells when char
 
 | Setting | Value |
 |---|---|
-| **Build command** | `mkdir -p dist && cp -r *.html *.json *.md images notes dist/` |
+| **Build command** | `mkdir -p dist && cp -r *.html *.json *.md images notes css js dist/` |
 | **Deploy command** | `npx wrangler deploy` |
 | **Path** | `/` |
 
