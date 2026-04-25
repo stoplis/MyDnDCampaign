@@ -91,13 +91,17 @@ All spell data is embedded in `spell-book.html`. To add level 2 spells when char
 
 ### Build settings
 
+In the **Cloudflare Pages dashboard → Settings → Build & deployments**, set:
+
 | Setting | Value |
 |---|---|
-| **Build command** | `mkdir -p dist && cp -r *.html *.json *.md images notes css js dist/` |
+| **Build command** | `bash build.sh` |
 | **Deploy command** | `npx wrangler deploy` |
 | **Path** | `/` |
 
-The `wrangler.jsonc` sets `assets.directory` to `dist`, so `.git` and other non-site files are never deployed.
+`build.sh` (committed to the repo) copies all HTML, JSON, Markdown, images, notes, CSS, and JS into `dist/`. The `wrangler.jsonc` sets `assets.directory` to `dist`, so `.git` and other non-site files are never deployed.
+
+> **Why `build.sh` instead of an inline command?** The DM Screen is a multi-file app (`css/` and `js/` folders). A script in the repo is easier to keep in sync with the file structure than a command typed into the Cloudflare dashboard.
 
 ### Deploying changes
 
