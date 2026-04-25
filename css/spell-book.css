@@ -1,0 +1,506 @@
+:root {
+            --bg: #faf8f4;
+            --surface: #ffffff;
+            --surface-2: #f3f0ea;
+            --ink: #141414;
+            --ink-2: #404040;
+            --ink-3: #6b6b6b;
+            --ink-4: #9a9a9a;
+            --rule: #e6e1d6;
+            --rule-strong: #1a1a1a;
+            --accent: oklch(0.45 0.14 25);
+            --accent-weak: oklch(0.95 0.04 25);
+            --selected-bg: color-mix(in oklch, var(--ink) 7%, var(--surface));
+            --fac-pc: oklch(0.55 0.13 245);
+            --fac-pc-weak: color-mix(in oklch, oklch(0.55 0.13 245) 14%, var(--surface));
+            --fac-ally: oklch(0.52 0.12 155);
+            --fac-ally-weak: color-mix(in oklch, oklch(0.52 0.12 155) 14%, var(--surface));
+            --warn: oklch(0.65 0.14 75);
+            --warn-weak: color-mix(in oklch, oklch(0.65 0.14 75) 14%, var(--surface));
+            --serif: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+            --sans: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+            --mono: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+            --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px;
+            --s6: 24px; --s7: 32px; --s8: 48px; --s9: 64px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; min-height: 100%; }
+        body {
+            font-family: var(--sans);
+            background:
+                linear-gradient(180deg, color-mix(in oklch, var(--surface) 46%, transparent), transparent 360px),
+                var(--bg);
+            color: var(--ink);
+            font-size: 14px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+        button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; padding: 0; }
+        input { font: inherit; color: inherit; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-thumb { background: color-mix(in oklch, var(--ink-4) 40%, transparent); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: var(--s5);
+            min-height: 56px;
+            padding: 0 var(--s6);
+            border-bottom: 1px solid var(--rule);
+            background: color-mix(in oklch, var(--surface) 94%, transparent);
+            backdrop-filter: blur(14px);
+        }
+        .brand {
+            display: flex;
+            align-items: baseline;
+            gap: var(--s2);
+            min-width: 0;
+        }
+        .brand-mark {
+            font-family: var(--serif);
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            white-space: nowrap;
+        }
+        .brand-context {
+            font-family: var(--serif);
+            font-size: 18px;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--ink-3);
+            white-space: nowrap;
+        }
+        .sep {
+            width: 1px;
+            height: 20px;
+            background: var(--rule);
+        }
+        .header-title {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            white-space: nowrap;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 32px;
+            padding: 6px 10px;
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            background: var(--surface);
+            color: var(--ink);
+            font-size: 12.5px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            transition: background 120ms, border-color 120ms;
+        }
+        .back-link:hover {
+            border-color: var(--ink-3);
+            background: var(--surface-2);
+        }
+
+        .spell-intro {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: var(--s8) var(--s7) var(--s6);
+        }
+        .chapter-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            margin-bottom: var(--s2);
+        }
+        h1 {
+            margin: 0;
+            font-family: var(--serif);
+            font-size: clamp(34px, 5vw, 56px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+        }
+        .intro-copy {
+            max-width: 680px;
+            margin: var(--s4) 0 0;
+            color: var(--ink-2);
+            font-size: 16px;
+            line-height: 1.65;
+        }
+
+        .controls {
+            position: sticky;
+            top: 56px;
+            z-index: 15;
+            display: grid;
+            grid-template-columns: minmax(220px, 320px) 1fr;
+            gap: var(--s4);
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: var(--s4) var(--s7);
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            background: color-mix(in oklch, var(--bg) 94%, transparent);
+            backdrop-filter: blur(14px);
+        }
+        .search-bar {
+            width: 100%;
+            height: 40px;
+            padding: 0 var(--s3);
+            background: var(--surface);
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            color: var(--ink);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 120ms, background 120ms;
+        }
+        .search-bar:focus { border-color: var(--accent); background: var(--surface); }
+        .search-bar::placeholder { color: var(--ink-4); font-style: italic; }
+
+        .filter-stack {
+            display: flex;
+            flex-direction: column;
+            gap: var(--s2);
+            min-width: 0;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: var(--s2);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--rule);
+            background: var(--surface);
+            color: var(--ink-3);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            white-space: nowrap;
+            transition: background 120ms, border-color 120ms, color 120ms;
+        }
+        .filter-btn:hover {
+            border-color: var(--ink-3);
+            color: var(--ink);
+            background: var(--surface-2);
+        }
+        .filter-btn.active {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: var(--bg);
+        }
+
+        .school-dot {
+            display: inline-block;
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            margin-right: 5px;
+            flex-shrink: 0;
+        }
+
+        .spell-list {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: var(--s5) var(--s7) var(--s8);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spell-card {
+            background: var(--surface);
+            border-top: 1px solid var(--rule);
+            cursor: pointer;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 120ms, box-shadow 120ms;
+        }
+        .spell-card:last-child { border-bottom: 1px solid var(--rule); }
+        .spell-card:hover {
+            background: var(--surface-2);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        .spell-summary {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            padding: var(--s4) var(--s5);
+            gap: var(--s4);
+        }
+        .spell-level-badge {
+            width: 42px;
+            height: 32px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-3);
+            letter-spacing: 0.06em;
+        }
+        .spell-level-badge.cantrip {
+            color: var(--fac-pc);
+            border-color: color-mix(in oklch, var(--fac-pc) 38%, var(--rule));
+            background: var(--fac-pc-weak);
+        }
+        .spell-level-badge.lv1 {
+            color: var(--fac-ally);
+            border-color: color-mix(in oklch, var(--fac-ally) 42%, var(--rule));
+            background: var(--fac-ally-weak);
+        }
+
+        .spell-info { flex: 1; min-width: 0; }
+        .spell-name {
+            font-family: var(--serif);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            line-height: 1.15;
+        }
+        .spell-sub {
+            font-size: 12px;
+            color: var(--ink-3);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .class-tag {
+            display: inline-flex;
+            align-items: center;
+            min-height: 20px;
+            padding: 2px 7px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .class-tag.sorcerer,
+        .class-tag.both-s {
+            background: var(--fac-pc-weak);
+            border-color: color-mix(in oklch, var(--fac-pc) 38%, var(--rule));
+            color: var(--fac-pc);
+        }
+        .class-tag.bard,
+        .class-tag.both-b {
+            background: var(--fac-ally-weak);
+            border-color: color-mix(in oklch, var(--fac-ally) 42%, var(--rule));
+            color: var(--fac-ally);
+        }
+        .spell-pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 20px;
+            padding: 2px 7px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            color: var(--ink-3);
+            background: var(--bg);
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .spell-pill.conc {
+            color: var(--accent);
+            border-color: color-mix(in oklch, var(--accent) 38%, var(--rule));
+            background: var(--accent-weak);
+        }
+        .spell-pill.ritual {
+            color: var(--warn);
+            border-color: color-mix(in oklch, var(--warn) 42%, var(--rule));
+            background: var(--warn-weak);
+        }
+
+        .spell-chevron {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--rule);
+            border-radius: 4px;
+            color: var(--ink-3);
+            font-size: 12px;
+            line-height: 1;
+            transition: transform 160ms, border-color 120ms, color 120ms;
+            flex-shrink: 0;
+        }
+        .spell-card:hover .spell-chevron {
+            border-color: var(--ink-3);
+            color: var(--ink);
+        }
+        .spell-chevron.open { transform: rotate(90deg); }
+
+        .spell-detail {
+            display: none;
+            padding: 0 var(--s5) var(--s5) 82px;
+            border-top: 1px solid var(--rule);
+            background: var(--surface);
+        }
+        .spell-detail.open { display: block; }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            margin-top: var(--s4);
+            margin-bottom: var(--s5);
+            border: 1px solid var(--rule);
+            background: var(--rule);
+        }
+        @media (min-width: 720px) { .stat-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        .stat-cell {
+            background: var(--bg);
+            padding: 10px 12px;
+            min-width: 0;
+        }
+        .stat-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--ink-4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .stat-value {
+            font-size: 14px;
+            color: var(--ink);
+            font-weight: 600;
+            margin-top: 2px;
+            overflow-wrap: anywhere;
+        }
+
+        .spell-desc {
+            max-width: 840px;
+            font-size: 15px;
+            line-height: 1.68;
+            color: var(--ink-2);
+        }
+        .higher-level {
+            max-width: 840px;
+            margin-top: var(--s5);
+            padding: var(--s3) var(--s5);
+            background: var(--surface-2);
+            border-left: 2px solid var(--accent);
+            font-size: 14px;
+            color: var(--ink-2);
+            line-height: 1.55;
+        }
+        .higher-label {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: 10px;
+            margin-bottom: 4px;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .text-token {
+            display: inline;
+            color: color-mix(in oklch, var(--warn) 72%, var(--ink));
+            font-weight: 700;
+        }
+
+        .no-results {
+            color: var(--ink-3);
+            text-align: center;
+            padding: var(--s8);
+            font-size: 15px;
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            background: var(--surface);
+        }
+
+        .sc-Abjuration    { background: #3b82f6; }
+        .sc-Conjuration   { background: #f59e0b; }
+        .sc-Divination    { background: #8b5cf6; }
+        .sc-Enchantment   { background: #ec4899; }
+        .sc-Evocation     { background: #ef4444; }
+        .sc-Illusion      { background: #06b6d4; }
+        .sc-Necromancy    { background: #22c55e; }
+        .sc-Transmutation { background: #f97316; }
+
+        @media (max-width: 760px) {
+            .header {
+                gap: var(--s3);
+                padding: 0 var(--s4);
+            }
+            .brand {
+                flex-direction: column;
+                gap: 0;
+                line-height: 1.05;
+            }
+            .brand-mark,
+            .brand-context {
+                font-size: 16px;
+            }
+            .sep,
+            .header-title {
+                display: none;
+            }
+            .spell-intro {
+                padding: var(--s7) var(--s5) var(--s5);
+            }
+            h1 { font-size: 38px; }
+            .intro-copy { font-size: 15px; }
+            .controls {
+                position: static;
+                grid-template-columns: 1fr;
+                gap: var(--s3);
+                padding: var(--s4) var(--s5);
+            }
+            .filter-row {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 2px;
+            }
+            .spell-list {
+                padding: var(--s5) var(--s5) var(--s8);
+            }
+            .spell-summary {
+                grid-template-columns: auto minmax(0, 1fr) auto;
+                gap: var(--s3);
+                padding: var(--s4) 0;
+            }
+            .spell-name {
+                font-size: 18px;
+            }
+            .spell-detail {
+                padding: 0 0 var(--s5);
+            }
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }

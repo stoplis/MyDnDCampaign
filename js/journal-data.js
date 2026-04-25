@@ -1,0 +1,83 @@
+window.JOURNAL = [
+        {
+            id: "chapter-1",
+            title: "Chapter 1",
+            password: "krat",
+            entries: [
+                { name: "Town Map",             password: "krat",          image: "images/chapter-1/Town Map.png", autoUnlock: true },
+                { name: "Geppetto",             password: "krat",     image: "images/chapter-1/Geppetto.png", autoUnlock: true },
+                      { name: "The Baker",            password: "baker",        image: "images/chapter-1/The baker.png" },
+                { name: "Poster: The Wandering Circus of Marvels",        password: "centre",       image: "images/chapter-1/Circus Poster.png", hidden: true },
+                { name: "Poster: Missing Girl",       password: "centre",      image: "images/chapter-1/Missing Poster.png", hidden: true },
+                { name: "Poster: Puppet Theatre",               password: "centre",       image: "images/chapter-1/Poster.PNG", hidden: true },
+                { name: "The Banker",           password: "town",      image: "images/chapter-1/The Banker.png", hidden: true },
+                { name: "The Cobbler",          password: "town",      image: "images/chapter-1/The Cobbler.png", hidden: true },
+                { name: "The Flower Seller",    password: "town",       image: "images/chapter-1/The Flower Seller.png", hidden: true },
+                { name: "The Newspaper Seller", password: "town",    image: "images/chapter-1/The newpaper seller.png", hidden: true },
+                { name: "The Police Officer",   password: "town",       image: "images/chapter-1/The Police Officer.png", hidden: true },
+                { name: "The Postwoman",        password: "town",    image: "images/chapter-1/The Postwoman.png", hidden: true },
+                { name: "The Schoolmistress",   password: "town",       image: "images/chapter-1/The Schoolmistress.png", hidden: true },
+                { name: "The Innkeeper",        password: "crawfish",     image: "images/chapter-1/The Innkeeper.png", hidden: true },
+                { name: "Rabbit",               password: "rabbit",       image: "images/chapter-1/Rabbit.png", hidden: true },
+            ]
+        },
+        {
+            id: "chapter-2",
+            title: "Chapter 2",
+            password: "miracles",
+            entries: [
+                { name: "The Camp",             password: "camp",          image: "images/chapter-2/The Camp.PNG", hidden: true },
+                { name: "Dead Weasel",          password: "weasel",        image: "images/chapter-2/Dead Weasel.PNG", hidden: true },
+                { name: "Weasel Note",          password: "note",          image: "images/chapter-2/Weasel Note.PNG", hidden: true },
+                { name: "The Serpent",          password: "serpent",       image: "images/chapter-2/The Serpent.PNG", hidden: true },
+                { name: "Roo",                  password: "roo",           image: "images/chapter-2/Roo.PNG", hidden: true },
+                { name: "The Field of Miracles", password: "field",       image: "images/chapter-2/The Field of Miracles.PNG", hidden: true },
+                { name: "The Fox and the Cat",  password: "fox",           image: "images/chapter-2/The Fox and the Cat.PNG", hidden: true },
+            ]
+        },
+        {
+            id: "chapter-2.5",
+            title: "Chapter 2.5",
+            password: "woods",
+            entries: [
+                { name: "The Spider Merchant",      password: "spider", image: "images/chapter-2-5/Spider Mechant.PNG", hidden: true },
+                { name: "Pooh’s house",             password: "homes",  image: "images/chapter-2-5/Pooh’s house.PNG", hidden: true },
+                { name: "Piglets house",            password: "homes",  image: "images/chapter-2-5/Piglets house.PNG", hidden: true },
+                { name: "Eeyores house",            password: "homes",  image: "images/chapter-2-5/Eeyores house.PNG", hidden: true },
+                { name: "Kangas house",             password: "homes",  image: "images/chapter-2-5/Kangas house.PNG", hidden: true },
+                { name: "Owls house",               password: "homes",  image: "images/chapter-2-5/Owls house.PNG", hidden: true },
+                { name: "Rabbits house - front",    password: "homes",  image: "images/chapter-2-5/Rabbits house - front.PNG", hidden: true },
+                { name: "Rabbits house - garden",   password: "homes",  image: "images/chapter-2-5/Rabbits house - garden.PNG", hidden: true },
+                { name: "Rabbits house - inside",   password: "homes",  image: "images/chapter-2-5/Rabbits house - inside.PNG", hidden: true },
+                { name: "Tiggers house",            password: "homes",  image: "images/chapter-2-5/Tiggers house.PNG", hidden: true },
+            ]
+        },
+        {
+            id: "chapter-3",
+            title: "Chapter 3",
+            password: "theatre123",
+            entries: [
+                { name: "Exterior",     password: "theatre123",    image: "images/chapter-3/Theatre - Exterior.png", autoUnlock: true },
+                { name: "Entrance",     password: "theatre123",    image: "images/chapter-3/Theatre - Entrance.png", autoUnlock: true },
+                      { name: "Box Office",     password: "boxoffice",    image: "images/chapter-3/Box Office.PNG", hidden: true },
+                      { name: "Map",        password: "theatremap",       image: "images/chapter-3/Theatre Map.png", hidden: true },
+                { name: "The Bar",      password: "gin",         image: "images/chapter-3/Theatre - The Bar.png" },
+                      { name: "Bar Tender - Good",        password: "goodbar",       image: "images/chapter-3/Bar Tender Good.PNG", hidden: true },
+                      { name: "Bar Tender - Bad",        password: "barbad",       image: "images/chapter-3/Bar Tender Bad.PNG", hidden: true },
+                      { name: "The Dinning Room",      password: "dinner",         image: "images/chapter-3/Dinning Room.PNG" },
+                      { name: "The Singer",        password: "singer",       image: "images/chapter-3/Singer.PNG", hidden: true },
+                      { name: "The Cleaner",        password: "cleaner",       image: "images/chapter-3/Cleaner.PNG", hidden: true },
+                { name: "Backstage",    password: "backdrop",   image: "images/chapter-3/Theatre - Backstage.png" },
+                      { name: "Music Room",    password: "sheet",   image: "images/chapter-3/Music Room.PNG" },
+                { name: "Workshop",     password: "beds",    image: "images/chapter-3/Theatre - Workshop.png" },
+                      { name: "Stage",        password: "curtains",       image: "images/chapter-3/Theatre - Stage.png" },
+                      { name: "Magnifico",        password: "swan",       image: "images/chapter-3/Magnifico.PNG", hidden: true },
+                { name: "Office",       password: "board",      image: "images/chapter-3/Theatre - Mangiafuoco's Office.png" },
+                { name: "Conspiracy Wall",        password: "board",  image: "images/chapter-3/Consipircy Wall.png", hidden: true },
+                { name: "Poster: The Wandering Circus of Marvels",          password: "board",      image: "images/chapter-3/Circus Poster circled.png", hidden: true },
+                { name: "Poster: Missing Girl",         password: "board",     image: "images/chapter-3/Missing Poster circled.png", hidden: true },
+                { name: "Poster: Freight",         password: "board",     image: "images/chapter-3/Freight Poster.png", hidden: true },
+                { name: "Business Card",          password: "board",        image: "images/chapter-3/Business Card circled.png", hidden: true },
+            ]
+        }
+    ];

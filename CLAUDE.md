@@ -1,7 +1,7 @@
 # D&D Campaign Tools — Project Instructions
 
 ## What this project is
-A set of browser-based tools for running a D&D 5e campaign. Most tools are single-file HTML apps. The DM Screen is a multi-file vanilla JS app. All tools run directly from a static file host with no build step. The project is deployed via Cloudflare Workers at **mydndcampaign.stoplis.workers.dev** and hosted in the GitHub repo **https://github.com/stoplis/MyDnDCampaign.git**.
+A set of browser-based tools for running a D&D 5e campaign. Tools are vanilla HTML/CSS/JS apps with no framework and no build step beyond copying static assets. The DM Screen, Campaign Journal, Spell Book, and landing page are split into HTML entry points plus local `css/` and `js/` assets. The project is deployed via Cloudflare Workers at **mydndcampaign.stoplis.workers.dev** and hosted in the GitHub repo **https://github.com/stoplis/MyDnDCampaign.git**.
 
 The campaign is set in a D&D 5e world inspired by Pinocchio — but the tools must **never reference Pinocchio or campaign spoilers** because players use them too.
 
@@ -38,13 +38,14 @@ Player-facing. Progressive reveal tool — the DM gives out passwords during pla
 - Individual entry passwords unlock specific images
 - Hidden entries (`hidden: true`) show as "???" until unlocked
 - Unlocks persist in localStorage
-- All config (chapters, entries, passwords) is in the `JOURNAL` array near the top of the file
+- All config (chapters, entries, passwords) is in `js/journal-data.js` as `window.JOURNAL`
+- Rendering/unlock logic lives in `js/campaign-journal.js`; styles live in `css/campaign-journal.css`
 
 ### Fast Crafting — `fast-crafting.html`
 Player-facing. Item browser for a player with fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions. No passwords needed.
 
 ### Spell Book — `spell-book.html`
-Player-facing. Searchable spell reference for the Sorcerer and Bard players. Currently shows cantrips and level 1 spells from the 2024 PHB (XPHB). Filterable by class (Sorcerer / Bard / Shared), spell level, and school. Expand to level 2 when characters reach level 3. All spell data is embedded in the file — no external requests needed.
+Player-facing. Searchable spell reference for the Sorcerer and Bard players. Currently shows cantrips and level 1 spells from the 2024 PHB (XPHB). Filterable by class (Sorcerer / Bard / Shared), spell level, and school. Expand to level 2 when characters reach level 3. Spell data lives in `js/spells-data.js` as `window.SPELLS`; rendering/filter/highlight logic lives in `js/spell-book.js`; styles live in `css/spell-book.css`. No external data requests are needed.
 
 ### DM Screen — `dm-screen.html` + `css/` + `js/`
 DM only (password-gated from landing page). A multi-file vanilla JS app (no framework, no build step). Features:
@@ -78,10 +79,18 @@ js/
 
 ```
 index.html                  ← Landing page
+css/landing.css             ← Landing page styles
+js/landing.js               ← Landing page password gates
 character-creator.html      ← Character Creator
 campaign-journal.html       ← Campaign Journal
+css/campaign-journal.css    ← Campaign Journal styles
+js/journal-data.js          ← Campaign Journal chapter/entry config
+js/campaign-journal.js      ← Campaign Journal unlock/render/viewer logic
 fast-crafting.html          ← Fast Crafting
 spell-book.html             ← Spell Book
+css/spell-book.css          ← Spell Book styles
+js/spells-data.js           ← Spell data
+js/spell-book.js            ← Spell Book filtering/rendering/highlighting
 dm-screen.html              ← DM Screen (entry point)
 manifest.json               ← Notes/images index (used by Campaign Journal)
 wrangler.jsonc              ← Cloudflare Workers config (assets directory: dist)
@@ -151,7 +160,7 @@ print('manifest.json updated')
 
 ## Adding new Campaign Journal entries
 
-Edit the `JOURNAL` array in `campaign-journal.html`. Each chapter looks like:
+Edit the `window.JOURNAL` array in `js/journal-data.js`. Each chapter looks like:
 
 ```javascript
 {
@@ -169,4 +178,3 @@ Edit the `JOURNAL` array in `campaign-journal.html`. Each chapter looks like:
 - `autoUnlock: true` — entry unlocks automatically when the chapter is unlocked
 - `hidden: true` — name shows as "???" until unlocked
 - Passwords are case-insensitive
-
