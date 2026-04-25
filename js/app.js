@@ -2,6 +2,7 @@
   const STORAGE_KEY = "wish-dm-console-v2";
   const OLD_KEY = "wish-dm-console-v1";
   const root = document.getElementById("root");
+  const overlayEl = document.getElementById("wish-popover-overlay");
   const d = window.WISH_DATA;
 
   function loadState() {
@@ -105,7 +106,8 @@
     document.body.dataset.theme = "light";
     document.documentElement.dataset.theme = "light";
     document.documentElement.dataset.font = "serif";
-    root.innerHTML = `${renderShell(chapter)}${state.drawerOpen ? renderDrawer(chapter) : ""}${renderPopover()}${state.combat ? WishCombat.renderCombat(state) : '<button class="start-combat-fab btn primary" data-action="start-empty-combat"><span class="dot"></span>Start combat</button>'}`;
+    root.innerHTML = `${renderShell(chapter)}${state.drawerOpen ? renderDrawer(chapter) : ""}${state.combat ? WishCombat.renderCombat(state) : '<button class="start-combat-fab btn primary" data-action="start-empty-combat"><span class="dot"></span>Start combat</button>'}`;
+    overlayEl.innerHTML = renderPopover();
     const preserveNotesScroll = options.preserveNotesScroll !== false;
     if (preserveNotesScroll && previousChapter === state.chapterId && previousScroll !== null) {
       const nextNotes = root.querySelector(".notes-pane");
@@ -204,7 +206,7 @@
     if (p.kind === "pc") body = renderPcPopover(state.party.find((pc) => pc.id === p.key));
     if (p.kind === "enc") body = renderEncounterPreview(p.key);
     if (p.kind === "image") body = `<div class="image-pop"><img src="${esc(d.imageMap[p.key])}" alt="${esc(p.key)}"><div>${esc(p.key)}</div></div>`;
-    return `<div class="popover-backdrop" data-action="close-popover"><div class="popover" onclick="event.stopPropagation()">${body}</div></div>`;
+    return `<div class="popover-backdrop" data-action="close-popover"><div class="popover">${body}</div></div>`;
   }
 
   function renderPcPopover(pc) {
@@ -230,7 +232,8 @@
       round: 1,
       selectedId: null,
       waves: structuredClone(enc?.waves || []),
-      combatants: WishCombat.combatantsFromEncounter(enc, state.party)
+      combatants: WishCombat.combatantsFromEncounter(enc, state.party),
+      quickAddSearch: ""
     };
     state.popover = null;
     render();
@@ -243,7 +246,8 @@
       round: 1,
       selectedId: null,
       waves: [],
-      combatants: state.party.map((pc) => WishCombat.newCombatant({ kind: "pc", pc }))
+      combatants: state.party.map((pc) => WishCombat.newCombatant({ kind: "pc", pc })),
+      quickAddSearch: ""
     };
     render();
   }
@@ -300,6 +304,7 @@
       return;
     }
     if (action === "close-popover") {
+      if (event.target !== el) return;
       state.popover = null;
       render({ preserveNotesScroll: true });
       return;
@@ -310,9 +315,9 @@
     if (action === "round-up") state.combat.round += 1;
     if (action === "round-down") state.combat.round = Math.max(1, state.combat.round - 1);
     if (action === "roll-init") state.combat.combatants = WishCombat.rollInitiative(state.combat.combatants);
-    if (action === "select-combatant") { state.combat.selectedId = el.dataset.id; state.combat.quickAddOpen = false; }
+    if (action === "select-combatant") { state.combat.selectedId = el.dataset.id; state.combat.quickAddOpen = false; state.combat.quickAddSearch = ""; }
     if (action === "remove-combatant") state.combat.combatants = state.combat.combatants.filter((c) => c.id !== el.dataset.id);
-    if (action === "toggle-add-combatant") state.combat.quickAddOpen = !state.combat.quickAddOpen;
+    if (action === "toggle-add-combatant") { state.combat.quickAddOpen = !state.combat.quickAddOpen; state.combat.quickAddSearch = ""; }
     if (action === "add-combatant") {
       if (el.dataset.kind === "pc") {
         const pc = state.party.find((p) => p.id === el.dataset.key);
@@ -373,6 +378,20 @@
     render();
   });
 
+  overlayEl.addEventListener("click", (event) => {
+    const el = event.target.closest("[data-action]");
+    if (!el) return;
+    const action = el.dataset.action;
+    if (action === "close-popover") {
+      if (event.target !== el) return;
+      state.popover = null;
+      render({ preserveNotesScroll: true });
+    }
+    if (action === "deploy-encounter") {
+      startCombatFromEncounter(el.dataset.key);
+    }
+  });
+
   root.addEventListener("input", (event) => {
     const el = event.target.closest("[data-action]");
     if (!el) return;
@@ -390,6 +409,12 @@
       const c = state.combat.combatants.find((x) => x.id === el.dataset.id);
       c.deathSaves = c.deathSaves || { succ: 0, fail: 0 };
       c.deathSaves[el.dataset.field] = Number(el.value) || 0;
+    }
+    if (action === "combat-add-search" && state.combat) {
+      state.combat.quickAddSearch = el.value;
+      render();
+      root.querySelector("[data-action='combat-add-search']")?.focus();
+      return;
     }
     save();
   });

@@ -117,13 +117,16 @@
   function renderQuickAdd(s, chapterId) {
     if (!s.quickAddOpen) return "";
     const data = window.WISH_DATA;
-    const chapter = data.chapters.find((c) => c.id === chapterId);
-    const keys = [...new Set(chapter?.monsters || [])];
-    const creatures = keys.map((key) => ({ key, c: data.characters?.[key] || data.monsters?.[key] })).filter((x) => x.c);
+    const search = (s.quickAddSearch || "").toLowerCase();
+    const allKeys = [...new Set(data.chapters.flatMap((c) => c.monsters || []))];
+    const creatures = allKeys
+      .map((key) => ({ key, c: data.characters?.[key] || data.monsters?.[key] }))
+      .filter((x) => x.c && (!search || x.c.name.toLowerCase().includes(search)));
     return `<div class="context-menu combat-add-menu">
+      <input class="qa-search" type="text" placeholder="Search all creatures…" data-action="combat-add-search" value="${WishMarkdown.escapeHtml(s.quickAddSearch || "")}">
       <div class="qa-group">Players</div>
-      ${data.party.map((pc) => `<button data-action="add-combatant" data-kind="pc" data-key="${pc.id}">${WishMarkdown.escapeHtml(pc.name)} <span class="qa-hint">${WishMarkdown.escapeHtml(pc.class)}</span></button>`).join("")}
-      ${creatures.length ? `<div class="qa-group border-t">Chapter roster</div>${creatures.map(({ key, c }) => `<button data-action="add-combatant" data-kind="creature" data-key="${key}" data-faction="${c.faction || "enemy"}">${WishMarkdown.escapeHtml(c.name)} <span class="qa-hint">${WishMarkdown.escapeHtml(c.cr ? `CR ${c.cr}` : c.role || c.faction || "NPC")}</span></button>`).join("")}` : ""}
+      ${data.party.filter((pc) => !search || pc.name.toLowerCase().includes(search)).map((pc) => `<button data-action="add-combatant" data-kind="pc" data-key="${pc.id}">${WishMarkdown.escapeHtml(pc.name)} <span class="qa-hint">${WishMarkdown.escapeHtml(pc.class)}</span></button>`).join("")}
+      ${creatures.length ? `<div class="qa-group border-t">All creatures</div>${creatures.map(({ key, c }) => `<button data-action="add-combatant" data-kind="creature" data-key="${key}" data-faction="${c.faction || "enemy"}">${WishMarkdown.escapeHtml(c.name)} <span class="qa-hint">${WishMarkdown.escapeHtml(c.cr ? `CR ${c.cr}` : c.role || c.faction || "NPC")}</span></button>`).join("")}` : ""}
     </div>`;
   }
 

@@ -1596,6 +1596,20 @@ body[data-theme="light"] { color-scheme: light; }
   right: 0;
   min-width: 280px;
 }
+.qa-search {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--paper);
+  color: var(--ink-1);
+  margin-bottom: 6px;
+  outline: none;
+}
+.qa-search:focus { border-color: var(--accent); }
 .condition-menu {
   top: calc(100% + 4px);
   left: 0;
