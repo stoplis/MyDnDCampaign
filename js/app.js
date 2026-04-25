@@ -289,7 +289,7 @@
     const el = event.target.closest("[data-action]");
     if (!el) return;
     const action = el.dataset.action;
-    if (["party-input", "scratch", "combat-number", "death-save", "hp-amount", "combat-select"].includes(action)) return;
+    if (["party-input", "scratch", "combat-number", "death-save", "hp-amount", "combat-select", "combat-add-search"].includes(action)) return;
     if (action === "toggle-drawer") state.drawerOpen = !state.drawerOpen;
     if (action === "right-tab") state.rightTab = el.dataset.tab;
     if (action === "close-drawer") {
@@ -411,9 +411,12 @@
       c.deathSaves[el.dataset.field] = Number(el.value) || 0;
     }
     if (action === "combat-add-search" && state.combat) {
+      const selStart = el.selectionStart;
+      const selEnd = el.selectionEnd;
       state.combat.quickAddSearch = el.value;
       render();
-      root.querySelector("[data-action='combat-add-search']")?.focus();
+      const newInput = root.querySelector("[data-action='combat-add-search']");
+      if (newInput) { newInput.focus(); newInput.setSelectionRange(selStart, selEnd); }
       return;
     }
     save();
