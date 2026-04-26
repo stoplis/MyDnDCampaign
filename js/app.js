@@ -197,6 +197,18 @@
     if (partyRail) partyRail.outerHTML = renderParty();
   }
 
+  function updatePartyRowMeters(pc) {
+    const row = root.querySelector(`.party-row[data-key="${CSS.escape(pc.id)}"]`);
+    if (!row) return;
+    const bar = row.querySelector(".hp-bar");
+    const fill = row.querySelector(".hp-bar .fill");
+    if (!bar || !fill) return;
+    const width = Math.max(0, Math.min(100, Math.round((Number(pc.hp) / Math.max(1, Number(pc.hpMax))) * 100)));
+    bar.classList.toggle("warn", hpClass(pc.hp, pc.hpMax) === "warn");
+    bar.classList.toggle("danger", hpClass(pc.hp, pc.hpMax) === "danger");
+    fill.style.width = `${width}%`;
+  }
+
   function renderRightRailOnly() {
     const rightRail = root.querySelector(".right-rail");
     if (rightRail) rightRail.outerHTML = renderRightRail(currentChapter());
@@ -540,6 +552,8 @@
       if (pc) {
         pc[el.dataset.field] = ["hp", "ac"].includes(el.dataset.field) ? Number(el.value) || 0 : el.value;
         syncCombatantsFromParty(pc);
+        updatePartyRowMeters(pc);
+        if (state.combat) renderCombatLayerOnly();
       }
     }
     if (action === "scratch") state.scratch[el.dataset.chapter] = el.value;
