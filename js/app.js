@@ -82,13 +82,24 @@
     return `${m >= 0 ? "+" : ""}${m}`;
   }
 
+  function parseSaves(saves) {
+    const out = {};
+    if (!saves || typeof saves !== "string") return out;
+    for (const part of saves.split(",")) {
+      const m = part.trim().match(/^([A-Za-z]{3})\s*([+-]?\d+)$/);
+      if (m) out[m[1].toUpperCase()] = (m[2].startsWith("-") ? "" : "+") + m[2].replace(/^\+/, "");
+    }
+    return out;
+  }
+
   function statBlock(mon) {
     const abilities = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
+    const saveMap = parseSaves(mon.saves);
     return `<div class="statblock">
       <div class="sb-head"><h2 class="sb-name">${esc(mon.name)}</h2><div class="sb-meta">${esc(mon.size)} ${esc(mon.type)}, ${esc(mon.alignment || "Unaligned")}</div></div>
       <div class="sb-rule-thick"></div>
       <dl class="sb-top-stats"><dt>AC</dt><dd>${mon.ac}</dd><dt>HP</dt><dd>${mon.hp} <span style="color:var(--ink-4)">(${esc(mon.hpFormula || "")})</span></dd><dt>Speed</dt><dd>${esc(mon.speed || "30 ft.")}</dd></dl>
-      <div class="sb-abilities" style="margin-top:var(--s3)"><div class="hdr col0"></div>${abilities.map((a) => `<div class="hdr">${a}</div>`).join("")}<div class="col0">Mod</div>${abilities.map((a) => `<div class="mod-primary">${mod(mon.abilities?.[a])}</div>`).join("")}<div class="col0">Score</div>${abilities.map((a) => `<div class="score-secondary">${mon.abilities?.[a] || 10}</div>`).join("")}</div>
+      <div class="sb-abilities" style="margin-top:var(--s3)"><div class="hdr col0"></div>${abilities.map((a) => `<div class="hdr">${a}</div>`).join("")}<div class="col0">Mod</div>${abilities.map((a) => `<div class="mod-primary">${mod(mon.abilities?.[a])}</div>`).join("")}<div class="col0">Save</div>${abilities.map((a) => `<div class="score-secondary">${saveMap[a] || mod(mon.abilities?.[a])}</div>`).join("")}</div>
       <div class="sb-rule-thin"></div>
       <dl class="sb-attrs">${mon.saves ? `<dt>Saving Throws</dt><dd>${esc(mon.saves)}</dd>` : ""}${mon.skills ? `<dt>Skills</dt><dd>${esc(mon.skills)}</dd>` : ""}${mon.vulnerabilities ? `<dt>Vulnerabilities</dt><dd>${esc(mon.vulnerabilities)}</dd>` : ""}${mon.resistances ? `<dt>Resistances</dt><dd>${esc(mon.resistances)}</dd>` : ""}${mon.immunities ? `<dt>Immunities</dt><dd>${esc(mon.immunities)}</dd>` : ""}<dt>Senses</dt><dd>${esc(mon.senses || "Passive Perception 10")}</dd><dt>Languages</dt><dd>${esc(mon.languages || "—")}</dd><dt>CR</dt><dd>${esc(mon.cr || "0")} (${esc(mon.xp || 0)} XP, PB +${esc(mon.prof || 2)})</dd></dl>
       ${entries("Traits", mon.traits)}${entries("Actions", mon.actions)}${entries("Reactions", mon.reactions)}
@@ -98,6 +109,8 @@
 
   function pcStatBlock(pc) {
     if (!pc) return "<p>No player sheet found.</p>";
+    const abilities = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
+    const { rows, body } = extractPcStats(pc.sheet || "");
     return `<div class="statblock pc-statblock">
       <div class="sb-head"><h2 class="sb-name">${esc(pc.name)}</h2><div class="sb-meta">Level ${pc.level} ${esc(pc.race || "Adventurer")} ${esc(pc.class)} — ${esc(pc.player || "")}</div></div>
       <div class="sb-rule-thick"></div>
@@ -106,12 +119,31 @@
         <dt>HP</dt><dd>${pc.hp} / ${pc.hpMax}</dd>
         <dt>Initiative</dt><dd>${esc(pc.initiative)}</dd>
         <dt>Passive Perception</dt><dd>${pc.passive}</dd>
-        <dt>Saving Throws</dt><dd>${esc(pc.saves || "See sheet")}</dd>
       </dl>
-      <div class="sb-entry pc-guidance">Players roll their own attacks and abilities. Track HP and conditions here.</div>
+      <div class="sb-abilities" style="margin-top:var(--s3)"><div class="hdr col0"></div>${abilities.map((a) => `<div class="hdr">${a}</div>`).join("")}<div class="col0">Mod</div>${abilities.map((a) => `<div class="mod-primary">${esc(rows[a]?.mod || "+0")}</div>`).join("")}<div class="col0">Save</div>${abilities.map((a) => `<div class="score-secondary">${esc(rows[a]?.save || rows[a]?.mod || "+0")}</div>`).join("")}</div>
       <div class="sb-rule-thin"></div>
-      <div class="pc-sheet-body">${WishMarkdown.renderMarkdown(pc.sheet || "")}</div>
+      <div class="pc-sheet-body">${WishMarkdown.renderMarkdown(body)}</div>
     </div>`;
+  }
+
+  function extractPcStats(sheet) {
+    const rows = {};
+    let body = sheet
+      .replace(/^---\n[\s\S]*?\n---\s*\n/, "")
+      .replace(/^\s*#\s+[^\n]*\n/, "");
+    const re = /## Stats\s*\n\s*\|[^\n]*\|\s*\n\s*\|[-:|\s]+\|\s*\n((?:\|[^\n]*\|\s*\n)+)/;
+    const match = body.match(re);
+    if (match) {
+      for (const line of match[1].split("\n")) {
+        const cells = line.split("|").map((s) => s.trim()).filter(Boolean);
+        if (cells.length < 3) continue;
+        const ability = cells[0].replace(/\*\*/g, "").toUpperCase();
+        rows[ability] = { mod: cells[1], save: cells[2] };
+      }
+      body = body.replace(re, "");
+    }
+    body = body.replace(/\n{3,}/g, "\n\n").trim();
+    return { rows, body };
   }
 
   function entry(item) {
