@@ -1,7 +1,7 @@
 # D&D Campaign Tools — Project Instructions
 
 ## What this project is
-A set of browser-based tools for running a D&D 5e campaign. Tools are vanilla HTML/CSS/JS apps with no framework and no build step beyond copying static assets. The DM Screen, Campaign Journal, Spell Book, and landing page are split into HTML entry points plus local `css/` and `js/` assets. The project is deployed via Cloudflare Workers at **mydndcampaign.stoplis.workers.dev** and hosted in the GitHub repo **https://github.com/stoplis/MyDnDCampaign.git**.
+A set of browser-based tools for running a D&D 5e campaign. Tools are vanilla HTML/CSS/JS apps with no framework and no build step beyond copying static assets. The DM Screen, Campaign Journal, Spell Book, Fast Crafting, Spider Merchant, and landing page are split into HTML entry points plus local `css/` and `js/` assets. The project is deployed via Cloudflare Workers at **mydndcampaign.stoplis.workers.dev** and hosted in the GitHub repo **https://github.com/stoplis/MyDnDCampaign.git**.
 
 The campaign is set in a D&D 5e world inspired by Pinocchio — but the tools must **never reference Pinocchio or campaign spoilers** because players use them too.
 
@@ -42,7 +42,10 @@ Player-facing. Progressive reveal tool — the DM gives out passwords during pla
 - Rendering/unlock logic lives in `js/campaign-journal.js`; styles live in `css/campaign-journal.css`
 
 ### Fast Crafting — `fast-crafting.html`
-Player-facing. Item browser for a player with fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions. No passwords needed.
+Player-facing. Searchable item browser for a player with fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions. No passwords needed. Item data lives in `js/fast-crafting-data.js` as `window.FAST_CRAFTING_ITEMS`; rendering/search/filter/detail logic lives in `js/fast-crafting.js`; shared item-browser styles live in `css/item-tools.css`.
+
+### Spider Merchant — `spider-merchant.html`
+Player-facing, password-gated from the landing page. Magic item shop where players browse 33 items, filter by rarity, search text, and choose 1 for free. Item data lives in `js/spider-merchant-data.js` as `window.MERCHANT_ITEMS`; rendering/search/filter/detail logic lives in `js/spider-merchant.js`; shared item-browser styles live in `css/item-tools.css`.
 
 ### Spell Book — `spell-book.html`
 Player-facing. Searchable spell reference for the Sorcerer and Bard players. Currently shows cantrips and level 1 spells from the 2024 PHB (XPHB). Filterable by class (Sorcerer / Bard / Shared), spell level, and school. Expand to level 2 when characters reach level 3. Spell data lives in `js/spells-data.js` as `window.SPELLS`; rendering/filter/highlight logic lives in `js/spell-book.js`; styles live in `css/spell-book.css`. No external data requests are needed.
@@ -87,6 +90,12 @@ css/campaign-journal.css    ← Campaign Journal styles
 js/journal-data.js          ← Campaign Journal chapter/entry config
 js/campaign-journal.js      ← Campaign Journal unlock/render/viewer logic
 fast-crafting.html          ← Fast Crafting
+css/item-tools.css          ← Shared Fast Crafting + Spider Merchant styles
+js/fast-crafting-data.js    ← Fast Crafting item data
+js/fast-crafting.js         ← Fast Crafting search/filter/detail logic
+spider-merchant.html        ← Spider Merchant
+js/spider-merchant-data.js  ← Spider Merchant magic item data
+js/spider-merchant.js       ← Spider Merchant search/filter/detail logic
 spell-book.html             ← Spell Book
 css/spell-book.css          ← Spell Book styles
 js/spells-data.js           ← Spell data

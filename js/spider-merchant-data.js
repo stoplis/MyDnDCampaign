@@ -1,0 +1,299 @@
+window.MERCHANT_ITEMS = [
+            {
+                name: "Alchemist Ring",
+                type: "Ring",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "While attuned to this ring, whenever you drink a healing potion, you regain an additional <strong>1d6 Hit Points</strong>. The bonus applies to any potion that restores Hit Points on drinking — standard Potions of Healing and their greater variants alike. It does not apply to healing received from spells or other sources."
+            },
+            {
+                name: "All or Nothing Coin",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "Before making a roll that would use a d20, you may declare you are using this coin instead of rolling. Flip the coin: Heads — the roll is treated as a <strong>Natural 20</strong> (critical success). Tails — the roll is treated as a <strong>Natural 1</strong> (critical failure). The coin can be used <strong>twice per Short Rest</strong>.\n\nThis coin does not modify your roll — it replaces it entirely. Bonuses, proficiency, and advantage/disadvantage do not apply."
+            },
+            {
+                name: "Arrow of Displacement",
+                type: "Weapon (Arrow)",
+                rarity: "Rare",
+                attunement: false,
+                intendedFor: "Rogue",
+                flavour: "An arrow tipped with a shard of clear quartz crystal that hums faintly when nocked.",
+                mechanics: "When fired and the arrow strikes, the archer is <strong>instantly teleported</strong> to the arrow's landing point. The arrow is not consumed on use — it resets at dawn.\n\nWhen the arrow embeds in a surface — a wall, the ground, a door — the archer teleports to the arrow's location.\n\nWhen the arrow hits a creature, the creature must make a <strong>DC 14 Wisdom saving throw</strong>. On a failed save, the archer and the creature <strong>swap positions</strong> instantly. On a successful save, the swap does not occur — the creature is still struck and takes normal damage. The attack roll to hit is still required against the creature's AC."
+            },
+            {
+                name: "Arrow of Yondu",
+                type: "Weapon (Arrow)",
+                rarity: "Rare",
+                attunement: false,
+                intendedFor: "Bard",
+                flavour: "A gleaming red arrow that floats upright when held aloft, as if eager. It does not require a bow.",
+                mechanics: "Hold the arrow aloft and whistle. No attack roll is made and no bow is required. The arrow launches and passes through a target enemy of your choice within range, automatically dealing <strong>1d6 piercing damage</strong> — ignoring Armor Class.\n\nAfter each strike, roll <strong>d20 + your Wisdom modifier</strong>. On a <strong>15 or higher</strong>, the arrow wheels and drives through another target of your choice, dealing <strong>1d6 piercing damage</strong> again. Repeat after each consecutive hit. Each new target must be a different creature.\n\nOn a roll of <strong>14 or lower</strong>, the arrow returns to your hand and cannot be used again until after a Long Rest."
+            },
+            {
+                name: "Boots of Striding and Springing",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "While you wear these boots, your Speed becomes <strong>30 feet</strong> unless your Speed is already higher, and your Speed is not reduced by carrying excess weight or wearing Heavy Armor.\n\nOnce on each of your turns, you can jump up to <strong>30 feet</strong> by spending only <strong>10 feet</strong> of movement."
+            },
+            {
+                name: "Bracers of the Woodland Hunter",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                flavour: "Worn leather bracers stitched with a pattern of leaves and animal tracks, darkened by long use in the field. While attuned, they hum with a quiet readiness.",
+                mechanics: "<strong>Hunter's Mark</strong> (1/Long Rest). Once per Long Rest, you may cast Hunter's Mark as a 1st-level spell without expending a spell slot. You do not need to be a spellcaster. The spell uses your Wisdom modifier as your spellcasting ability.\n\n<strong>Sure Footing.</strong> Non-magical difficult terrain does not slow your movement — mud, undergrowth, shallow water, loose rock, tangled roots. Magically created difficult terrain still affects you normally."
+            },
+            {
+                name: "Clark's Glasses of Kent",
+                type: "Wondrous Item",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: null,
+                flavour: "An unremarkable pair of thick-framed spectacles that seem impossibly ordinary. No enchantment is visible on them. Nothing about them stands out at all. That's rather the point.",
+                mechanics: "The first time you attune to these glasses, you establish your <strong>alter ego</strong> — a name, a brief backstory, and the persona you project. This choice is permanent for as long as you remain attuned.\n\nWhile wearing the glasses, a subtle magical compulsion affects all creatures that perceive you: they <strong>cannot mentally connect you with your real identity</strong>. To them, you are entirely and completely your alter ego — a different person in every sense.\n\nYou do not physically change. The magic works on the minds of observers, not your appearance. If a creature directly observes you putting the glasses on or taking them off, they experience a moment of magical confusion and genuinely believe one person left and another arrived.\n\nRemoving the glasses while your alter ego is present <strong>instantly ends the effect</strong> on all observers simultaneously. The effect does not protect against creatures with <strong>Truesight</strong>."
+            },
+            {
+                name: "Cloak of Displacement",
+                type: "Wondrous Item",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: null,
+                flavour: "A shimmering cloak that makes you appear to be somewhere slightly different from where you actually stand — like a desert mirage in motion.",
+                mechanics: "While you wear this cloak, it projects an illusion that makes you appear to be standing in a place near your actual location, causing any creature to have <strong>Disadvantage on attack rolls</strong> against you.\n\nThe displacement effect is suppressed whenever you take any damage (until the start of your next turn) or your Speed is 0."
+            },
+            {
+                name: "Decanter of Endless Water",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A stoppered flask that sloshes when shaken.",
+                mechanics: "Take a Magic action to remove the stopper and speak one of three command words. Fresh or salt water (your choice) pours out until the start of your next turn.\n\nFirst word — <strong>1 gallon</strong> of water.\nSecond word — <strong>5 gallons</strong> of water.\nThird word — <strong>30 gallons</strong> as a geyser in a 30-ft. line, 1 ft. wide. One creature of your choice in the line must succeed on a <strong>DC 13 Strength saving throw</strong> or take <strong>1d4 Bludgeoning damage</strong> and fall <strong>Prone</strong>. Alternatively, target one object in the line weighing 200 lb. or less — it is knocked over."
+            },
+            {
+                name: "Dust of Dryness",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "This small packet contains <strong>1d6 + 4 pinches</strong> of dust (roll when found).\n\n<strong>Absorb Water.</strong> Sprinkle a pinch over water to absorb up to a <strong>15-foot Cube</strong> of water into one marble-sized pellet. The pellet weighs nothing and floats where the dust was sprinkled.\n\n<strong>Release Water.</strong> A creature can smash a pellet against a hard surface, shattering it and releasing all absorbed water.\n\n<strong>Damage Water Creatures.</strong> Sprinkle a pinch on a creature within 5 feet that is composed mostly of water (Water Elemental, Water Weird, etc.). That creature makes a <strong>DC 13 Constitution saving throw</strong>, taking <strong>10d6 Necrotic damage</strong> on a failure or half on a success."
+            },
+            {
+                name: "Fan of Gusts",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A delicate folding fan painted with swirling clouds and silver birds. When snapped open with a flourish, a real breeze follows.",
+                mechanics: "Once per day, take a Magic action to snap the fan open and cast the Gust cantrip, choosing one effect at a point within <strong>30 feet</strong>:\n\n<strong>Push</strong> — One Medium or smaller creature must succeed on a <strong>DC 13 Strength saving throw</strong> or be pushed up to 5 feet away.\n<strong>Move Object</strong> — Move one unattended object weighing 5 lbs or less up to 10 feet.\n<strong>Sensory Effect</strong> — Create a harmless air effect such as rustling leaves, slamming shutters, or a rippling cloak.\n\nThe fan resets at dawn."
+            },
+            {
+                name: "Feather Fall Duster",
+                type: "Wand",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A long, fluffy pink feather duster that smells faintly of lavender. The feathers never seem to get dirty, no matter what you dust with them.",
+                mechanics: "The duster has <strong>4 charges</strong> and regains <strong>1d4</strong> expended charges daily at dawn.\n\nWhile holding the duster, you can use your <strong>reaction</strong> to expend 1 charge and cast <strong>Feather Fall</strong>, targeting up to <strong>5 falling creatures</strong> within 60 feet. Each chosen creature's rate of descent slows to <strong>60 feet per round</strong> until the spell ends. A creature that lands before the spell ends takes <strong>no falling damage</strong>."
+            },
+            {
+                name: "Glamoured Studded Leather",
+                type: "Armor (Studded Leather)",
+                rarity: "Rare",
+                attunement: false,
+                intendedFor: "Bard",
+                flavour: "Studded leather armor with an enchantment that lets it appear to be anything you want — from a fine noble's coat to a heavy breastplate.",
+                mechanics: "While wearing this armor, you gain a <strong>+1 bonus to Armor Class</strong> (in addition to the armor's normal AC of 12 + Dex modifier). Total AC: <strong>13 + Dex modifier</strong>.\n\nYou can take a <strong>Bonus Action</strong> to cause the armor to assume the appearance of any normal set of clothing or other kind of armor. You decide what it looks like — including color, style, and accessories — but the armor retains its normal bulk and weight. The illusory appearance lasts until you use this property again or doff the armor."
+            },
+            {
+                name: "Glutton's Fork",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A large, slightly tarnished silver fork with an unusual warmth to the handle. It hums faintly when brought near anything edible — or near anything at all, really.",
+                mechanics: "<strong>Tap and Eat</strong> (1/Day). Tap the fork against any non-magical item that could physically fit in your mouth. The item becomes edible — flavourless but perfectly safe to consume. When you eat it, you regain <strong>2d6 Hit Points</strong>. The item is destroyed in the process.\n\nThe fork cannot be used again until the next dawn."
+            },
+            {
+                name: "Goggles of Night",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "While wearing these dark lenses, you have <strong>Darkvision</strong> out to <strong>60 feet</strong>. If you already have Darkvision, wearing the goggles increases its range by <strong>60 feet</strong>."
+            },
+            {
+                name: "Grease Bottles",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A small sealed bottle filled with a viscous, shimmering liquid that smells faintly of animal fat.",
+                mechanics: "Throw as a ranged weapon attack using Strength or Dexterity. On a hit, the bottle shatters and the contents spread across a <strong>10-foot square</strong> centred on the target point:\n\n• The area becomes <strong>Difficult Terrain</strong> for 1 minute.\n• Each creature in the area when the grease appears must succeed on a <strong>DC 13 Dexterity saving throw</strong> or fall <strong>Prone</strong>.\n• A creature that enters the area or ends its turn there must also save or fall <strong>Prone</strong>.\n\nThis alchemical variety is highly flammable. If set alight, it burns for 1 minute — a creature that enters or starts its turn in the burning grease takes <strong>2d6 fire damage</strong>."
+            },
+            {
+                name: "Hat of Vermin",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "This hat has <strong>3 charges</strong> and regains all expended charges daily at dawn.\n\nWhile holding the hat, take a Magic action to expend 1 charge and summon your choice of <strong>Bat</strong>, <strong>Frog</strong>, or <strong>Rat</strong>. The creature is not under your control and behaves as an ordinary creature of its kind. It disappears after <strong>1 hour</strong> or when it drops to 0 Hit Points."
+            },
+            {
+                name: "Hat of Wizardry",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: true,
+                intendedFor: null,
+                flavour: "A cone-shaped hat adorned with moons and stars.",
+                mechanics: "<strong>Spellcasting Focus.</strong> You can use the hat as a Spellcasting Focus for your Wizard spells.\n\n<strong>Unknown Spell</strong> (1/Long Rest). As a Magic action, attempt to cast a Wizard cantrip you don't know. Make a <strong>DC 10 Intelligence (Arcana)</strong> check — success: the spell is cast; failure: the spell fails and the action is wasted. Either way, this property cannot be used again until after a Long Rest."
+            },
+            {
+                name: "Immovable Rod",
+                type: "Rod",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "This iron rod has a button on one end.",
+                mechanics: "Take a Utilize action to press the button, causing the rod to become <strong>magically fixed in place</strong> — even if it defies gravity. Press again to release it.\n\nThe rod can hold up to <strong>8,000 pounds</strong> of weight. More weight causes the rod to deactivate and fall. A creature can take a Utilize action to make a <strong>DC 30 Strength (Athletics)</strong> check, moving the fixed rod up to 10 feet on a success."
+            },
+            {
+                name: "Jar of Bees",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A glass jar of ordinary, angry bees. The lid is a mesh screen so they can breathe. They are extremely unhappy about this.",
+                mechanics: "As an action, make a ranged attack roll (Dexterity modifier; no proficiency unless proficient with improvised weapons) to throw the jar up to <strong>50 feet</strong>.\n\n<strong>On a Hit</strong> — the jar shatters and affects all creatures within a <strong>5-foot radius</strong>. Each affected creature takes <strong>1d6 piercing damage</strong> and is <strong>Distracted</strong> until the end of its next turn.\n\n<strong>On a Miss</strong> — the jar shatters at your feet. You and all creatures within 5 feet take <strong>1d6 piercing damage</strong> and are <strong>Distracted</strong> until the end of their next turn.\n\nA Distracted creature has <strong>Disadvantage on attack rolls</strong> and Wisdom (Perception) checks. A creature can spend its action to end the condition early."
+            },
+            {
+                name: "Mockingbird Gum",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "Green and blue speckled sticks of chewing gum with a sharp minty smell. The packaging shows a small bird perched mid-song, its beak open wide.",
+                mechanics: "Found in packs of <strong>1d10 sticks</strong>. As an action, eat one stick. For the next <strong>1 hour</strong>, you can <strong>perfectly imitate the voice</strong> of any creature you have heard speak. You can switch between imitated voices freely during this time.\n\nA creature that hears you can detect the imitation by making a <strong>DC 20 Wisdom (Insight)</strong> check. On a success, the creature recognises the voice as an imitation."
+            },
+            {
+                name: "Pole of Collapsing",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                flavour: "An unremarkable 10-foot pole that has one extremely convenient property.",
+                mechanics: "This item functions as a standard 10-foot Pole. While holding it, take a Magic action to:\n\n<strong>Collapse</strong> — the pole folds into a 1-foot-long rod for easy storage. Its weight does not change.\n<strong>Extend</strong> — the rod expands back into a full 10-foot pole.\n\nThe pole extends only as far as the surrounding space allows — it will not push through ceilings or walls."
+            },
+            {
+                name: "Portable Hole",
+                type: "Wondrous Item",
+                rarity: "Rare",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A fine black cloth, soft as silk, folded to the size of a handkerchief. It unfolds into a circular sheet 6 feet in diameter.",
+                mechanics: "Take a Magic action to unfold the cloth and place it on or against a solid surface. It creates an <strong>extradimensional hole 10 feet deep</strong>.\n\nTake a Magic action to fold the cloth — the hole closes. Any creatures or objects inside remain in the extradimensional space. A creature inside can take an action to make a <strong>DC 10 Strength (Athletics)</strong> check; on a success, it forces its way out within 5 feet of the hole's location. A closed hole holds enough air for <strong>1 hour</strong> of breathing, divided by the number of breathing creatures inside.\n\n⚠ <strong>Warning:</strong> Combining this with a Bag of Holding or similar extradimensional item <strong>instantly destroys both items</strong> and opens a one-way gate to the Astral Plane."
+            },
+            {
+                name: "Ring of Recall",
+                type: "Ring",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: "Sorcerer",
+                flavour: "A slender silver ring set with a small, clouded gem that briefly clears when a spell goes wrong. It remembers what was lost.",
+                mechanics: "When you cast a spell using a spell slot and the casting fails, you may use your <strong>Reaction</strong> to <strong>regain the expended spell slot</strong>. The ring cannot be used again until the next Long Rest.\n\nThe ring triggers when a spell slot is expended but the spell does not connect:\n• The spell attack roll <strong>misses</strong>.\n• The target <strong>succeeds on their saving throw</strong> and the spell has no effect on them.\n\nIt does not trigger if an area spell partially lands, if the spell is Counterspelled, or if Concentration is broken after a successful cast."
+            },
+            {
+                name: "Ring of Telekinesis",
+                type: "Ring",
+                rarity: "Very Rare",
+                attunement: true,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "While wearing this ring, you can cast <strong>Telekinesis at will</strong> (no charges, no spell slots). Concentration, up to 10 minutes.\n\nOn cast and as a Magic action on subsequent turns, exert your will on one creature or object within <strong>60 feet</strong>:\n\n<strong>Creature</strong> (Huge or smaller) — The target makes a <strong>Strength saving throw</strong> (DC = your spell save DC). On a failure, you move it up to <strong>30 feet</strong> in any direction and it gains the <strong>Restrained</strong> condition until the end of your next turn.\n\n<strong>Object (unattended)</strong> — You automatically move it up to <strong>30 feet</strong>.\n\n<strong>Object (worn or carried)</strong> — The bearer makes a Strength saving throw. On a failure, you pull the object free and move it up to 30 feet.\n\n<strong>Fine Control</strong> — Manipulate tools, open doors or containers, stow or retrieve items, or pour vials with precise telekinetic grip."
+            },
+            {
+                name: "Ring of the Giantslayer",
+                type: "Ring",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: null,
+                flavour: "A plain, unadorned copper ring — no engravings, no gems, nothing to suggest what it does. It is slightly too cold to the touch regardless of the wearer's body heat.",
+                mechanics: "While attuned to and wearing this ring, you gain the following benefits against any creature of <strong>Large size or larger</strong>:\n\n• <strong>+2 bonus to Armor Class</strong>\n• <strong>+2 bonus to attack rolls</strong>\n\nThese bonuses do not apply against Medium or smaller creatures."
+            },
+            {
+                name: "Rope of Climbing",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A 60-foot length of rope that can hold up to 3,000 pounds.",
+                mechanics: "While holding one end, take a Magic action to command the other end to animate and move toward a destination up to the rope's length away (<strong>10 feet per turn</strong>).\n\nYou can command the rope to:\n<strong>Fasten</strong> — secures itself to an object.\n<strong>Unfasten</strong> — releases from an object.\n<strong>Knot</strong> — knots appear every 1 ft., rope shortens to 50 ft., grants <strong>Advantage on Athletics checks</strong> to climb.\n<strong>Unknot</strong> — removes all knots.\n<strong>Coil</strong> — coils itself for carrying.\n\nRope stats: <strong>AC 20</strong>, <strong>HP 20</strong>, Immunity to Poison and Psychic damage, Regeneration 1 HP every 5 minutes."
+            },
+            {
+                name: "Slippers of Spider Climbing",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "While you wear these light shoes, you can move up, down, and across vertical surfaces and along ceilings, while leaving your hands free. You have a <strong>Climb Speed equal to your Speed</strong>.\n\nThe slippers do not allow movement on <strong>slippery surfaces</strong>, such as those covered by ice or oil."
+            },
+            {
+                name: "Stone of Farspeech",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A smooth, palm-sized stone warm to the touch, faintly iridescent. It pulses gently when its paired stone is nearby. When held and spoken to, the voice carries — to wherever it needs to go.",
+                mechanics: "Stones of Farspeech are made in <strong>matched pairs</strong>. While holding a stone, you can speak into it to send your voice in real time to the holder of the paired stone, <strong>anywhere on the same plane of existence</strong>.\n\nCommunication is <strong>two-way and instantaneous</strong>. There is <strong>no daily limit</strong> on use. Both holders must be actively holding their stone for communication to work.\n\nThe stones do not muffle sound — anyone near a holder can hear the conversation. Communication does not work across planar boundaries. If either stone is destroyed, the other becomes <strong>nonmagical</strong>."
+            },
+            {
+                name: "Tankard of Potent Drink",
+                type: "Wondrous Item",
+                rarity: "Common",
+                attunement: false,
+                intendedFor: null,
+                flavour: "A sturdy, well-worn tankard etched with images of revellers and overflowing cups. It has seen better days, but it never leaks.",
+                mechanics: "When an alcoholic beverage is consumed from this tankard, it is <strong>twice as potent as normal</strong> — intoxication onset faster and effects hit harder.\n\nWhen plain water is consumed from this tankard, the drinker <strong>immediately becomes sober</strong>, removing all effects of intoxication regardless of how much they have drunk."
+            },
+            {
+                name: "Wand of Switcheroo",
+                type: "Wand",
+                rarity: "Rare",
+                attunement: true,
+                intendedFor: null,
+                flavour: "A crooked little wand carved from pale driftwood, with two small copper rings near the tip that seem to trade places whenever you blink.",
+                mechanics: "The wand has <strong>3 charges</strong> and regains <strong>1d3</strong> expended charges daily at dawn.\n\nTake an action to target a creature your size or smaller within <strong>100 feet</strong> and expend 1 charge:\n\n<strong>Willing creature</strong> — You and the creature immediately <strong>swap positions</strong>. No save required.\n<strong>Unwilling creature</strong> — The creature must make a <strong>DC 16 Charisma saving throw</strong>. On a failed save, you swap positions. On a success, nothing happens and the charge is wasted.\n\nThe swap is instantaneous — neither creature provokes opportunity attacks.\n\nIf you expend the last charge, roll a d20. On a <strong>1</strong>, the wand switches places with a random ordinary stick nearby and is <strong>lost forever</strong>."
+            },
+            {
+                name: "Wand of the War Mage",
+                type: "Wand",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: "Sorcerer",
+                flavour: "A simple but elegant wand of dark metal, typically forged for battlemages. It channels offensive magic with greater precision.",
+                mechanics: "While holding this wand, you gain a <strong>+1 bonus to spell attack rolls</strong>. In addition, you <strong>ignore Cover</strong> when making a spell attack roll.\n\nThe bonus applies to every spell attack roll — Fire Bolt, Eldritch Blast, Scorching Ray, Guiding Bolt, etc."
+            },
+            {
+                name: "Winged Boots",
+                type: "Wondrous Item",
+                rarity: "Uncommon",
+                attunement: true,
+                intendedFor: null,
+                flavour: "",
+                mechanics: "These boots have <strong>4 charges</strong> and regain <strong>1d4</strong> expended charges daily at dawn.\n\nWhile wearing the boots, take a Magic action to expend 1 charge, gaining a <strong>Fly Speed of 30 feet</strong> for <strong>1 hour</strong>.\n\nIf you are flying when the duration expires, you descend at a rate of <strong>30 feet per round</strong> until you land."
+            }
+        ];
