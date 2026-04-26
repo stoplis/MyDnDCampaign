@@ -184,6 +184,10 @@
     save();
   }
 
+  function renderPopoverOnly() {
+    overlayEl.innerHTML = renderPopover();
+  }
+
   function renderShell(chapter) {
     return `<div class="app" data-rail="true">
       <header class="topbar">
@@ -351,7 +355,7 @@
     const open = event.target.closest("[data-open]");
     if (open) {
       state.popover = { kind: open.dataset.open, key: open.dataset.key };
-      render({ preserveNotesScroll: true });
+      renderPopoverOnly();
       return;
     }
     const el = event.target.closest("[data-action]");
@@ -368,13 +372,13 @@
     if (action === "reset-state" && confirm("Reset local Wish DM Console saved state?")) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
     if (action === "open-pc") {
       state.popover = { kind: "pc", key: el.dataset.key };
-      render({ preserveNotesScroll: true });
+      renderPopoverOnly();
       return;
     }
     if (action === "close-popover") {
       if (event.target !== el) return;
       state.popover = null;
-      render({ preserveNotesScroll: true });
+      renderPopoverOnly();
       return;
     }
     if (action === "start-empty-combat") startEmptyCombat();
@@ -453,7 +457,7 @@
     if (action === "close-popover") {
       if (event.target !== el) return;
       state.popover = null;
-      render({ preserveNotesScroll: true });
+      renderPopoverOnly();
     }
     if (action === "deploy-encounter") {
       startCombatFromEncounter(el.dataset.key);
