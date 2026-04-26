@@ -2013,17 +2013,24 @@ body[data-theme="light"] { color-scheme: light; }
 .pc-statblock .pc-sheet-body {
   margin-top: var(--s4);
 }
-.pc-statblock .pc-sheet-body > hr:first-child,
-.pc-statblock .pc-sheet-body > hr:first-child + p {
-  display: none;
+.pc-statblock .pc-sheet-body p > strong:first-child {
+  font-weight: 700;
+  font-style: italic;
 }
 .pc-statblock .pc-sheet-body h2 {
   font-family: var(--display-font);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 600;
-  margin: var(--s5) 0 var(--s2);
-  padding-bottom: var(--s2);
+  letter-spacing: -0.01em;
+  margin: var(--s4) 0 var(--s2);
+  padding-bottom: 2px;
   border-bottom: 1px solid var(--rule);
+  color: var(--accent);
+}
+.pc-statblock .pc-sheet-body p,
+.pc-statblock .pc-sheet-body li {
+  font-size: 12.5px;
+  line-height: 1.5;
 }
 .pc-statblock .pc-sheet-body table {
   font-size: 12.5px;
