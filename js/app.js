@@ -188,6 +188,37 @@
     overlayEl.innerHTML = renderPopover();
   }
 
+  function currentChapter() {
+    return d.chapters.find((c) => c.id === state.chapterId) || d.chapters[0];
+  }
+
+  function renderPartyOnly() {
+    const partyRail = root.querySelector(".party-rail");
+    if (partyRail) partyRail.outerHTML = renderParty();
+  }
+
+  function renderRightRailOnly() {
+    const rightRail = root.querySelector(".right-rail");
+    if (rightRail) rightRail.outerHTML = renderRightRail(currentChapter());
+    save();
+  }
+
+  function renderDrawerOnly() {
+    root.querySelector(".drawer-backdrop")?.remove();
+    if (state.drawerOpen) root.insertAdjacentHTML("beforeend", renderDrawer(currentChapter()));
+    save();
+  }
+
+  function renderCombatLayerOnly(options = {}) {
+    d.party = state.party;
+    d.__state = state;
+    if (options.updateParty) renderPartyOnly();
+    root.querySelector(".combat-overlay")?.remove();
+    root.querySelector(".start-combat-fab")?.remove();
+    root.insertAdjacentHTML("beforeend", state.combat ? WishCombat.renderCombat(state) : '<button class="start-combat-fab btn primary" data-action="start-empty-combat"><span class="dot"></span>Start combat</button>');
+    save();
+  }
+
   function renderShell(chapter) {
     return `<div class="app" data-rail="true">
       <header class="topbar">
@@ -307,7 +338,8 @@
       quickAddSearch: ""
     };
     state.popover = null;
-    render();
+    renderPopoverOnly();
+    renderCombatLayerOnly();
   }
 
   function startEmptyCombat() {
@@ -320,7 +352,7 @@
       combatants: state.party.map((pc) => WishCombat.newCombatant({ kind: "pc", pc })),
       quickAddSearch: ""
     };
-    render();
+    renderCombatLayerOnly();
   }
 
   function updateCombatant(id, patch) {
@@ -328,7 +360,7 @@
     if (!c) return;
     Object.assign(c, patch);
     syncPartyFromCombatant(c);
-    render();
+    renderCombatLayerOnly({ updateParty: true });
   }
 
   function syncPartyFromCombatant(c) {
@@ -361,14 +393,35 @@
     if (!el) return;
     const action = el.dataset.action;
     if (["party-input", "scratch", "combat-number", "death-save", "hp-amount", "combat-select", "combat-add-search"].includes(action)) return;
-    if (action === "toggle-drawer") state.drawerOpen = !state.drawerOpen;
-    if (action === "right-tab") state.rightTab = el.dataset.tab;
+    if (action === "toggle-drawer") {
+      state.drawerOpen = !state.drawerOpen;
+      renderDrawerOnly();
+      return;
+    }
+    if (action === "right-tab") {
+      state.rightTab = el.dataset.tab;
+      renderRightRailOnly();
+      return;
+    }
     if (action === "close-drawer") {
       if (el.classList.contains("drawer-backdrop") && event.target !== el) return;
       state.drawerOpen = false;
+      renderDrawerOnly();
+      return;
     }
-    if (action === "pick-chapter") { state.chapterId = el.dataset.key; state.drawerOpen = false; }
-    if (action === "reset-state" && confirm("Reset local Wish DM Console saved state?")) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+    if (action === "pick-chapter") {
+      state.chapterId = el.dataset.key;
+      state.drawerOpen = false;
+      render({ preserveNotesScroll: false });
+      return;
+    }
+    if (action === "reset-state") {
+      if (confirm("Reset local Wish DM Console saved state?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+      return;
+    }
     if (action === "open-pc") {
       state.popover = { kind: "pc", key: el.dataset.key };
       renderPopoverOnly();
@@ -380,9 +433,19 @@
       renderPopoverOnly();
       return;
     }
-    if (action === "start-empty-combat") startEmptyCombat();
-    if (action === "deploy-encounter") startCombatFromEncounter(el.dataset.key);
-    if (action === "close-combat") state.combat = null;
+    if (action === "start-empty-combat") {
+      startEmptyCombat();
+      return;
+    }
+    if (action === "deploy-encounter") {
+      startCombatFromEncounter(el.dataset.key);
+      return;
+    }
+    if (action === "close-combat") {
+      state.combat = null;
+      renderCombatLayerOnly();
+      return;
+    }
     if (action === "round-up") state.combat.round += 1;
     if (action === "round-down") state.combat.round = Math.max(1, state.combat.round - 1);
     if (action === "roll-init") state.combat.combatants = WishCombat.rollInitiative(state.combat.combatants);
@@ -446,7 +509,12 @@
       const mon = d.characters?.[key] || d.monsters?.[key];
       if (mon) state.combat.combatants.push(WishCombat.newCombatant({ kind: "creature", key, monster: mon, faction: mon.faction || "enemy" }));
     }
-    render();
+    const combatRenderActions = new Set(["round-up", "round-down", "roll-init", "select-combatant", "remove-combatant", "toggle-add-combatant", "add-combatant", "set-faction", "toggle-condition-menu", "toggle-condition", "damage", "heal", "full-heal", "adv-state", "spawn-wave", "add-creature"]);
+    if (combatRenderActions.has(action)) {
+      renderCombatLayerOnly({ updateParty: ["damage", "heal", "full-heal"].includes(action) });
+      return;
+    }
+    save();
   });
 
   overlayEl.addEventListener("click", (event) => {
@@ -485,7 +553,7 @@
       const selStart = el.selectionStart;
       const selEnd = el.selectionEnd;
       state.combat.quickAddSearch = el.value;
-      render();
+      renderCombatLayerOnly();
       const newInput = root.querySelector("[data-action='combat-add-search']");
       if (newInput) { newInput.focus(); newInput.setSelectionRange(selStart, selEnd); }
       return;
@@ -522,7 +590,7 @@
     const [moved] = list.splice(from, 1);
     list.splice(to, 0, moved);
     state.dragId = null;
-    render();
+    renderCombatLayerOnly();
   });
 
   render();
