@@ -183,7 +183,7 @@ Hiding under the table, wearing a blue shirt is a small kangaroo joey. He is dir
 > [!success] Password: roo
 > ![[Roo.PNG]]
 
-He nervously stays back, using the table leg as a barrier, until he see rabbit. He rushes past you and hugs rabbit. As he starts weeping softly rabbit says in a warm soothing voice, *“oh Roo”*. He looks to you and says:
+@ally:roo nervously stays back, using the table leg as a barrier, until he see rabbit. He rushes past you and hugs rabbit. As he starts weeping softly rabbit says in a warm soothing voice, *“oh Roo”*. He looks to you and says:
 
 *"He's all right. Go on ahead to the Field — it's at the eastern edge of the Wood, ten minutes along the track. I'll stay with him."*
 
@@ -273,7 +273,7 @@ By the time the air clears, they are gone.
 The Fox does not call anything back over his shoulder. He has already said everything he intended to say.
 
 > [!example] What the Party Learns
-> From the conversation — or from Roo, if they missed it — the players come away with:
+> From the conversation — or from @ally:roo, if they missed it — the players come away with:
 >
 > - **Lampwick was delivered to the Puppet Theatre of Magnifico.** Not taken by force — arranged, paid for, considered by the Fox to have been entirely reasonable.
 > - **Pinocchio overheard the Fox and Cat** discussing Lampwick and the Theatre. He ran east, alone. He is already ahead.
@@ -300,12 +300,12 @@ The Fox does not call anything back over his shoulder. He has already said every
 
 # Wrap-up
 ## Roo's Return
-When the party comes back from the Field, Rabbit is where they left him — with Roo, now settled, eating a biscuit from a tin Rabbit got down from above the cabinets where Roo hadn't been able to reach. He looks up when he hears them coming.
+When the party comes back from the Field, Rabbit is where they left him — with @ally:roo, now settled, eating a biscuit from a tin Rabbit got down from above the cabinets where Roo hadn't been able to reach. He looks up when he hears them coming.
 
-Rabbit sits at the table, checks Roo is OK and straightens up pulling out a notebook, "Go on, tell me what happened..."
+Rabbit sits at the table, checks @ally:roo is OK and straightens up pulling out a notebook, "Go on, tell me what happened..."
 
 > [!example] If the Party Missed Information at the Field
-> If the players did not extract everything they needed from the Fox, Roo has it.
+> If the players did not extract everything they needed from the Fox, @ally:roo has it.
 >
 > He was there. Earlier — before the party arrived — he had followed the sound of voices out of the Wood, the way he follows anything interesting, and then he heard the Fox and Cat talking and went very still in the undergrowth because something about them felt immediately wrong. He stayed hidden and listened until they moved on. Then he went home and cried, because he had been alone a long time and that had frightened him more than anything.
 >
@@ -327,5 +327,5 @@ We see as Pinocchio enters the entrance lobby of Magnifico's Theatre, *"H-Hello?
 %%
 Chapter design added 2026-03-22.
 Cross-reference: [[Pinocchio Research]], [[Winnie the Pooh Research]], [[Story Beats]], [[Base Camp - 100 Acre Wood]]
-Characters: [[Rabbit]], [[The Fox]], [[The Cat]], [[Roo]], [[Pinocchio]], [[Lampwick]]
+Characters: [[Rabbit]], [[The Fox]], [[The Cat]], @ally:roo, [[Pinocchio]], [[Lampwick]]
 %%

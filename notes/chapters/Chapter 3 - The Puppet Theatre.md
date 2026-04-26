@@ -1,19 +1,3 @@
----
-title: Chapter 3 - The Puppet Theatre
-chapter: 3
-tags:
-  - dnd
-  - pinocchio
-  - chapter
-related:
-  - "[[Overview]]"
-  - "[[Chapters/Chapter 1 - Around Town]]"
-  - "[[Chapter 2 - The Field of Miracles]]"
-  - "[[Magnifico]]"
-  - "[[Kanga]]"
-  - "[[Lampwick]]"
-  - "[[Pinocchio]]"
----
 # What Actually Happened
 
 > [!note] What Actually Happened
@@ -149,7 +133,7 @@ On the floor, wedged under the cabinet, a sheet of headed notepaper:
 
 # The Box Office Puppet
 
-The mechanical figure behind the box office glass straightens, tilts her head, and opens the sliding window. She is a woman from the waist up — her hair arranged precisely under a small cap, her face painted with a warm and permanently attentive expression. Her voice, when it comes, is warm and slightly tinny, like music from a music box.
+@ally:box-office-puppet behind the box office glass straightens, tilts her head, and opens the sliding window. She is a woman from the waist up — her hair arranged precisely under a small cap, her face painted with a warm and permanently attentive expression. Her voice, when it comes, is warm and slightly tinny, like music from a music box.
 
 *"Welcome to the Puppet Theatre of Magnifico. How may I assist you today?"*
 
@@ -187,7 +171,7 @@ She will not become hostile. She will not be offended. She will try, sincerely, 
 
 *From the next room: the faint sound of someone humming a tune, slightly off-key.*
 
-> [!example] Bar Tender Mechanic
+> [!example] @npc:bar-tender Mechanic
 > When a player operates the BAR POWER lever, or when general power is restored while they are in the room:
 >
 > **Roll a d20.** DC 10.
@@ -305,12 +289,12 @@ She will not become hostile. She will not be offended. She will try, sincerely, 
 
 *A professional theatre kitchen, now cold. Copper pots. A steel range. Everything professionally arranged, then abandoned mid-service — plates half-finished at the pass, a sauce solidified in its pan, an oven door hanging open. Dusty but in its place.*
 
-*The* Chef stands at the central preparation counter, cleaver in hand, methodically dicing something that was once a vegetable into pieces approximately 2mm wide. He has been doing this since the power came on.
+@enemy:chef-puppet stands at the central preparation counter, cleaver in hand, methodically dicing something that was once a vegetable into pieces approximately 2mm wide. He has been doing this since the power came on.
 
 > [!warning] If Players Enter
-> The Chef turns, assesses them, turns back, and continues. He will not initiate combat unless the players attempt to take anything from the kitchen, or attack him first.
+> @enemy:chef-puppet turns, assesses them, turns back, and continues. He will not initiate combat unless the players attempt to take anything from the kitchen, or attack him first.
 >
-> **The Chef** — uses the Waiter stat block with: ***Cleaver Throw*** replacing Plate Throw. *Ranged Attack:* +4 to hit, range 20/40 ft., 1d6+2 piercing.
+> **@enemy:chef-puppet** — uses the Waiter stat block with a cleaver: ***Cleaver*** replacing Tray Strike and ***Cleaver Throw*** replacing Plate Throw.
 
 ---
 
