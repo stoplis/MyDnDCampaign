@@ -1,6 +1,6 @@
 # D&D Campaign Tools
 
-**Version 26.04.25.4**
+**Version 26.04.26.4**
 
 A collection of browser-based tools for running a D&D 5e campaign. No framework and no compile step — just static HTML/CSS/JS files served directly from Cloudflare.
 
@@ -9,9 +9,9 @@ A collection of browser-based tools for running a D&D 5e campaign. No framework 
 ## Tools
 
 - **Campaign Journal** — Progressive reveal tool. The DM gives out passwords during play to unlock chapter sections and individual entries (character portraits, location images, handouts). Unlocks persist in the browser.
-- **Fast Crafting** — Item browser for a player with the fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions.
+- **Fast Crafting** — Searchable item browser for a player with the fast crafting ability. Lists 21 craftable items (adventuring gear + simple weapons) with full 2024 PHB stats and descriptions.
 - **Spell Book** — Searchable spell reference for the Sorcerer and Bard players. Cantrips and level 1 spells from the 2024 PHB, filterable by class, level, and school.
-- **Spider Merchant** — Password-gated magic item shop. Players browse 33 items (filterable by rarity) and choose 1 for free. Each item shows flavour text separately from mechanics, with key terms bolded.
+- **Spider Merchant** — Password-gated magic item shop. Players browse 33 items (searchable and filterable by rarity) and choose 1 for free. Each item shows flavour text separately from mechanics, with key terms bolded.
 - **DM Screen** — Password-protected DM tool with encounter manager, condition tracker, and document viewer. Chapter notes and images load from the repo automatically via Browse Notes.
 
 ---
@@ -31,12 +31,17 @@ CLAUDE.md               ← Project instructions for AI assistant context
 css/
   landing.css           ← Landing page styles
   campaign-journal.css  ← Campaign Journal styles
+  item-tools.css        ← Shared Fast Crafting + Spider Merchant styles
   spell-book.css        ← Spell Book styles
   dm-console.css        ← DM Screen styles
 js/
   landing.js            ← Landing page password gates
   journal-data.js       ← Campaign Journal chapter/entry config
   campaign-journal.js   ← Campaign Journal unlock/render/viewer logic
+  fast-crafting-data.js ← Fast Crafting item data
+  fast-crafting.js      ← Fast Crafting search/filter/detail logic
+  spider-merchant-data.js ← Spider Merchant magic item data
+  spider-merchant.js    ← Spider Merchant search/filter/detail logic
   spells-data.js        ← Spell data
   spell-book.js         ← Spell Book search/filter/highlighting
   app.js                ← DM Screen app controller
@@ -135,6 +140,7 @@ git push
 
 | Version | Date | Changes |
 |---|---|---|
+| 26.04.26.4 | 26 Apr 2026 | Refreshed Fast Crafting and Spider Merchant visuals; split both into HTML/CSS/JS files with shared item-tool styling |
 | 26.04.25.4 | 25 Apr 2026 | Refreshed landing page visuals; split Campaign Journal, Spell Book, and landing page into HTML/CSS/JS files |
 | 26.04.21.1 | 21 Apr 2026 | DM Screen: removed dice roller, manual upload, and Rules section; renamed campaign to "Wish"; added Ch.2.5; updated chapter notes |
 | 26.04.17.1 | 17 Apr 2026 | Removed Character Creator; added Spider Merchant shop (33 items, rarity filter, flavour/mechanics split, bolded key terms) |
