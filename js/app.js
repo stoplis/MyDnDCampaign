@@ -223,7 +223,6 @@
         <div class="stat-row">
           <div class="stat-cell"><span class="label">AC</span><span class="value">${pc.ac}${pc.acArmoured ? `/${pc.acArmoured}` : ""}</span></div>
           <div class="stat-cell"><span class="label">Passv</span><span class="value">${pc.passive}</span></div>
-          <div class="stat-cell saves-cell"><span class="label">Saves</span><span class="value saves-value">${esc(pc.saves || pc.initiative)}</span></div>
         </div>
       </div>`).join("")}
     </div><div class="party-rail-foot">Click a row for full stats. Click HP to edit.</div></aside>`;

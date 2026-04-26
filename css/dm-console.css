@@ -113,7 +113,7 @@ input, textarea { font: inherit; color: inherit; }
 /* ── App shell ── */
 .app {
   display: grid;
-  grid-template-columns: 360px 1fr 320px;
+  grid-template-columns: 288px 1fr 320px;
   grid-template-rows: 56px 1fr;
   height: 100vh;
   gap: 0;
@@ -266,7 +266,7 @@ input, textarea { font: inherit; color: inherit; }
 .party-row .stat-row {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   margin-top: 2px;
 }
@@ -1275,7 +1275,7 @@ input, textarea { font: inherit; color: inherit; }
 /* DM console split-file refinements */
 :root { --accent: oklch(0.62 0.14 75); --accent-2: oklch(0.72 0.14 75); --accent-weak: oklch(0.95 0.05 75); }
 body[data-theme="light"] { color-scheme: light; }
-.app { grid-template-columns: 360px minmax(0,1fr) 340px; }
+.app { grid-template-columns: 288px minmax(0,1fr) 340px; }
 .start-combat-fab { position: fixed; right: 28px; bottom: 24px; z-index: 20; }
 .party-row { cursor: pointer; }
 .party-row input { cursor: text; }
@@ -1553,14 +1553,7 @@ body[data-theme="light"] { color-scheme: light; }
 .party-row { grid-template-columns: 1fr auto; row-gap: 6px; column-gap: var(--s3); padding-left: var(--s5); }
 .party-row .pc-sub { grid-column: 1 / -1; }
 .party-row .hp-bar { grid-column: 1 / -1; }
-.party-row .stat-row { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); }
-.party-row .saves-cell { grid-column: 3 / span 2; }
-.party-row .saves-value {
-  font-size: 12px;
-  font-family: var(--mono);
-  font-weight: 500;
-  white-space: nowrap;
-}
+.party-row .stat-row { grid-column: 1 / -1; grid-template-columns: repeat(2, 1fr); }
 .party-rail-foot {
   padding: var(--s4) var(--s5);
   margin-top: auto;
