@@ -123,7 +123,7 @@
       .map((key) => ({ key, c: data.characters?.[key] || data.monsters?.[key] }))
       .filter((x) => x.c && (!search || x.c.name.toLowerCase().includes(search)));
     return `<div class="context-menu combat-add-menu">
-      <input class="qa-search" type="text" placeholder="Search all creatures…" data-action="combat-add-search" value="${WishMarkdown.escapeHtml(s.quickAddSearch || "")}">
+      <input class="qa-search" type="search" aria-label="Search combatants" placeholder="Search all creatures…" data-action="combat-add-search" value="${WishMarkdown.escapeHtml(s.quickAddSearch || "")}">
       <div class="qa-group">Players</div>
       ${data.party.filter((pc) => !search || pc.name.toLowerCase().includes(search)).map((pc) => `<button data-action="add-combatant" data-kind="pc" data-key="${pc.id}">${WishMarkdown.escapeHtml(pc.name)} <span class="qa-hint">${WishMarkdown.escapeHtml(pc.class)}</span></button>`).join("")}
       ${creatures.length ? `<div class="qa-group border-t">All creatures</div>${creatures.map(({ key, c }) => `<button data-action="add-combatant" data-kind="creature" data-key="${key}" data-faction="${c.faction || "enemy"}">${WishMarkdown.escapeHtml(c.name)} <span class="qa-hint">${WishMarkdown.escapeHtml(c.cr ? `CR ${c.cr}` : c.role || c.faction || "NPC")}</span></button>`).join("")}` : ""}
@@ -136,10 +136,10 @@
     if (selected && !s.selectedId) s.selectedId = selected.id;
     const rows = s.combatants.map((c) => {
       const pct = Math.max(0, Math.min(100, Math.round((c.hp / Math.max(1, c.hpMax)) * 100)));
-      return `<div class="init-row fac-${c.faction} ${c.id === s.selectedId ? "selected" : ""}" draggable="true" data-id="${c.id}" data-action="select-combatant">
-        <div class="fac-stripe"></div>
-        <div class="handle">⋮⋮</div>
-        <div class="init-value"><input data-action="combat-number" data-field="initiative" data-id="${c.id}" value="${c.initiative}"></div>
+      return `<div class="init-row fac-${c.faction} ${c.id === s.selectedId ? "selected" : ""}" draggable="true" role="group" tabindex="0" aria-current="${c.id === s.selectedId}" aria-label="${WishMarkdown.escapeHtml(c.name)}, initiative ${c.initiative}, ${c.hp} of ${c.hpMax} hit points${c.id === s.selectedId ? ", selected" : ""}. Press Enter for details; Option Arrow keys reorder." data-id="${c.id}" data-action="select-combatant">
+        <div class="fac-stripe" aria-hidden="true"></div>
+        <div class="handle" aria-hidden="true">⋮⋮</div>
+        <div class="init-value"><input type="number" aria-label="${WishMarkdown.escapeHtml(c.name)} initiative" data-action="combat-number" data-field="initiative" data-id="${c.id}" value="${c.initiative}"></div>
         <div class="row-main">
           <div class="name">
             <span>${WishMarkdown.escapeHtml(c.name)}</span>
@@ -158,20 +158,20 @@
 
     return `<div class="combat-overlay">
       <div class="combat-topbar">
-        <button class="combat-exit" data-action="close-combat">← Exit</button>
+        <button class="combat-exit" data-action="close-combat">← End combat</button>
         <h1>Combat Tracker</h1>
-        <div class="round-control"><button data-action="round-down">−</button><strong><span class="round-label">Round</span><span class="round-num">${s.round}</span></strong><button data-action="round-up">+</button></div>
+        <div class="round-control" aria-label="Combat round"><button data-action="round-down" aria-label="Previous round" ${s.round <= 1 ? "disabled" : ""}>−</button><strong><span class="round-label">Round</span><span class="round-num">${s.round}</span></strong><button data-action="round-up" aria-label="Next round">+</button></div>
         <div class="combat-encounter-name">
           ${WishMarkdown.escapeHtml(s.encounterName || "Open Encounter")}
         </div>
         <div class="combat-actions">
           <button class="btn" data-action="roll-init">Roll all initiative</button>
-          <div class="combat-add-wrap"><button class="btn" data-action="toggle-add-combatant">+ Add combatant</button>${renderQuickAdd(s, state.chapterId)}</div>
+          <div class="combat-add-wrap"><button class="btn" data-action="toggle-add-combatant" aria-expanded="${Boolean(s.quickAddOpen)}">+ Add combatant</button>${renderQuickAdd(s, state.chapterId)}</div>
         </div>
       </div>
       ${renderWaves(s)}
       <div class="combat-layout">
-        <section class="combat-list"><div class="combat-list-head"><span>Initiative Order</span><span>${s.combatants.length} creature${s.combatants.length === 1 ? "" : "s"}</span></div>${rows || '<div class="empty-note">No combatants yet.</div>'}<div class="combat-list-foot">Click a row to open details. Drag ⋮⋮ to reorder.</div></section>
+        <section class="combat-list" aria-label="Initiative order"><div class="combat-list-head"><span>Initiative Order</span><span>${s.combatants.length} creature${s.combatants.length === 1 ? "" : "s"}</span></div>${rows || '<div class="empty-note">No combatants yet.</div>'}<div class="combat-list-foot">Choose a row for details. Drag, or use Option + Arrow keys, to reorder.</div></section>
         <section class="combat-detail">${selected ? renderDetail(selected) : '<div class="empty-note">Select a combatant.</div>'}</section>
       </div>
     </div>`;
@@ -196,29 +196,29 @@
     return `<div class="combat-card">
       <div class="combatant-detail-head">
         <div><h2>${WishMarkdown.escapeHtml(c.name)}</h2><div class="tags">${WishMarkdown.escapeHtml(c.subtitle || "")} ${factionChip(c.faction)}</div></div>
-        <button class="combat-remove" data-action="remove-combatant" data-id="${c.id}">Remove</button>
+        <button class="combat-remove" data-action="remove-combatant" data-id="${c.id}" aria-label="Remove ${WishMarkdown.escapeHtml(c.name)} from combat">Remove</button>
       </div>
       <div class="faction-picker">
         <span class="label-cap">Faction</span>
-        ${["pc", "ally", "neutral", "enemy"].map((fac) => `<button class="fac-pick fac-${fac} ${c.faction === fac ? "active" : ""}" data-action="set-faction" data-id="${c.id}" data-faction="${fac}">${fac === "pc" ? "PC" : fac[0].toUpperCase() + fac.slice(1)}</button>`).join("")}
+        ${["pc", "ally", "neutral", "enemy"].map((fac) => `<button class="fac-pick fac-${fac} ${c.faction === fac ? "active" : ""}" aria-pressed="${c.faction === fac}" data-action="set-faction" data-id="${c.id}" data-faction="${fac}">${fac === "pc" ? "PC" : fac[0].toUpperCase() + fac.slice(1)}</button>`).join("")}
       </div>
       <div class="detail-grid">
-        <label>AC <input class="ac-input" data-action="combat-number" data-field="ac" data-id="${c.id}" value="${c.ac}"></label>
-        <label>HP <input class="hp-number-input" data-action="combat-number" data-field="hp" data-id="${c.id}" value="${c.hp}"> / <input class="hp-number-input" data-action="combat-number" data-field="hpMax" data-id="${c.id}" value="${c.hpMax}"></label>
-        <label>Temp <input class="temp-input" data-action="combat-number" data-field="temp" data-id="${c.id}" value="${c.temp || 0}"></label>
+        <label>AC <input type="number" inputmode="numeric" class="ac-input" data-action="combat-number" data-field="ac" data-id="${c.id}" value="${c.ac}"></label>
+        <label>HP <input type="number" inputmode="numeric" min="0" class="hp-number-input" data-action="combat-number" data-field="hp" data-id="${c.id}" value="${c.hp}"> / <input type="number" inputmode="numeric" min="1" aria-label="Maximum hit points" class="hp-number-input" data-action="combat-number" data-field="hpMax" data-id="${c.id}" value="${c.hpMax}"></label>
+        <label>Temp <input type="number" inputmode="numeric" min="0" class="temp-input" data-action="combat-number" data-field="temp" data-id="${c.id}" value="${c.temp || 0}"></label>
       </div>
       <div class="combat-controls">
         <div class="hp-editor">
           <button class="btn sm danger" data-action="damage" data-id="${c.id}">− damage</button>
-          <input data-action="hp-amount" data-id="${c.id}" placeholder="0">
+          <input type="number" inputmode="numeric" min="0" aria-label="Hit point change amount" data-action="hp-amount" data-id="${c.id}" placeholder="0">
           <button class="btn sm" data-action="heal" data-id="${c.id}">+ heal</button>
         </div>
         <button class="btn sm" data-action="full-heal" data-id="${c.id}">Full heal</button>
-        <div class="condition-menu-wrap"><button class="btn sm" data-action="toggle-condition-menu" data-id="${c.id}">+ Condition</button>${renderConditionMenu(c)}</div>
+        <div class="condition-menu-wrap"><button class="btn sm" data-action="toggle-condition-menu" data-id="${c.id}" aria-expanded="${Boolean(window.WISH_DATA?.__state?.combat?.conditionMenuFor === c.id)}">+ Condition</button>${renderConditionMenu(c)}</div>
         <div class="adv-control-wrap">
           <span class="next-roll-label">Next roll</span>
-          <button class="roll-state ${c.advState === "adv" ? "on" : ""}" data-action="adv-state" data-id="${c.id}" data-state="adv">Adv</button>
-          <button class="roll-state ${c.advState === "dis" ? "on" : ""}" data-action="adv-state" data-id="${c.id}" data-state="dis">Dis</button>
+          <button class="roll-state ${c.advState === "adv" ? "on" : ""}" aria-pressed="${c.advState === "adv"}" data-action="adv-state" data-id="${c.id}" data-state="adv">Adv</button>
+          <button class="roll-state ${c.advState === "dis" ? "on" : ""}" aria-pressed="${c.advState === "dis"}" data-action="adv-state" data-id="${c.id}" data-state="dis">Dis</button>
         </div>
       </div>
       ${c.conditions?.length ? `<div class="condition-list selected-conditions">${c.conditions.map((cond) => `<button class="condition-pill on" data-action="toggle-condition" data-id="${c.id}" data-condition="${WishMarkdown.escapeHtml(cond)}">${WishMarkdown.escapeHtml(cond)} ×</button>`).join("")}</div>` : ""}

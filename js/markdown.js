@@ -118,6 +118,18 @@
     abstract: "Overview"
   };
 
+  function renderCalloutTitle(title) {
+    const encounterIndex = title.search(/@(?:enc|encounter):/i);
+    if (encounterIndex === -1) return { className: "", html: inline(title) };
+
+    const label = title.slice(0, encounterIndex).trim();
+    const roster = title.slice(encounterIndex).split(/\s*·\s*/).filter(Boolean);
+    return {
+      className: " has-roster",
+      html: `<span class="callout-title-label">${inline(label)}</span><span class="callout-roster">${roster.map((entry) => inline(entry)).join("")}</span>`
+    };
+  }
+
   function renderBlock(lines) {
     const out = [];
     let i = 0;
@@ -140,7 +152,8 @@
         if (cm) {
           const kind = cm[1].toLowerCase();
           const title = cm[2] || calloutTitle[kind] || kind;
-          out.push(`<div class="callout callout-${escapeHtml(kind)}"><div class="callout-title">${inline(title)}</div><div>${renderBlock(buf.slice(1))}</div></div>`);
+          const renderedTitle = renderCalloutTitle(title);
+          out.push(`<div class="callout callout-${escapeHtml(kind)}"><div class="callout-title${renderedTitle.className}">${renderedTitle.html}</div><div>${renderBlock(buf.slice(1))}</div></div>`);
         } else {
           out.push(`<blockquote>${renderBlock(buf)}</blockquote>`);
         }
