@@ -8,6 +8,10 @@ product
 
 web
 
+## Primary Device
+
+The DM Screen is designed first for an 11-inch M1 iPad Pro in landscape with a Magic Keyboard attached (approximately 1194 × 834 CSS pixels). Its three-column party / notes / reference composition is the canonical layout and must remain intact at that viewport. Portrait, Split View, and phone layouts may adapt structurally, but tablet landscape is not a compressed desktop fallback.
+
 ## Users
 
 Primary: Stephen, the DM, using the DM Screen live at the table to run the session — party HP/AC, chapter notes, bestiary, encounters, and the combat tracker all need to be found fast without breaking flow. Secondary: Stephen's family, the players, using the simpler tools (Campaign Journal, Spell Book, Fast Crafting, Spider Merchant) on their own devices to reference their characters and unlock story content as the DM reveals it — with no explanation needed from Stephen.
@@ -30,7 +34,7 @@ Generic SaaS dashboards — card grids, blue gradients, corporate-tool chrome. B
 
 ## Design Principles
 
-The DM Screen is the north star: it's the primary use of the toolkit, and every other tool (Campaign Journal, Spell Book, Fast Crafting, Spider Merchant, the landing page) inherits its editorial system rather than developing its own look. Gold is the one primary accent, reserved for true accents and selected state — not a wash applied everywhere. Never break the DM's flow: legibility and speed at the table outrank decoration. Family-facing tools stay simple and self-explanatory, with no DM jargon or unlabeled icons. Never leak campaign spoilers — the Pinocchio inspiration and any plot twists — into player-facing surfaces.
+The DM Screen is the north star: it's the primary use of the toolkit, and every other tool (Campaign Journal, Spell Book, Fast Crafting, Spider Merchant, the landing page) inherits its editorial system rather than developing its own look. Gold is the one primary accent, reserved for true accents and selected state — not a wash applied everywhere. The light paper-and-ink theme is the sole supported theme and should be refined rather than multiplied. Avoid thick coloured side borders on callouts, cards, list rows, or alerts; use complete hairline borders, small semantic marks, or background changes instead. Never break the DM's flow: legibility and speed at the table outrank decoration. Family-facing tools stay simple and self-explanatory, with no DM jargon or unlabeled icons. Never leak campaign spoilers — the Pinocchio inspiration and any plot twists — into player-facing surfaces.
 
 ## Accessibility & Inclusion
 

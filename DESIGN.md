@@ -3,16 +3,15 @@ name: Wish — Campaign Tools
 description: An editorial, ink-on-paper toolkit for running a home D&D 5e campaign, led by the DM Screen.
 colors:
   antique-gold: "oklch(0.55 0.15 78)"
-  antique-gold-bright: "oklch(0.72 0.13 78)"
   antique-gold-weak: "oklch(0.95 0.045 78)"
   paper: "#faf8f4"
   surface: "#ffffff"
   surface-raised: "#f3f0ea"
   ink: "#141414"
-  ink-secondary: "#404040"
-  ink-tertiary: "#6b6b6b"
-  ink-faint: "#9a9a9a"
-  rule: "#e6e1d6"
+  ink-secondary: "#3f3d39"
+  ink-tertiary: "#5e5a54"
+  ink-faint: "#706b63"
+  rule: "#e2ddd2"
   rule-strong: "#1a1a1a"
   danger: "oklch(0.55 0.18 25)"
   ok: "oklch(0.55 0.11 150)"
@@ -104,18 +103,18 @@ One correction this pass makes explicit: the accent that was actually implemente
 
 **Key Characteristics:**
 - One serif family (Source Serif 4) does every job — display, body, and label — so hierarchy comes from weight, size, and letter-spacing, never a second typeface.
-- Gold is rare by design: hover states, the combat FAB's pulse, selection outlines, mention chips, callout rules — never a resting button fill or a background wash.
+- Gold is rare by design: hover states, the combat FAB's pulse, selection outlines, mention chips, and small semantic marks — never a resting button fill or a background wash.
 - Flat by default; shadows exist only for things that genuinely float (popovers, the floating action button).
 - Faction colors (player-blue, ally-green, neutral-tan, enemy-red) and semantic states (ok/warn/danger) are a separate palette from the brand accent — combat and bestiary readability never competes with gold for attention.
-- Three built-in themes (light, dark, parchment) share structure; only the neutral ramp and faction saturation shift between them.
+- One light paper-and-ink theme is supported. Theme variants are intentionally excluded so the system can be refined around the actual table environment instead of carrying dormant alternatives.
+- The canonical surface is an 11-inch iPad Pro in landscape (approximately 1194 × 834 CSS pixels); the three-column party / notes / reference layout must remain intact there.
 
 ## 2. Colors: The Ledger Palette
 
 Mostly paper and ink. One warm accent, used with restraint.
 
 ### Primary
-- **Antique Gold** (`oklch(0.55 0.15 78)`, ≈ `#a06200`): the one brand accent. Hover state for the primary button and the floating combat action; the pulsing dot that signals "this is the live action"; focus rings on inputs; selected states (initiative row, condition pill); the leading rule on callouts, secrets, and mentions. Never the resting fill of a button or a large surface area.
-- **Antique Gold — Bright** (`oklch(0.72 0.13 78)`, ≈ `#d19936`): the lifted variant for dark backgrounds. *(Currently the dark theme reuses the light-mode gold value unchanged — see the Dark-Mode Gold Rule below; this is the value it should resolve to.)*
+- **Antique Gold** (`oklch(0.55 0.15 78)`, ≈ `#a06200`): the one brand accent. Hover state for the primary button and the floating combat action; the pulsing dot that signals "this is the live action"; focus rings on inputs; selected states (initiative row, condition pill); and small semantic marks in callouts. Never the resting fill of a button or a large surface area.
 - **Antique Gold — Weak** (`oklch(0.95 0.045 78)`, ≈ `#ffeccd`): background tint only — mention chips, hover fills, condition-pill "on" state. Never used for text.
 
 ### Secondary — Semantic State
@@ -134,14 +133,14 @@ Mostly paper and ink. One warm accent, used with restraint.
 - **Surface** (`#ffffff`): cards, popovers, the topbar — one step brighter than paper so structure reads without a border.
 - **Surface Raised** (`#f3f0ea`): hover fill for rows and secondary buttons.
 - **Ink** (`#141414`): primary text, and the resting fill of the primary button.
-- **Ink Secondary** (`#404040`) / **Ink Tertiary** (`#6b6b6b`) / **Ink Faint** (`#9a9a9a`): body copy, meta text, and placeholder/disabled text, in descending emphasis.
-- **Rule** (`#e6e1d6`): hairline dividers — the system's only default border.
+- **Ink Secondary** (`#3f3d39`) / **Ink Tertiary** (`#5e5a54`) / **Ink Faint** (`#706b63`): body copy, meta text, and placeholder/disabled text, in descending emphasis. Even the faint role remains readable on paper under variable table lighting.
+- **Rule** (`#e2ddd2`): hairline dividers — the system's only default border.
 - **Rule Strong** (`#1a1a1a`): high-contrast borders reserved for emphasis (rare).
 
 ### Named Rules
-**The Reserved Gold Rule.** Gold is not a fill color. It appears on hover, focus, selection, and small marks (dots, chip prefixes, leading rules) — never as the resting background of a button, card, or panel. If gold is covering more than a hairline or a small badge, it's being overused.
+**The Reserved Gold Rule.** Gold is not a fill color. It appears on hover, focus, selection, and small marks (dots and chip prefixes) — never as the resting background of a button, card, or panel. If gold is covering more than a hairline or a small badge, it's being overused.
 
-**The Dark-Mode Gold Rule.** `--accent` must be explicitly overridden per theme, not left to fall through from `:root`. At light-mode gold's exact value, text and hover-state contrast against the dark surface (`#181b20`) lands under 4:1 — below the 4.5:1 body-text floor. The dark theme should set `--accent` to Antique Gold — Bright (`oklch(0.72 0.13 78)`), not inherit the light-mode value.
+**The Complete Border Rule.** Callouts, cards, list rows, and alerts never use a thick coloured border on one side. Use a complete 1px hairline border, a small semantic dot, a full background change, or no container. This keeps the interface editorial and avoids the curved side-stripe treatment associated with generic generated UI.
 
 ## 3. Typography
 
@@ -202,18 +201,29 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 ### Navigation (Topbar)
 - **Style:** surface background, 1px bottom rule, brand mark in display serif (18px, −0.01em) with an italic secondary clause in `--ink-3`. Back-link and chapter-switcher are bordered pill/rect buttons matching the secondary button treatment.
 
+### Callouts
+- **Shape:** sharp 0px corners with a complete 1px `--rule` border; never a rounded card with a thick coloured side border.
+- **Semantic state:** an 8px dot precedes the tracked title. The dot may use gold, danger, warning, or success; the container remains paper and ink.
+
+### Canonical Layout
+- **11-inch iPad Pro landscape:** three columns remain visible—party rail, notes, and chapter references—with the notes pane receiving the flexible width.
+- **Portrait and Split View:** supporting rails may become stacked sections or explicit drawers.
+- **Combat:** initiative and active-combatant detail remain side by side down to narrow tablet widths; only phone-scale layouts stack them.
+
 ### Party Rail HP Bar (signature component)
 6px-tall bar, 2px radius, `--rule` track. The fill is `--ok` (moss) by default, swapping to `--warn` (ochre) or `--danger` (ledger red) by threshold — this is the one place in the system where color carries life-or-death meaning, and it is deliberately kept out of gold's hue family so a glance never confuses "low HP" with "selected" or "important."
 
 ## 6. Do's and Don'ts
 
 ### Do:
-- **Do** treat the DM Screen (`css/dm-console.css`) as the source of truth. Every other tool (Campaign Journal, Spell Book, Fast Crafting, Spider Merchant, the landing page) should inherit its tokens rather than maintaining a parallel copy — currently each ships its own duplicated `:root` block with the same values, which is how the terracotta accent drifted across five files at once.
+- **Do** treat `css/design-tokens.css` as the shared token source of truth and the DM Screen (`css/dm-console.css`) as the component/layout reference. Every other tool should import the shared tokens rather than maintaining a parallel `:root` block.
 - **Do** use Antique Gold (`oklch(0.55 0.15 78)`) as the one primary accent, reserved for hover, focus, selection, and small marks.
 - **Do** keep the system flat by default; add shadow only to elements that float above the page (popovers, the FAB).
 - **Do** build hierarchy with weight, size, tracking, and case within the single Source Serif 4 family.
 - **Do** keep faction and semantic (ok/warn/danger) colors visually distinct from the gold accent — combat/bestiary readability must never compete with brand color.
-- **Do** override `--accent` per theme (light/dark/parchment) rather than letting dark mode inherit an under-contrast value.
+- **Do** maintain the single light paper-and-ink theme; remove dormant theme variants instead of leaving contradictory tokens in the cascade.
+- **Do** preserve the three-column layout at the 11-inch iPad Pro landscape viewport.
+- **Do** use complete hairline borders and small semantic dots for callouts.
 
 ### Don't:
 - **Don't** use the old terracotta/salmon (`oklch(0.45 0.14 25)`, `#932b2a`) as a brand accent anywhere — it is now `--danger` only.
@@ -224,3 +234,5 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Don't** design toward cartoonish or kids'-app styling — overly playful, rounded, illustrated-for-children treatments.
 - **Don't** introduce a second typeface for "UI" or "data" text. Use the label role (uppercase + tracked) instead.
 - **Don't** add rounded corners to popovers/modals — their sharp, printed-page corner is a deliberate departure from the 6px button/input radius.
+- **Don't** use thick coloured side borders on callouts, cards, rows, or alerts.
+- **Don't** add dark or parchment themes unless the product requirements explicitly change.

@@ -65,6 +65,8 @@
   };
   d.party = state.party;
   let renderedChapterId = state.chapterId;
+  let lastPopoverTrigger = null;
+  let toastTimer = null;
 
   function save() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
@@ -76,6 +78,63 @@
   }
 
   function esc(v) { return WishMarkdown.escapeHtml(v); }
+
+  function renderToast() {
+    if (!state.toast) return "";
+    const action = state.toast.action === "restore-combat"
+      ? '<button class="toast-action" data-action="restore-combat">Restore combat</button>'
+      : state.toast.action === "restore-combatant"
+        ? '<button class="toast-action" data-action="restore-combatant">Undo</button>'
+        : "";
+    return `<div class="undo-toast" role="status" aria-live="polite"><span>${esc(state.toast.message)}</span>${action}<button class="toast-dismiss" data-action="dismiss-toast" aria-label="Dismiss notification">×</button></div>`;
+  }
+
+  function renderToastOnly() {
+    root.querySelector(".undo-toast")?.remove();
+    if (state.toast) root.insertAdjacentHTML("beforeend", renderToast());
+  }
+
+  function showToast(toast, timeout = 7000) {
+    state.toast = toast;
+    renderToastOnly();
+    clearTimeout(toastTimer);
+    if (timeout) {
+      toastTimer = setTimeout(() => {
+        state.toast = null;
+        renderToastOnly();
+      }, timeout);
+    }
+  }
+
+  function focusDialog() {
+    requestAnimationFrame(() => overlayEl.querySelector(".popover")?.focus());
+  }
+
+  function trapFocus(event, container) {
+    const focusable = [...container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), summary, [tabindex]:not([tabindex="-1"])')]
+      .filter((element) => !element.hidden && element.getClientRects().length);
+    if (!focusable.length) {
+      event.preventDefault();
+      container.focus?.();
+      return;
+    }
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function closePopover() {
+    state.popover = null;
+    renderPopoverOnly();
+    lastPopoverTrigger?.focus?.();
+    lastPopoverTrigger = null;
+  }
 
   function mod(score) {
     const m = Math.floor(((score || 10) - 10) / 2);
@@ -170,10 +229,7 @@
     d.party = state.party;
     d.__state = state;
     const chapter = d.chapters.find((c) => c.id === state.chapterId) || d.chapters[0];
-    document.body.dataset.theme = "light";
-    document.documentElement.dataset.theme = "light";
-    document.documentElement.dataset.font = "serif";
-    root.innerHTML = `${renderShell(chapter)}${state.drawerOpen ? renderDrawer(chapter) : ""}${state.combat ? WishCombat.renderCombat(state) : '<button class="start-combat-fab btn primary" data-action="start-empty-combat"><span class="dot"></span>Start combat</button>'}`;
+    root.innerHTML = `${renderShell(chapter)}${state.drawerOpen ? renderDrawer(chapter) : ""}${state.combat ? WishCombat.renderCombat(state) : '<button class="start-combat-fab btn primary" data-action="start-empty-combat"><span class="dot" aria-hidden="true"></span>Start combat</button>'}${renderToast()}`;
     overlayEl.innerHTML = renderPopover();
     const preserveNotesScroll = options.preserveNotesScroll !== false;
     if (preserveNotesScroll && previousChapter === state.chapterId && previousScroll !== null) {
@@ -218,6 +274,7 @@
   function renderDrawerOnly() {
     root.querySelector(".drawer-backdrop")?.remove();
     if (state.drawerOpen) root.insertAdjacentHTML("beforeend", renderDrawer(currentChapter()));
+    if (state.drawerOpen) requestAnimationFrame(() => root.querySelector(".chapter-card.active, .chapter-drawer button")?.focus());
     save();
   }
 
@@ -227,25 +284,27 @@
     if (options.updateParty) renderPartyOnly();
     root.querySelector(".combat-overlay")?.remove();
     root.querySelector(".start-combat-fab")?.remove();
-    root.insertAdjacentHTML("beforeend", state.combat ? WishCombat.renderCombat(state) : '<button class="start-combat-fab btn primary" data-action="start-empty-combat"><span class="dot"></span>Start combat</button>');
+    root.insertAdjacentHTML("beforeend", state.combat ? WishCombat.renderCombat(state) : '<button class="start-combat-fab btn primary" data-action="start-empty-combat"><span class="dot" aria-hidden="true"></span>Start combat</button>');
+    renderToastOnly();
     save();
   }
 
   function renderShell(chapter) {
     return `<div class="app" data-rail="true">
       <header class="topbar">
-        <a class="back-link" href="index.html">Back</a>
+        <a class="back-link" href="index.html">All tools</a>
         <span class="brand" style="white-space:nowrap">Wish <em>DM Console</em></span>
         <div class="sep"></div>
-        <button class="chapter-switcher" data-action="toggle-drawer"><span class="num">Ch ${String(chapter.n).padStart(2, "0")}</span><span class="name">${esc(chapter.title)}</span><span class="chev">▾</span></button>
+        <button class="chapter-switcher" data-action="toggle-drawer" aria-haspopup="dialog" aria-expanded="${state.drawerOpen}"><span class="num">Ch ${String(chapter.n).padStart(2, "0")}</span><span class="name">${esc(chapter.title)}</span><span class="chev" aria-hidden="true">▾</span></button>
         <div class="spacer"></div>
-        <button class="btn ghost" data-action="reset-state">Reset saved state</button>
+        <span class="save-status" role="status">Saved on this device</span>
+        <details class="session-menu"><summary class="btn ghost">Session</summary><div class="context-menu session-menu-panel"><button class="danger-action" data-action="reset-state">Reset saved state</button></div></details>
       </header>
       ${renderParty()}
       <main class="notes-pane">
         <div class="chapter-label">Chapter ${String(chapter.n).padStart(2, "0")} · ${esc(chapter.title)}</div>
         ${WishMarkdown.renderMarkdown(d.notes[chapter.id] || `# ${chapter.title}\n\n${chapter.summary}`, { collapseSecrets: true })}
-        <div class="scratchpad"><div class="scratch-head">DM Scratch Notes</div><textarea data-action="scratch" data-chapter="${chapter.id}" placeholder="Private notes for this chapter...">${esc(state.scratch[chapter.id] || "")}</textarea></div>
+        <div class="scratchpad"><label class="scratch-head" for="dm-scratch-${esc(chapter.id)}">DM Scratch Notes</label><textarea id="dm-scratch-${esc(chapter.id)}" data-action="scratch" data-chapter="${chapter.id}" placeholder="Private notes for this chapter...">${esc(state.scratch[chapter.id] || "")}</textarea></div>
       </main>
       ${renderRightRail(chapter)}
     </div>`;
@@ -253,13 +312,13 @@
 
   function renderParty() {
     return `<aside class="party-rail"><div class="rail-header"><span class="title">The Party</span><span class="count">${state.party.length}</span></div><div class="party-table">
-      ${state.party.map((pc) => `<div class="party-row" data-action="open-pc" data-key="${pc.id}">
+      ${state.party.map((pc) => `<div class="party-row">
         <div>
           <button class="pc-name-button pc-name" data-action="open-pc" data-key="${pc.id}">${esc(pc.name)}</button>
           <div class="pc-sub">${esc(pc.race || "Adventurer")} ${esc(pc.class)} · Level ${pc.level} · ${esc(pc.player || "")}</div>
         </div>
         <div class="hp-inline">
-          <input aria-label="${esc(pc.name)} HP" data-action="party-input" data-id="${pc.id}" data-field="hp" value="${pc.hp}">
+          <input type="number" inputmode="numeric" min="0" aria-label="${esc(pc.name)} hit points" data-action="party-input" data-id="${pc.id}" data-field="hp" value="${pc.hp}">
           <span class="max">/ ${pc.hpMax}</span>
         </div>
         <div class="hp-bar ${hpClass(pc.hp, pc.hpMax)}"><div class="fill" style="width:${Math.max(0, Math.min(100, Math.round((Number(pc.hp) / Math.max(1, Number(pc.hpMax))) * 100)))}%"></div></div>
@@ -268,7 +327,7 @@
           <div class="stat-cell"><span class="label">Passv</span><span class="value">${pc.passive}</span></div>
         </div>
       </div>`).join("")}
-    </div><div class="party-rail-foot">Click a row for full stats. Click HP to edit.</div></aside>`;
+    </div><div class="party-rail-foot">Choose a name for the full sheet. HP edits save automatically.</div></aside>`;
   }
 
   function renderRightRail(chapter) {
@@ -282,7 +341,7 @@
     };
     return `<aside class="right-rail">
       <div class="rail-header" style="border-bottom:none;padding-bottom:0"><span class="title">Chapter</span><span class="count">Ch. ${String(chapter.n).padStart(2, "0")}</span></div>
-      <div class="rail-tabs"><button class="${state.rightTab === "encounters" ? "active" : ""}" data-action="right-tab" data-tab="encounters">Encounters (${encounters.length})</button><button class="${state.rightTab === "bestiary" ? "active" : ""}" data-action="right-tab" data-tab="bestiary">Bestiary (${all.length})</button></div>
+      <div class="rail-tabs" role="tablist" aria-label="Chapter references"><button role="tab" aria-selected="${state.rightTab === "encounters"}" class="${state.rightTab === "encounters" ? "active" : ""}" data-action="right-tab" data-tab="encounters">Encounters (${encounters.length})</button><button role="tab" aria-selected="${state.rightTab === "bestiary"}" class="${state.rightTab === "bestiary" ? "active" : ""}" data-action="right-tab" data-tab="bestiary">Bestiary (${all.length})</button></div>
       <div class="rail-body">
         ${state.rightTab === "encounters" ? `<div class="encounters-pane">${encounters.length ? encounters.map(({ key, enc }) => renderEncounterRow(key, enc)).join("") : '<div class="empty-note">No configured encounters yet for this chapter.</div>'}</div>` : ""}
         ${state.rightTab === "bestiary" ? `<div class="bestiary-pane">${["enemy", "npc", "ally"].map((kind) => renderBestiaryGroup(kind, groups[kind])).join("")}</div>` : ""}
@@ -292,12 +351,12 @@
 
   function renderEncounterRow(key, enc) {
     const roster = (enc.monsters || []).map((x) => `${x.count || 1}× ${d.characters?.[x.key]?.name || x.key}`).join(", ");
-    return `<div class="encounter-row"><div class="meta" data-open="enc" data-key="${key}"><span class="name">${esc(enc.name)}</span><span class="mini">${esc(roster)}</span>${enc.waves?.length ? `<span class="mini mono-hint">+${enc.waves.length} wave${enc.waves.length > 1 ? "s" : ""}</span>` : ""}</div><button class="btn sm primary" data-action="deploy-encounter" data-key="${key}">Deploy →</button></div>`;
+    return `<div class="encounter-row"><button class="meta row-open" data-open="enc" data-key="${key}"><span class="name">${esc(enc.name)}</span><span class="mini">${esc(roster)}</span>${enc.waves?.length ? `<span class="mini mono-hint">+${enc.waves.length} wave${enc.waves.length > 1 ? "s" : ""}</span>` : ""}</button><button class="btn sm primary" data-action="deploy-encounter" data-key="${key}">Deploy</button></div>`;
   }
 
   function renderBestiaryGroup(kind, rows) {
     const title = kind === "enemy" ? "Enemies" : kind === "npc" ? "NPCs" : "Allies";
-    return `<div class="bestiary-group"><div class="bestiary-group-title">${title} (${rows.length})</div>${rows.length ? rows.map(([key, c]) => `<div class="monster-row fac-${c.faction}" data-open="creature" data-key="${key}"><div class="fac-stripe"></div><div class="meta"><span class="name">${esc(c.name)} ${chip(c.faction)}</span><span class="tags">${esc(c.size || "Medium")} · ${esc(c.type || c.role)} · HP ${esc(c.hp || "—")} · AC ${esc(c.ac || "—")}</span></div><span class="cr-badge">${c.cr ? `CR ${esc(c.cr)}` : c.role.toUpperCase()}</span></div>`).join("") : '<div class="empty-note">None yet.</div>'}</div>`;
+    return `<div class="bestiary-group"><div class="bestiary-group-title">${title} (${rows.length})</div>${rows.length ? rows.map(([key, c]) => `<button class="monster-row fac-${c.faction}" data-open="creature" data-key="${key}"><span class="fac-marker" aria-hidden="true"></span><span class="meta"><span class="name">${esc(c.name)} ${chip(c.faction)}</span><span class="tags">${esc(c.size || "Medium")} · ${esc(c.type || c.role)} · HP ${esc(c.hp || "—")} · AC ${esc(c.ac || "—")}</span></span><span class="cr-badge">${c.cr ? `CR ${esc(c.cr)}` : c.role.toUpperCase()}</span></button>`).join("") : '<div class="empty-note">None yet.</div>'}</div>`;
   }
 
   function chip(faction) {
@@ -306,7 +365,7 @@
   }
 
   function renderDrawer(chapter) {
-    return `<div class="drawer-backdrop" data-action="close-drawer"><aside class="chapter-drawer"><div class="drawer-head"><h2>Chapters</h2><button class="btn ghost" data-action="close-drawer">Close</button></div>${d.chapters.map((c) => `<button class="chapter-card ${c.id === chapter.id ? "active" : ""}" data-action="pick-chapter" data-key="${c.id}"><span class="num">Chapter ${c.n}</span><strong>${esc(c.title)}</strong><span>${esc(c.summary)}</span></button>`).join("")}</aside></div>`;
+    return `<div class="drawer-backdrop" data-action="close-drawer"><aside class="chapter-drawer" role="dialog" aria-modal="true" aria-labelledby="chapter-drawer-title"><div class="drawer-head"><h2 id="chapter-drawer-title">Choose a chapter</h2><button class="btn ghost" data-action="close-drawer">Close</button></div>${d.chapters.map((c) => `<button class="chapter-card ${c.id === chapter.id ? "active" : ""}" data-action="pick-chapter" data-key="${c.id}" ${c.id === chapter.id ? 'aria-current="page"' : ""}><span class="num">Chapter ${c.n}</span><strong>${esc(c.title)}</strong><span>${esc(c.summary)}</span></button>`).join("")}</aside></div>`;
   }
 
   function renderPopover() {
@@ -320,7 +379,7 @@
     if (p.kind === "pc") body = renderPcPopover(state.party.find((pc) => pc.id === p.key));
     if (p.kind === "enc") body = renderEncounterPreview(p.key);
     if (p.kind === "image") body = `<div class="image-pop"><img src="${esc(d.imageMap[p.key])}" alt="${esc(p.key)}"><div>${esc(p.key)}</div></div>`;
-    return `<div class="popover-backdrop" data-action="close-popover"><div class="popover">${body}</div></div>`;
+    return `<div class="popover-backdrop" data-action="close-popover"><div class="popover" role="dialog" aria-modal="true" aria-label="Reference details" tabindex="-1"><button class="popover-close" data-action="close-popover" aria-label="Close reference">×</button>${body}</div></div>`;
   }
 
   function renderPcPopover(pc) {
@@ -397,8 +456,10 @@
   root.addEventListener("click", (event) => {
     const open = event.target.closest("[data-open]");
     if (open) {
+      lastPopoverTrigger = open;
       state.popover = { kind: open.dataset.open, key: open.dataset.key };
       renderPopoverOnly();
+      focusDialog();
       return;
     }
     const el = event.target.closest("[data-action]");
@@ -428,7 +489,7 @@
       return;
     }
     if (action === "reset-state") {
-      if (confirm("Reset local Wish DM Console saved state?")) {
+      if (confirm("Reset all saved HP, scratch notes, and combat state on this device? This cannot be undone.")) {
         localStorage.removeItem(STORAGE_KEY);
         location.reload();
       }
@@ -440,9 +501,8 @@
       return;
     }
     if (action === "close-popover") {
-      if (event.target !== el) return;
-      state.popover = null;
-      renderPopoverOnly();
+      if (el.classList.contains("popover-backdrop") && event.target !== el) return;
+      closePopover();
       return;
     }
     if (action === "start-empty-combat") {
@@ -454,15 +514,42 @@
       return;
     }
     if (action === "close-combat") {
+      if (!confirm("End this combat and return to chapter notes? You can restore it from the confirmation message.")) return;
+      const previousCombat = structuredClone(state.combat);
       state.combat = null;
       renderCombatLayerOnly();
+      showToast({ message: "Combat ended.", action: "restore-combat", payload: previousCombat }, 10000);
       return;
     }
     if (action === "round-up") state.combat.round += 1;
     if (action === "round-down") state.combat.round = Math.max(1, state.combat.round - 1);
     if (action === "roll-init") state.combat.combatants = WishCombat.rollInitiative(state.combat.combatants);
     if (action === "select-combatant") { state.combat.selectedId = el.dataset.id; state.combat.quickAddOpen = false; state.combat.quickAddSearch = ""; }
-    if (action === "remove-combatant") state.combat.combatants = state.combat.combatants.filter((c) => c.id !== el.dataset.id);
+    if (action === "remove-combatant") {
+      const index = state.combat.combatants.findIndex((c) => c.id === el.dataset.id);
+      if (index >= 0) {
+        const [combatant] = state.combat.combatants.splice(index, 1);
+        showToast({ message: `${combatant.name} removed from combat.`, action: "restore-combatant", payload: { combatant, index } }, 10000);
+      }
+    }
+    if (action === "restore-combat") {
+      state.combat = structuredClone(state.toast?.payload);
+      state.toast = null;
+      render();
+      return;
+    }
+    if (action === "restore-combatant") {
+      const payload = state.toast?.payload;
+      if (state.combat && payload?.combatant) state.combat.combatants.splice(payload.index, 0, payload.combatant);
+      state.toast = null;
+      renderCombatLayerOnly();
+      return;
+    }
+    if (action === "dismiss-toast") {
+      state.toast = null;
+      renderToastOnly();
+      return;
+    }
     if (action === "toggle-add-combatant") { state.combat.quickAddOpen = !state.combat.quickAddOpen; state.combat.quickAddSearch = ""; }
     if (action === "add-combatant") {
       if (el.dataset.kind === "pc") {
@@ -534,9 +621,8 @@
     if (!el) return;
     const action = el.dataset.action;
     if (action === "close-popover") {
-      if (event.target !== el) return;
-      state.popover = null;
-      renderPopoverOnly();
+      if (el.classList.contains("popover-backdrop") && event.target !== el) return;
+      closePopover();
     }
     if (action === "deploy-encounter") {
       startCombatFromEncounter(el.dataset.key);
@@ -605,6 +691,53 @@
     list.splice(to, 0, moved);
     state.dragId = null;
     renderCombatLayerOnly();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Tab") {
+      const activeDialog = overlayEl.querySelector(".popover") || root.querySelector(".chapter-drawer");
+      if (activeDialog) trapFocus(event, activeDialog);
+    }
+
+    if (event.key === "Escape") {
+      if (state.popover) {
+        closePopover();
+        return;
+      }
+      if (state.drawerOpen) {
+        state.drawerOpen = false;
+        renderDrawerOnly();
+        root.querySelector('[data-action="toggle-drawer"]')?.focus();
+        return;
+      }
+      if (state.combat?.quickAddOpen || state.combat?.conditionMenuFor) {
+        state.combat.quickAddOpen = false;
+        state.combat.conditionMenuFor = null;
+        renderCombatLayerOnly();
+      }
+    }
+
+    const row = event.target.closest?.(".init-row");
+    if (!row || event.target !== row || !state.combat) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      state.combat.selectedId = row.dataset.id;
+      renderCombatLayerOnly();
+      root.querySelector(`.init-row[data-id="${CSS.escape(row.dataset.id)}"]`)?.focus();
+      return;
+    }
+    if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+      event.preventDefault();
+      const list = state.combat.combatants;
+      const from = list.findIndex((c) => c.id === row.dataset.id);
+      const to = Math.max(0, Math.min(list.length - 1, from + (event.key === "ArrowUp" ? -1 : 1)));
+      if (from === to) return;
+      const [moved] = list.splice(from, 1);
+      list.splice(to, 0, moved);
+      renderCombatLayerOnly();
+      root.querySelector(`.init-row[data-id="${CSS.escape(row.dataset.id)}"]`)?.focus();
+      showToast({ message: `${moved.name} moved to initiative position ${to + 1}.` }, 4000);
+    }
   });
 
   render();
