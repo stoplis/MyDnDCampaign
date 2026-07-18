@@ -662,9 +662,9 @@ button:disabled {
 
 .notes-pane h1 {
   margin: 0 0 var(--s3);
-  font-size: 34px;
-  font-weight: 650;
-  letter-spacing: -0.02em;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   line-height: 1.08;
 }
 
@@ -837,7 +837,7 @@ button:disabled {
   list-style: none;
   color: var(--accent-hover);
   font-size: 18px;
-  font-weight: 650;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
 }
@@ -1255,9 +1255,15 @@ button:disabled {
 
 .sb-section-head {
   margin: var(--s5) 0 var(--s2);
-  padding-bottom: 5px;
+  padding-bottom: 3px;
   border-bottom: 1px solid var(--rule);
   color: var(--accent-hover);
+  font-family: var(--display-font);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-transform: none;
 }
 
 .sb-entry {
@@ -1309,8 +1315,11 @@ button:disabled {
   margin: var(--s5) 0 var(--s2);
   padding-bottom: 3px;
   border-bottom: 1px solid var(--rule);
-  color: var(--ink);
+  color: var(--accent-hover);
   font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .pc-statblock .pc-sheet-body p,

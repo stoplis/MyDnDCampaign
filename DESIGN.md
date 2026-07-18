@@ -192,6 +192,7 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Background:** surface (`#ffffff`), over a blurred ink-tinted scrim.
 - **Shadow strategy:** see Elevation — the popover shadow is the system's heaviest, by design, since it's the one element meant to feel lifted off the page.
 - **Internal padding:** `--s5 --s6` (20px 24px).
+- **Shared type scale:** player and non-player references use the same 24px name, 13px body/data text, and 16px section headings. Section headings are Antique Gold in both reference types.
 
 ### Inputs / Fields
 - **Style:** 1px `--rule` border (or, for inline edit fields, a transparent bottom border), surface background, no radius beyond the shared 6px where boxed.
