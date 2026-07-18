@@ -140,7 +140,7 @@ Mostly paper and ink. One warm accent, used with restraint.
 ### Named Rules
 **The Reserved Gold Rule.** Gold is not a fill color. It appears on hover, focus, selection, important section-heading text, and small marks (dots and chip prefixes) — never as the resting background of a button, card, or panel. If gold is covering more than a hairline, text, or a small badge, it's being overused.
 
-**The Complete Border Rule.** Callouts, general cards, and alerts never use a decorative thick coloured border on one side. Use a complete 1px hairline border, a small semantic dot, a full background change, or no container. The one exception is the 4px square faction bar built into bestiary and initiative rows: it is data, not decoration, and must run flush from the row's top edge to its bottom edge without rounded corners.
+**The Semantic Bar Rule.** Central note callouts, bestiary rows, and initiative rows use a 4px semantic bar flush with their left edge. Callout bars communicate note type; row bars communicate faction. The card and the bar stay square, the bar runs from top edge to bottom edge, and no curved or rounded side stripe is used elsewhere as decoration.
 
 ## 3. Typography
 
@@ -202,8 +202,8 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Style:** surface background, 1px bottom rule, brand mark in display serif (18px, −0.01em) with an italic secondary clause in `--ink-3`. Back-link and chapter-switcher are bordered pill/rect buttons matching the secondary button treatment.
 
 ### Callouts
-- **Shape:** sharp 0px corners with a complete 1px `--rule` border; never a rounded card with a thick coloured side border.
-- **Semantic state:** an 8px dot precedes the tracked title. The dot may use gold, danger, warning, or success; the container remains paper and ink.
+- **Shape:** sharp 0px corners with a complete 1px `--rule` border and a straight 4px semantic bar inside the left edge.
+- **Semantic state:** the full-height bar may use gold, danger, warning, or success; the container remains paper and ink. Encounter titles place their roster in a dedicated wrapping row so mention chips never overflow or stack internally.
 
 ### Canonical Layout
 - **11-inch iPad Pro landscape:** three columns remain visible—party rail, notes, and chapter references—with the notes pane receiving the flexible width.
@@ -221,7 +221,7 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Do** keep the system flat by default; add shadow only to elements that float above the page (popovers, the FAB).
 - **Do** build hierarchy with weight, size, tracking, and case within the single Source Serif 4 family.
 - **Do** keep faction and semantic (ok/warn/danger) colors visually distinct from the gold accent — combat/bestiary readability must never compete with brand color.
-- **Do** use the 4px square faction bar on bestiary and initiative rows; keep generic cards and callouts free of decorative side stripes.
+- **Do** use the 4px square semantic bar on central callouts, bestiary rows, and initiative rows; keep other cards free of decorative side stripes.
 - **Do** maintain the single light paper-and-ink theme; remove dormant theme variants instead of leaving contradictory tokens in the cascade.
 - **Do** preserve the three-column layout at the 11-inch iPad Pro landscape viewport.
 - **Do** use complete hairline borders and small semantic dots for callouts.
@@ -235,5 +235,5 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Don't** design toward cartoonish or kids'-app styling — overly playful, rounded, illustrated-for-children treatments.
 - **Don't** introduce a second typeface for "UI" or "data" text. Use the label role (uppercase + tracked) instead.
 - **Don't** add rounded corners to popovers/modals — their sharp, printed-page corner is a deliberate departure from the 6px button/input radius.
-- **Don't** use thick coloured side borders as decoration on callouts, general cards, or alerts; the documented bestiary/initiative faction bar is the only exception.
+- **Don't** use curved, rounded, or decorative side stripes; only the documented square semantic bars are allowed.
 - **Don't** add dark or parchment themes unless the product requirements explicitly change.
