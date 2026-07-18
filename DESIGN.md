@@ -156,6 +156,7 @@ Mostly paper and ink. One warm accent, used with restraint.
 - **Title** (600, 15px, −0.01em): party member names, row titles.
 - **Body** (400, 14px, line-height 1.5): chapter notes, statblock prose. Cap prose measure at 65–75ch inside the notes pane.
 - **Label** (500, 10–13px, letter-spacing 0.09–0.12em, uppercase): rail-header titles, callout titles, mono-hint meta, scratchpad head. This is the system's substitute for a monospace/UI face — tracking and case do the differentiation work a second typeface would normally do.
+- **Notes hierarchy:** chapter H1s use 28px/600 rather than a heavy display weight; “What Actually Happened” uses 18px/600 in Antique Gold. Both should feel editorial and calm, never like oversized promotional headings.
 
 ### Named Rules
 **The One Voice Rule.** `--serif`, `--sans`, and `--mono` all resolve to Source Serif 4. Do not introduce a second family for "UI" or "data" text — build hierarchy with weight, size, tracking, and case instead. If a screen needs a face to feel more "technical," reach for uppercase + letter-spacing on the label role, not a new font.
@@ -182,6 +183,7 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Secondary (`.btn`):** 1px `--rule` border, surface background, ink text. Hover raises the border to `--ink-3` and fills with `--surface-raised`.
 - **Ghost (`.btn.ghost`):** transparent border at rest, `--rule` border on hover — for the lowest-emphasis actions (icon buttons, inline toggles).
 - **Danger (`.btn.danger`):** ink text swapped for `--danger`, border tinted toward danger — reserved for destructive actions, and the only button variant allowed to use a semantic color instead of ink/gold.
+- **Start Combat:** the floating primary action retains its visible 1.8s pulse. Its dot and ring are Antique Gold at rest, then become white on hover so the motion remains legible against the gold button state. Reduced-motion preferences suppress the pulse.
 
 ### Chips / Pills
 - **Mention chip:** pill radius (999px), `--rule` border, Antique Gold — Weak background, ink text; an uppercase gold-colored prefix label inside. Hover deepens the border to full gold.
@@ -206,10 +208,15 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Shape:** sharp 0px corners with a complete 1px `--rule` border and a straight 4px semantic bar inside the left edge.
 - **Semantic state:** the full-height bar may use gold, danger, warning, or success; the container remains paper and ink. Encounter titles place their roster in a dedicated wrapping row so mention chips never overflow or stack internally.
 
+### Interaction Targets
+- **Party rail:** the whole party row is clickable/tappable to open the character reference, not only the character name. Inline HP fields retain their own editing interaction and must not trigger the reference.
+- **Reference consistency:** player and non-player references share the same typography and Antique Gold section-heading treatment; differences communicate content type, not a separate visual system.
+
 ### Canonical Layout
 - **11-inch iPad Pro landscape:** three columns remain visible—party rail, notes, and chapter references—with the notes pane receiving the flexible width.
+- **Desktop:** the notes column expands with available space instead of remaining a narrow centered strip. Its content may grow to 1080px, while prose elements keep a readable measure and wider media/callouts can use the additional room.
 - **Portrait and Split View:** supporting rails may become stacked sections or explicit drawers.
-- **Combat:** initiative and active-combatant detail remain side by side down to narrow tablet widths; only phone-scale layouts stack them.
+- **Combat:** initiative and active-combatant detail remain side by side down to narrow tablet widths; only phone-scale layouts stack them. Initiative cards stay square and use a faction bar that runs the full card height.
 
 ### Party Rail HP Bar (signature component)
 6px-tall bar, 2px radius, `--rule` track. The fill is `--ok` (moss) by default, swapping to `--warn` (ochre) or `--danger` (ledger red) by threshold — this is the one place in the system where color carries life-or-death meaning, and it is deliberately kept out of gold's hue family so a glance never confuses "low HP" with "selected" or "important."
@@ -225,7 +232,7 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Do** use the 4px square semantic bar on central callouts, bestiary rows, and initiative rows; keep other cards free of decorative side stripes.
 - **Do** maintain the single light paper-and-ink theme; remove dormant theme variants instead of leaving contradictory tokens in the cascade.
 - **Do** preserve the three-column layout at the 11-inch iPad Pro landscape viewport.
-- **Do** use complete hairline borders and small semantic dots for callouts.
+- **Do** use complete hairline borders and full-height square semantic bars for callouts and faction rows; reserve the animated dot for the Start Combat action.
 
 ### Don't:
 - **Don't** use the old terracotta/salmon (`oklch(0.45 0.14 25)`, `#932b2a`) as a brand accent anywhere — it is now `--danger` only.
