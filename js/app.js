@@ -302,9 +302,11 @@
       </header>
       ${renderParty()}
       <main class="notes-pane">
-        <div class="chapter-label">Chapter ${String(chapter.n).padStart(2, "0")} · ${esc(chapter.title)}</div>
-        ${WishMarkdown.renderMarkdown(d.notes[chapter.id] || `# ${chapter.title}\n\n${chapter.summary}`, { collapseSecrets: true })}
-        <div class="scratchpad"><label class="scratch-head" for="dm-scratch-${esc(chapter.id)}">DM Scratch Notes</label><textarea id="dm-scratch-${esc(chapter.id)}" data-action="scratch" data-chapter="${chapter.id}" placeholder="Private notes for this chapter...">${esc(state.scratch[chapter.id] || "")}</textarea></div>
+        <div class="notes-content">
+          <div class="chapter-label">Chapter ${String(chapter.n).padStart(2, "0")} · ${esc(chapter.title)}</div>
+          ${WishMarkdown.renderMarkdown(d.notes[chapter.id] || `# ${chapter.title}\n\n${chapter.summary}`, { collapseSecrets: true })}
+          <div class="scratchpad"><label class="scratch-head" for="dm-scratch-${esc(chapter.id)}">DM Scratch Notes</label><textarea id="dm-scratch-${esc(chapter.id)}" data-action="scratch" data-chapter="${chapter.id}" placeholder="Private notes for this chapter...">${esc(state.scratch[chapter.id] || "")}</textarea></div>
+        </div>
       </main>
       ${renderRightRail(chapter)}
     </div>`;
@@ -312,7 +314,7 @@
 
   function renderParty() {
     return `<aside class="party-rail"><div class="rail-header"><span class="title">The Party</span><span class="count">${state.party.length}</span></div><div class="party-table">
-      ${state.party.map((pc) => `<div class="party-row">
+      ${state.party.map((pc) => `<div class="party-row" data-action="open-pc" data-key="${pc.id}">
         <div>
           <button class="pc-name-button pc-name" data-action="open-pc" data-key="${pc.id}">${esc(pc.name)}</button>
           <div class="pc-sub">${esc(pc.race || "Adventurer")} ${esc(pc.class)} · Level ${pc.level} · ${esc(pc.player || "")}</div>
@@ -327,7 +329,7 @@
           <div class="stat-cell"><span class="label">Passv</span><span class="value">${pc.passive}</span></div>
         </div>
       </div>`).join("")}
-    </div><div class="party-rail-foot">Choose a name for the full sheet. HP edits save automatically.</div></aside>`;
+    </div><div class="party-rail-foot">Choose a party card for the full sheet. HP edits save automatically.</div></aside>`;
   }
 
   function renderRightRail(chapter) {
@@ -356,7 +358,7 @@
 
   function renderBestiaryGroup(kind, rows) {
     const title = kind === "enemy" ? "Enemies" : kind === "npc" ? "NPCs" : "Allies";
-    return `<div class="bestiary-group"><div class="bestiary-group-title">${title} (${rows.length})</div>${rows.length ? rows.map(([key, c]) => `<button class="monster-row fac-${c.faction}" data-open="creature" data-key="${key}"><span class="fac-marker" aria-hidden="true"></span><span class="meta"><span class="name">${esc(c.name)} ${chip(c.faction)}</span><span class="tags">${esc(c.size || "Medium")} · ${esc(c.type || c.role)} · HP ${esc(c.hp || "—")} · AC ${esc(c.ac || "—")}</span></span><span class="cr-badge">${c.cr ? `CR ${esc(c.cr)}` : c.role.toUpperCase()}</span></button>`).join("") : '<div class="empty-note">None yet.</div>'}</div>`;
+    return `<div class="bestiary-group"><div class="bestiary-group-title">${title} (${rows.length})</div>${rows.length ? rows.map(([key, c]) => `<button class="monster-row fac-${c.faction}" data-open="creature" data-key="${key}"><span class="fac-stripe" aria-hidden="true"></span><span class="meta"><span class="name">${esc(c.name)} ${chip(c.faction)}</span><span class="tags">${esc(c.size || "Medium")} · ${esc(c.type || c.role)} · HP ${esc(c.hp || "—")} · AC ${esc(c.ac || "—")}</span></span><span class="cr-badge">${c.cr ? `CR ${esc(c.cr)}` : c.role.toUpperCase()}</span></button>`).join("") : '<div class="empty-note">None yet.</div>'}</div>`;
   }
 
   function chip(faction) {

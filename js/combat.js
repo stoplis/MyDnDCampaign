@@ -137,7 +137,7 @@
     const rows = s.combatants.map((c) => {
       const pct = Math.max(0, Math.min(100, Math.round((c.hp / Math.max(1, c.hpMax)) * 100)));
       return `<div class="init-row fac-${c.faction} ${c.id === s.selectedId ? "selected" : ""}" draggable="true" role="group" tabindex="0" aria-current="${c.id === s.selectedId}" aria-label="${WishMarkdown.escapeHtml(c.name)}, initiative ${c.initiative}, ${c.hp} of ${c.hpMax} hit points${c.id === s.selectedId ? ", selected" : ""}. Press Enter for details; Option Arrow keys reorder." data-id="${c.id}" data-action="select-combatant">
-        <div class="fac-marker" aria-hidden="true"></div>
+        <div class="fac-stripe" aria-hidden="true"></div>
         <div class="handle" aria-hidden="true">⋮⋮</div>
         <div class="init-value"><input type="number" aria-label="${WishMarkdown.escapeHtml(c.name)} initiative" data-action="combat-number" data-field="initiative" data-id="${c.id}" value="${c.initiative}"></div>
         <div class="row-main">

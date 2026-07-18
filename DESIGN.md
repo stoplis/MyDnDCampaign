@@ -103,9 +103,9 @@ One correction this pass makes explicit: the accent that was actually implemente
 
 **Key Characteristics:**
 - One serif family (Source Serif 4) does every job — display, body, and label — so hierarchy comes from weight, size, and letter-spacing, never a second typeface.
-- Gold is rare by design: hover states, the combat FAB's pulse, selection outlines, mention chips, and small semantic marks — never a resting button fill or a background wash.
+- Gold is rare by design: hover states, the combat FAB's pulse, selection outlines, mention chips, important section headings, and small semantic marks — never a resting button fill or a background wash.
 - Flat by default; shadows exist only for things that genuinely float (popovers, the floating action button).
-- Faction colors (player-blue, ally-green, neutral-tan, enemy-red) and semantic states (ok/warn/danger) are a separate palette from the brand accent — combat and bestiary readability never competes with gold for attention.
+- Faction colors (player-blue, ally-green, neutral-tan, enemy-red) and semantic states (ok/warn/danger) are a separate palette from the brand accent. Bestiary and initiative rows carry faction as a narrow, square bar on their left edge so combat roles can be scanned without competing with gold.
 - One light paper-and-ink theme is supported. Theme variants are intentionally excluded so the system can be refined around the actual table environment instead of carrying dormant alternatives.
 - The canonical surface is an 11-inch iPad Pro in landscape (approximately 1194 × 834 CSS pixels); the three-column party / notes / reference layout must remain intact there.
 
@@ -138,9 +138,9 @@ Mostly paper and ink. One warm accent, used with restraint.
 - **Rule Strong** (`#1a1a1a`): high-contrast borders reserved for emphasis (rare).
 
 ### Named Rules
-**The Reserved Gold Rule.** Gold is not a fill color. It appears on hover, focus, selection, and small marks (dots and chip prefixes) — never as the resting background of a button, card, or panel. If gold is covering more than a hairline or a small badge, it's being overused.
+**The Reserved Gold Rule.** Gold is not a fill color. It appears on hover, focus, selection, important section-heading text, and small marks (dots and chip prefixes) — never as the resting background of a button, card, or panel. If gold is covering more than a hairline, text, or a small badge, it's being overused.
 
-**The Complete Border Rule.** Callouts, cards, list rows, and alerts never use a thick coloured border on one side. Use a complete 1px hairline border, a small semantic dot, a full background change, or no container. This keeps the interface editorial and avoids the curved side-stripe treatment associated with generic generated UI.
+**The Complete Border Rule.** Callouts, general cards, and alerts never use a decorative thick coloured border on one side. Use a complete 1px hairline border, a small semantic dot, a full background change, or no container. The one exception is the 4px square faction bar built into bestiary and initiative rows: it is data, not decoration, and must run flush from the row's top edge to its bottom edge without rounded corners.
 
 ## 3. Typography
 
@@ -221,6 +221,7 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Do** keep the system flat by default; add shadow only to elements that float above the page (popovers, the FAB).
 - **Do** build hierarchy with weight, size, tracking, and case within the single Source Serif 4 family.
 - **Do** keep faction and semantic (ok/warn/danger) colors visually distinct from the gold accent — combat/bestiary readability must never compete with brand color.
+- **Do** use the 4px square faction bar on bestiary and initiative rows; keep generic cards and callouts free of decorative side stripes.
 - **Do** maintain the single light paper-and-ink theme; remove dormant theme variants instead of leaving contradictory tokens in the cascade.
 - **Do** preserve the three-column layout at the 11-inch iPad Pro landscape viewport.
 - **Do** use complete hairline borders and small semantic dots for callouts.
@@ -234,5 +235,5 @@ Quiet and precise: minimal chrome, hairline borders, restrained hover states. No
 - **Don't** design toward cartoonish or kids'-app styling — overly playful, rounded, illustrated-for-children treatments.
 - **Don't** introduce a second typeface for "UI" or "data" text. Use the label role (uppercase + tracked) instead.
 - **Don't** add rounded corners to popovers/modals — their sharp, printed-page corner is a deliberate departure from the 6px button/input radius.
-- **Don't** use thick coloured side borders on callouts, cards, rows, or alerts.
+- **Don't** use thick coloured side borders as decoration on callouts, general cards, or alerts; the documented bestiary/initiative faction bar is the only exception.
 - **Don't** add dark or parchment themes unless the product requirements explicitly change.
