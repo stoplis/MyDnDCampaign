@@ -1,0 +1,9 @@
+# macOS Finder metadata
+.DS_Store
+
+# Local Cloudflare state and generated deployment output
+.wrangler/
+dist/
+
+# Editable artwork sources are kept locally; exported assets live in images/
+art-sources/
