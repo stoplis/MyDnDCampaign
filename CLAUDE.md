@@ -187,3 +187,13 @@ Edit the `window.JOURNAL` array in `js/journal-data.js`. Each chapter looks like
 - `autoUnlock: true` — entry unlocks automatically when the chapter is unlocked
 - `hidden: true` — name shows as "???" until unlocked
 - Passwords are case-insensitive
+
+---
+
+## Design Context
+
+`PRODUCT.md` and `DESIGN.md` at the project root capture the toolkit's strategic and visual design system (register, users, brand personality, color/typography tokens, component rules). Read them before making UI/styling changes. Key points to know without opening the files:
+
+- **The DM Screen (`css/dm-console.css`) is the design system's source of truth.** Every other tool should inherit its tokens rather than maintaining its own duplicated `:root` block.
+- **The primary accent is gold** (`oklch(0.55 0.15 78)`, "Antique Gold"), not the terracotta/salmon (`oklch(0.45 0.14 25)`) currently implemented across all five stylesheets — that terracotta is reassigned to the `--danger` semantic color only.
+- Gold is reserved for hover/focus/selection/small marks — never a resting button, card, or panel fill.
