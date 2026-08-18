@@ -128,7 +128,7 @@ notes/
 
 ## Cloudflare deployment
 
-- **Build command:** `mkdir -p dist && cp -r *.html *.json *.md images notes css js dist/`
+- **Build command:** `bash build.sh` (copies `*.html *.json *.md *.svg images notes css js` into `dist/`)
 - **Deploy command:** `npx wrangler deploy`
 - **Path:** `/`
 - The `wrangler.jsonc` sets `assets.directory` to `dist` so `.git` is never deployed
