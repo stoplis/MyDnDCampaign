@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+	<title>D&amp;D Campaign — Wish</title>
+	<rect width="32" height="32" rx="3" fill="#faf8f4"/>
+	<g fill="none" stroke="#b67700" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round">
+		<!-- d20 outer hexagon -->
+		<polygon points="16,4 26,10 26,22 16,28 6,22 6,10"/>
+		<!-- top face triangle -->
+		<polygon points="16,8.5 22,19 10,19"/>
+		<!-- edges to hex vertices -->
+		<line x1="16" y1="8.5" x2="16" y2="4"/>
+		<line x1="22" y1="19" x2="26" y2="10"/>
+		<line x1="22" y1="19" x2="26" y2="22"/>
+		<line x1="10" y1="19" x2="6" y2="10"/>
+		<line x1="10" y1="19" x2="6" y2="22"/>
+		<line x1="10" y1="19" x2="16" y2="28"/>
+		<line x1="22" y1="19" x2="16" y2="28"/>
+	</g>
+</svg>
